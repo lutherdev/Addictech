@@ -1,109 +1,279 @@
+# ADDICTECH — TODO.md
 
-# FRONTEND -- PAGINATION IS A MUST! // RESPONSIVE!
+Addictech is an **E-Commerce Web Application** that features product ordering, cart functionality, favourites (wishlist), user profile management, authentication, and an admin dashboard.
 
-# ACCOUNTS FOR VIEWS
-- Personnel = lut - Lut3 /// CJ
-- Associate = ford - ford3 /// PING
-- god = god - god // LUTHER KIRK
+FRONTEND MUST HAVE:
+
+- Pagination for catalog
+- Responsive design (mobile / tablet / desktop)
+
+---
+
+# ACCOUNTS FOR TESTING
+
+- Admin = admin - admin123
+- Customer = user - user123
+- god = god - god /// SUPER ADMIN
+
+---
+
+# FRONTEND =================================================================
 
 ## NAVBAR
--- fix javascript, highlight button based on url
 
-## DASHBOARD PERSONNEL (CJ)
-### USERS MANAGE TODO: 
-- homepage/dashboard - table view ng equipments, users = add, view, update, remove (forms/buttons)
-- users - change pass, activate account, deact account 
---- then ung view page ng change pass and new password field, 
---- tsaka view page ng activate, deactivate parang form nalang siguro, input sinong user then pili either activate or deactivate, confirm with password
+- highlight active link based on current URL
+- show different navbar options depending on login state
+- show cart icon with item count
+- show profile dropdown when logged in
 
-### EQUIPMENT MANAGE  TODO: 
-- equipments - add item, activate/deact item
---- view form ng add item (meron na ata), so activate and deact 
-- logout
+---
 
-# views needed
-1. update dashboard - table for both users and equipment
-2. users page - button for change pass, activate/deact
--- view page form for activate, deact and change pass
-3. equipment page - button for add item, activate/deact
--- view page form for add and activate/deact
+# CUSTOMER FEATURES
 
-======================================================================================================================
+## HOMEPAGE
 
-## DASHBOARD ASSOCIATES (PING) TODO:
-- homepage/dashboard - table view ng reservations, borrowers = add, view, update, remove (forms/buttons)
-- borrow - add equipment id field
-- return - 
-- reservation - tanggalin valid until sa form
+- display featured products
+- display categories
+- show promotional banner
+- quick "Add to Cart" button
 
-# views needed
-1. dashboard - add table view for borrowers
-2. borrow - add equipment id field
-3. reservation - tangallin valid until sa form
+## CATALOG
 
+- product grid layout
+- pagination (required)
+- category filters
+- price filter
+- search products
+- sort products (price, popularity, newest)
+
+## PRODUCT DETAILS
+
+- product image gallery
+- product description
+- product specifications
+- stock availability
+- add to cart button
+- add to favourites button
+- quantity selector
+
+## CART
+
+- view cart items
+- update product quantity
+- remove item from cart
+- show subtotal and total
+- proceed to checkout button
+
+## FAVORITES (WISHLIST)
+
+- add product to favourites
+- remove product from favourites
+- display saved items
+
+## CHECKOUT
+
+- shipping information form
+- order summary
+- confirm order
+- save order to database
+
+## ORDERS
+
+- display order history
+- view order details
+- show order status
+
+## PROFILE
+
+- view user information
+- update profile details
+- change password
+- view user orders
+
+## CONTACT
+
+- contact form
+- email inquiry
+
+---
+
+# ADMIN DASHBOARD ===========================================================
+
+## DASHBOARD
+
+- overview statistics
+  - total users
+  - total orders
+  - total products
+  - total revenue
+
+- recent orders table
+
+## PRODUCT MANAGEMENT
+
+- add product
+- edit product
+- delete product
+- upload product image
+- activate/deactivate product
+- manage stock quantity
+
+## CATEGORY MANAGEMENT
+
+- add category
+- update category
+- delete category
+
+## ORDER MANAGEMENT
+
+- view orders
+- view order details
+- update order status
+
+## USER MANAGEMENT
+
+- view users
+- activate/deactivate users
+- reset user password (optional)
+
+---
+
+# VIEWS NEEDED
+
+1. homepage — featured products
+2. about
+3. catalog — product grid with pagination
+4. product details page
+5. cart page
+6. favorites page
+7. checkout page
+8. orders page (order history)
+9. contact
+10. profile
+
+---
 
 # BACKEND ===================================================================
-1. Auth - luther - login, register, logout
-2. Users - luther - create, update, read, delete, activate, deactivate
-8. PasswordController - luther - forgot, reset, update
 
-3. Equipments - Luther/Kirk - create, update, read, delete
+## AUTH CONTROLLER
 
-4. Borrow - CJ
-5. Return - KIRK
-6. Reservation - PING
-7. Dashboard - Luther
+- login
+- register
+- logout
 
+## USER CONTROLLER
 
-## AUTH
-### LOGIN / REGISTER / RESET PASS
-1. Login
-- post method form input user and password
-- compare password with the fetched row using username
-- try to implement session timer for login. auto logout
-- if success = creates session, redirect again to dashboard
-- dashboard will check the session role to put correct view 
-- 
-2. Register
-- Post method form, input necessary details.
-- form validation(config file) before inserting data to database.
-- no creation of session
-- redirect to dashboard again for login.
+- view profile
+- update profile
+- change password
 
-3. Reset pass (does this need database?)
-- make use of email service, giving a time limited text for verifying to reset, 
+## PRODUCT CONTROLLER
 
-## SESSIONS
-1. Checking role for each dashboard / functionality?
-2. 
+- create product
+- read products
+- update product
+- delete product
 
-## USER MANAGE
-1. Add - need form validation, other details input
-2. View -
-3. Edit - 
-4. Delete - 
+## CATEGORY CONTROLLER
 
-## ITEM MANAGE
-1. Add - - need form validation, other details input
-2. View
-3. Edit
-4. Delete
+- manage categories
 
-## FORM VALIDATIONS
-1. Signup
-2. eqpAdd
-3. 
+## CART CONTROLLER
 
-## FILE UPLOAD
- - Must also have validation for correct file type and size. If your file upload is an image, a thumbnail must also be created.
+- add item to cart
+- update cart quantity
+- remove item from cart
 
-## BORROWING / RETURNING / RESERVATION
--- CJ , KIRK , PING
+## FAVORITES CONTROLLER
 
-# DATABASE - KIRK
-=============================================================================
-- users model
-- equipments model
-- borrow model
-- reservation
-- another borrow
+- add product to favorites
+- remove product from favorites
+
+## ORDER CONTROLLER
+
+- create order
+- view orders
+- view order details
+- update order status
+
+## DASHBOARD CONTROLLER
+
+- admin statistics
+- recent orders
+
+---
+
+# AUTHENTICATION
+
+## LOGIN
+
+- POST form with email/username and password
+- fetch user from database
+- verify password using password_verify()
+- create session if successful
+- redirect to dashboard or homepage
+
+## REGISTER
+
+- form validation
+- hash password
+- insert user into database
+
+## LOGOUT
+
+- destroy session
+- redirect to homepage
+
+---
+
+# SESSIONS
+
+- store user id
+- store user role
+- restrict admin routes
+- auto logout after inactivity (optional)
+
+---
+
+# FORM VALIDATIONS
+
+- register form
+- login form
+- product add/edit form
+- checkout form
+- profile update form
+
+---
+
+# FILE UPLOAD
+
+- product image upload
+- validate file type (jpg, png, webp)
+- validate file size
+- store image path in database
+- optional: generate thumbnails
+
+---
+
+# DATABASE =================================================================
+
+Tables required:
+
+- users
+- products
+- categories
+- carts
+- cart_items
+- favorites
+- orders
+- order_items
+
+Relationships:
+
+users → orders
+orders → order_items
+products → order_items
+users → favorites
+products → favorites
+users → carts
+carts → cart_items
