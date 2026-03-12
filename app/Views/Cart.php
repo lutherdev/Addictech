@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<?= $this->extend('layout/main') ?>
+<?= $this->section('content') ?>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>addictech – Cart</title>
-  <link rel="stylesheet" href="style/style.css" />
-  <link rel="stylesheet" href="style/cart.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="<?= base_url('/public/css/cart.css') ?>" />
 </head>
 <body>
 
@@ -334,3 +330,4 @@
 
 </body>
 </html>
+<?= $this->endSection() ?>

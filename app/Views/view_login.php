@@ -2,7 +2,6 @@
 <?= $this->section('content') ?>
 <head>
   <title>addictech – Login</title>
-  <link rel="stylesheet" href="<?= base_url('/public/css/user_profile.css') ?>" />
   <link rel="stylesheet" href="<?= base_url('/public/js/login.js') ?>" />
 </head>
 <body>

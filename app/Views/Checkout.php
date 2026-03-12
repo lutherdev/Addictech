@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<?= $this->extend('layout/main') ?>
+<?= $this->section('content') ?>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>addictech – Checkout</title>
-  <link rel="stylesheet" href="style/style.css" />
-  <link rel="stylesheet" href="style/checkout.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="<?= base_url('/public/css/checkout.css') ?>" />
 </head>
 <body>
 
@@ -319,77 +315,7 @@
 
   <!-- Order Confirmation Modal (optional, but we'll use separate page instead) -->
   <style>
-    .checkout-error {
-      background: #fdecea;
-      color: #c0392b;
-      padding: 1rem;
-      text-align: center;
-      font-family: var(--font-body);
-      border-bottom: 1px solid #e74c3c;
-      margin-bottom: 2rem;
-    }
-    
-    .checkout-login-prompt {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: #f8f6f2;
-      font-family: var(--font-body);
-      text-align: center;
-    }
-    
-    .checkout-login-prompt a {
-      color: var(--text);
-      text-decoration: underline;
-    }
-    
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-    
-    .form-label {
-      display: block;
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 0.3rem;
-    }
-    
-    .form-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--border);
-      padding: 0.5rem 0;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: var(--text);
-      outline: none;
-    }
-    
-    .form-input:focus {
-      border-bottom-color: var(--text);
-    }
-    
-    textarea.form-input {
-      resize: vertical;
-      min-height: 60px;
-    }
-    
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    
-    .section-heading {
-      font-family: var(--font-heading);
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-    
+
     .section-rule {
       border: none;
       border-top: 1px solid var(--border);
@@ -594,3 +520,4 @@
 
 </body>
 </html>
+<?= $this->endSection() ?>

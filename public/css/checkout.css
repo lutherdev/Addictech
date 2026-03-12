@@ -48,6 +48,19 @@ html, body {
   margin: 0;
 }
 
+.checkout-login-prompt {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f6f2;
+  font-family: var(--font-body);
+  text-align: center;
+}
+    
+.checkout-login-prompt a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -55,16 +68,19 @@ html, body {
 }
 
 .form-label {
+  display: block;
   font-family: var(--font-body);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 400;
-  color: var(--text);
-  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
 }
 
 .form-input {
   width: 100%;
   padding: 0.65rem 0.8rem;
+  background: transparent;
   background-color: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 0;
@@ -79,11 +95,27 @@ html, body {
 .form-input:focus {
   border-color: var(--text);
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-bottom-color: var(--text);
 }
 
 .form-input.shake {
   animation: shake 0.35s ease;
   border-color: #c0392b;
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.checkout-error {
+  background: #fdecea;
+  color: #c0392b;
+  padding: 1rem;
+  text-align: center;
+  font-family: var(--font-body);
+  border-bottom: 1px solid #e74c3c;
+  margin-bottom: 2rem;
 }
 
 @keyframes shake {
