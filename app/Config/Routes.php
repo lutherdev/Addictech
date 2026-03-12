@@ -7,12 +7,14 @@ use CodeIgniter\Router\RouteCollection;
  */
 // ======================== DASH BOARD ==================================
 
-$routes->get('/', 'Dashboard::index');
+$routes->get('/', 'Home::index');
+//$routes->get('home', 'Home::index');
+$routes->get('home', 'Users::profile');
 $routes->get('dashboard', 'Dashboard::index'); //leads to all kinds of dashboard
 
 // ======================== AUTH ==================================
 
-$routes->get('login', 'Auth::index');
+$routes->get('login', 'Auth::loginview');
 $routes->post('auth/login', 'Auth::login');
 
 $routes->get('register', 'Auth::regview');

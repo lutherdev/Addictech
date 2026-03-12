@@ -4,31 +4,31 @@ namespace App\Controllers;
 
 class Auth extends BaseController
 {
-    public function index()
+    public function loginview()
     {      
         $session = session();
         $checkses = $session->get('isLoggedIn');
         if ($checkses) {
-        return redirect()->to('dashboard')->with('error', 'Already Loggedin');
+        return redirect()->to('homepage')->with('error', 'Already Loggedin');
         }
-        return view('login');
+        return view('view_login');
     }
 
-    public function createResetToken($userId){
-        $tokenModel = model('User_Token_model');
+    // public function createResetToken($userId){
+    //     $tokenModel = model('User_Token_model');
 
-        // prepare data
-        $data = [
-            'user_id'    => $userId,
-            'token'      => bin2hex(random_bytes(16)),
-            'created_at' => date('Y-m-d H:i:s'),
-            'expires_at' => date('Y-m-d H:i:s', strtotime('+1 hour'))
-        ];
+    //     // prepare data
+    //     $data = [
+    //         'user_id'    => $userId,
+    //         'token'      => bin2hex(random_bytes(16)),
+    //         'created_at' => date('Y-m-d H:i:s'),
+    //         'expires_at' => date('Y-m-d H:i:s', strtotime('+1 hour'))
+    //     ];
 
-        $tokenModel->insert($data);
+    //     $tokenModel->insert($data);
 
-        return $data['token'];
-    }
+    //     return $data['token'];
+    // }
 
     public function login(){
         $usermodel = model('Users_model');
@@ -40,11 +40,11 @@ class Auth extends BaseController
         }
         $password = $this->request->getPost('password'); 
         $storedHash = $user['password'];               // hash from DB
-        if ($user['status'] == 'INACTIVE'){
-            return redirect()->to('dashboard')->with('error', 'User deactivated');
-        } elseif ($user['status'] == 'PENDING'){
-            return redirect()->to('dashboard')->with('error', 'Please Verify your Account First.');
-        }
+        // if ($user['status'] == 'INACTIVE'){
+        //     return redirect()->to('dashboard')->with('error', 'User deactivated');
+        // } elseif ($user['status'] == 'PENDING'){
+        //     return redirect()->to('dashboard')->with('error', 'Please Verify your Account First.');
+        // }
         if (password_verify($password, $storedHash)) {
             //SET OTHER ROLES
             $session->set('role', $user['role']);
@@ -56,7 +56,7 @@ class Auth extends BaseController
             $session->set('name', $user['first_name']." ".$user['last_name']);
             $session->set('isLoggedIn', true);
 
-            return redirect()->to('dashboard')->with('success', 'HELLO '.$user['first_name'] .', SUCCESS LOGIN');
+            return redirect()->to('home')->with('success', 'HELLO '.$user['first_name'] .', SUCCESS LOGIN');
         }
         return redirect()->to('dashboard')->with('error', 'Invalid password.');
     }

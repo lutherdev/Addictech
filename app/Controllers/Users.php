@@ -30,7 +30,7 @@ class Users extends BaseController
         return redirect()->to('/login')->with('error', 'Please login first.');
         }
         $data = $session->get();
-        return view('user_profile', ['user' => $data]);
+        return view('view_user_profile', ['user' => $data]);
     }
     // public function add() {
     //     return view('users_add');
