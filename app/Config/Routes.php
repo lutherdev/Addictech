@@ -22,8 +22,6 @@ $routes->post('auth/register', 'Auth::register');
 
 $routes->get('auth/logout', 'Auth::logout');
 
-$routes->get('auth/verify/(:any)', 'Auth::verify/$1');
-
 // ========================USERS==================================
 
 $routes->get('/users', 'Users::index'); //view leads to user dashboard
@@ -49,22 +47,22 @@ $routes->post('users/statuschange', 'Users::statuschange');
 
 // ========================EQUIPMENTS==================================
 
-$routes->get('equipments', 'Equipments::index'); //view
+$routes->get('product', 'Product::index'); //view
 
-$routes->get('equipments/add', 'Equipments::add'); //view
-$routes->post('equipments/insert', 'Equipments::insert'); //not view
+$routes->get('product/add', 'Product::add'); //view
+$routes->post('product/insert', 'Product::insert'); //not view
 
-$routes->get('equipments/view/(:num)', 'Equipments::view/$1'); // view
+$routes->get('product/view/(:num)', 'Product::view/$1'); // view
 
-$routes->get('equipments/edit/(:num)', 'Equipments::edit/$1');
-$routes->post('equipments/update/(:num)', 'Equipments::update/$1');
+$routes->get('product/edit/(:num)', 'Product::edit/$1');
+$routes->post('product/update/(:num)', 'Product::update/$1');
 
-$routes->get('equipments/delete/(:num)', 'Equipments::delete/$1');
+$routes->get('product/delete/(:num)', 'Product::delete/$1');
 
-$routes->get('equipments/status', 'Equipments::statuschangeview');
-$routes->post('equipments/statuschange', 'Equipments::statuschange');
+$routes->get('product/status', 'Product::statuschangeview');
+$routes->post('product/statuschange', 'Product::statuschange');
 
-// ========================BORROW==================================
+// ========================ORDER==================================
 
 $routes->get('/borrow', 'Borrow::borrowview'); //view
 $routes->post('/borrow/equipment', 'Borrow::borrow');
@@ -76,27 +74,6 @@ $routes->get('/borrow/edit/(:num)', 'Borrow::edit/$1'); //view
 $routes->post('/borrow/update/(:num)', 'Borrow::update/$1'); //controller
 
 $routes->get('borrow/delete/(:num)', 'Borrow::delete/$1');
-
-
-
-// ========================RETURN==================================
-$routes->get('/return', 'ReturnItem::returnview');
-$routes->post('/return/equipment', 'ReturnItem::return');
-$routes->post('return/return', 'ReturnItem::returnItem');//FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// ========================RESERVE==================================
-
-$routes->get('/reserve', 'Reservation::reserveview');
-$routes->post('/reserve/equipment', 'Reservation::reserve');
-
-$routes->get('reservation/view/(:num)', 'Reservation::view/$1');
-
-$routes->get('reservation/edit/(:num)', 'Reservation::edit/$1');
-$routes->post('reservation/update/(:num)', 'Reservation::update/$1');
-
-$routes->get('reservation/delete/(:num)', 'Reservation::delete/$1');
-
-$routes->get('reservation/confirm/(:num)', 'Reservation::release/$1');
-$routes->get('reservation/done/(:num)', 'Reservation::done/$1');
 
 
 // ========================PASSWORD==================================
