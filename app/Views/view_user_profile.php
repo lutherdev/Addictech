@@ -6,39 +6,17 @@
   <title>addictech – My Account</title>
   <link rel="stylesheet" href="style/style.css" />
   <link rel="stylesheet" href="style/account.css" />
+  <link rel="stylesheet" href="<?= base_url('/public/css/login.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('/public/css/user_profile.css') ?>" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
   <?php
-  // Start session to track user login state
-  session_start();
-  
-  // Include database configuration
-  require_once 'config/database.php';
-  
   // Check if user is logged in
   if (!isset($_SESSION['user_id'])) {
       header('Location: login.php');
       exit();
-  }
-  
-  // Get current user data from database
-  $user_id = $_SESSION['user_id'];
-  $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-  $stmt->bind_param("i", $user_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-  $user = $result->fetch_assoc();
-  
-  // Get user's orders
-  $orders = [];
-  $order_stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC");
-  $order_stmt->bind_param("i", $user_id);
-  $order_stmt->execute();
-  $order_result = $order_stmt->get_result();
-  while ($row = $order_result->fetch_assoc()) {
-      $orders[] = $row;
   }
   
   // Get cart count for badge
@@ -90,12 +68,12 @@
       </aside>
       <div class="account-vdivider"></div>
       <div class="account-info">
-        <h1 class="account-greeting" id="greeting">HI <?php echo strtoupper($user['first_name'] ?: explode('@', $user['email'])[0]); ?></h1>
+        <h1 class="account-greeting" id="greeting">HI <?php echo strtoupper($user['username'] ?: explode('@', $user['email'])[0]); ?></h1>
 
         <div class="info-grid">
           <div class="info-row">
             <span class="info-key">USER'S ID:</span>
-            <span class="info-val" id="infoId"><?php echo $user['id']; ?></span>
+            <span class="info-val" id="infoId"><?php echo $user['user_id']; ?></span>
           </div>
           <div class="info-row">
             <span class="info-key">EMAIL:</span>
@@ -103,11 +81,11 @@
           </div>
           <div class="info-row">
             <span class="info-key">NUMBER:</span>
-            <span class="info-val" id="infoNumber"><?php echo $user['phone'] ?: '—'; ?></span>
+            <span class="info-val" id="infoNumber"><?php echo '123213'; ?></span>
           </div>
           <div class="info-row">
             <span class="info-key">ADDRESS:</span>
-            <span class="info-val" id="infoAddress"><?php echo $user['address'] ?: '—'; ?></span>
+            <span class="info-val" id="infoAddress"><?php echo  'BRTGY STAORSA'; ?></span>
           </div>
         </div>
       </div>
@@ -121,15 +99,15 @@
     <div class="tab-panel" id="panelHistory">
       <div class="orders-toolbar">
         <div class="order-filters" id="orderFilters">
-          <button class="order-filter active" data-filter="all" onclick="filterOrders(this)">ALL ORDERS <span class="filter-count" id="fcAll">(<?php echo count($orders); ?>)</span></button>
+          <button class="order-filter active" data-filter="all" onclick="filterOrders(this)">ALL ORDERS <span class="filter-count" id="fcAll">(<?php echo "NUMBER HERE" ?>)</span></button>
           <?php
-          $pending_count = count(array_filter($orders, function($o) { return $o['status'] == 'pending'; }));
-          $completed_count = count(array_filter($orders, function($o) { return $o['status'] == 'completed'; }));
-          $cancelled_count = count(array_filter($orders, function($o) { return $o['status'] == 'cancelled'; }));
+          // $pending_count = count(array_filter($orders, function($o) { return $o['status'] == 'pending'; }));
+          // $completed_count = count(array_filter($orders, function($o) { return $o['status'] == 'completed'; }));
+          // $cancelled_count = count(array_filter($orders, function($o) { return $o['status'] == 'cancelled'; }));
           ?>
-          <button class="order-filter" data-filter="pending" onclick="filterOrders(this)">PENDING <span class="filter-count" id="fcPending">(<?php echo $pending_count; ?>)</span></button>
-          <button class="order-filter" data-filter="completed" onclick="filterOrders(this)">COMPLETED <span class="filter-count" id="fcCompleted">(<?php echo $completed_count; ?>)</span></button>
-          <button class="order-filter" data-filter="cancelled" onclick="filterOrders(this)">CANCELLED <span class="filter-count" id="fcCancelled">(<?php echo $cancelled_count; ?>)</span></button>
+          <button class="order-filter" data-filter="pending" onclick="filterOrders(this)">PENDING <span class="filter-count" id="fcPending">(<?php echo "NUMBER HERE" ?>)</span></button>
+          <button class="order-filter" data-filter="completed" onclick="filterOrders(this)">COMPLETED <span class="filter-count" id="fcCompleted">(<?php "NUMBER HERE" ?>)</span></button>
+          <button class="order-filter" data-filter="cancelled" onclick="filterOrders(this)">CANCELLED <span class="filter-count" id="fcCancelled">(<?php echo "NUMBER HERE"?>)</span></button>
         </div>
         <div class="order-search-wrap">
           <input type="text" class="order-search" placeholder="SEARCH" id="orderSearch" onkeyup="renderOrders()"/>
@@ -181,60 +159,60 @@
           <div class="profile-grid">
             <div class="profile-field">
               <p class="profile-field-label">FIRST NAME</p>
-              <p class="profile-field-val" id="viewFirstName"><?php echo $user['first_name'] ?: '—'; ?></p>
+              <p class="profile-field-val" id="viewFirstName"><?php echo $user['username'] ?: '—'; ?></p>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">LAST NAME</p>
-              <p class="profile-field-val" id="viewLastName"><?php echo $user['last_name'] ?: '—'; ?></p>
+              <p class="profile-field-val" id="viewLastName"><?php echo $user['username'] ?: '—'; ?></p>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">COUNTRY</p>
-              <p class="profile-field-val" id="viewCountry"><?php echo $user['country'] ?: 'Philippines'; ?></p>
+              <p class="profile-field-val" id="viewCountry"><?php echo $user['username'] ?: 'Philippines'; ?></p>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">LANGUAGE</p>
-              <p class="profile-field-val" id="viewLanguage"><?php echo $user['language'] ?: 'English'; ?></p>
+              <p class="profile-field-val" id="viewLanguage"><?php echo $user['username'] ?: 'English'; ?></p>
             </div>
           </div>
           <div class="profile-address-row">
             <p class="profile-field-label">ADDRESS</p>
-            <p class="profile-field-val" id="viewAddressFull"><?php echo $user['address'] ?: '—'; ?></p>
+            <p class="profile-field-val" id="viewAddressFull"><?php echo $user['username'] ?: '—'; ?></p>
           </div>
         </div>
 
         <!-- EDIT MODE -->
-        <div id="profileEdit" class="hidden">
+        <!-- <div id="profileEdit" class="hidden">
           <form id="profileForm" method="POST" action="update_profile.php">
             <div class="profile-grid">
               <div class="profile-field">
                 <p class="profile-field-label">FIRST NAME</p>
-                <input class="settings-input" id="editFirstName" name="first_name" type="text" value="<?php echo htmlspecialchars($user['first_name']); ?>"/>
+                <input class="settings-input" id="editFirstName" name="first_name" type="text" value="<?php// echo htmlspecialchars($user['first_name']); ?>"/>
               </div>
               <div class="profile-field">
                 <p class="profile-field-label">LAST NAME</p>
-                <input class="settings-input" id="editLastName" name="last_name" type="text" value="<?php echo htmlspecialchars($user['last_name']); ?>"/>
+                <input class="settings-input" id="editLastName" name="last_name" type="text" value="<?php// echo htmlspecialchars($user['last_name']); ?>"/>
               </div>
               <div class="profile-field">
                 <p class="profile-field-label">COUNTRY</p>
-                <input class="settings-input" id="editCountry" name="country" type="text" value="<?php echo htmlspecialchars($user['country'] ?: 'Philippines'); ?>"/>
+                <input class="settings-input" id="editCountry" name="country" type="text" value="<?php// echo htmlspecialchars($user['country'] ?: 'Philippines'); ?>"/>
               </div>
               <div class="profile-field">
                 <p class="profile-field-label">LANGUAGE</p>
-                <input class="settings-input" id="editLanguage" name="language" type="text" value="<?php echo htmlspecialchars($user['language'] ?: 'English'); ?>"/>
+                <input class="settings-input" id="editLanguage" name="language" type="text" value="<?php//echo htmlspecialchars($user['language'] ?: 'English'); ?>"/>
               </div>
             </div>
             <div class="profile-address-row">
               <p class="profile-field-label">ADDRESS</p>
-              <input class="settings-input" id="editAddressFull" name="address" type="text" style="width:100%" value="<?php echo htmlspecialchars($user['address']); ?>"/>
+              <input class="settings-input" id="editAddressFull" name="address" type="text" style="width:100%" value="<?php// echo htmlspecialchars($user['address']); ?>"/>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">PHONE NUMBER</p>
-              <input class="settings-input" id="editPhone" name="phone" type="tel" value="<?php echo htmlspecialchars($user['phone']); ?>"/>
+              <input class="settings-input" id="editPhone" name="phone" type="tel" value="<?php// echo htmlspecialchars($user['phone']); ?>"/>
             </div>
             <div class="edit-actions">
               <button type="submit" class="save-btn">SAVE CHANGES</button>
               <button type="button" class="cancel-btn" onclick="cancelEdit()">CANCEL</button>
-            </div>
+            </div> -->
           </form>
         </div>
       </div>
@@ -291,8 +269,8 @@
     ────────────────────────────────────── */
     
     // Get PHP data for JavaScript
-    const ordersData = <?php echo json_encode($orders); ?>;
-    const currentUser = <?php echo json_encode($user); ?>;
+    // const ordersData = <?php //echo json_encode($orders); ?>;
+    // const currentUser = <?php //echo json_encode($user); ?>;
 
     /* ──────────────────────────────────────
        TABS

@@ -8,8 +8,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
-
+ <?php if (session()->getFlashdata('error')) : ?>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 text-center">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
   <?php
+  
   // If already logged in, redirect to account
   // if (isset($_SESSION['user_id'])) {
   //     header('Location: account.php');
@@ -18,42 +30,6 @@
   
   // Initialize error message
   $error = '';
-  
-  // Handle login form submission
-  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $email = strtolower(trim($_POST['email'] ?? ''));
-      $password = $_POST['password'] ?? '';
-      
-      if (empty($email) || empty($password)) {
-          $error = 'Please fill in all fields.';
-      } else {
-          // Get user from database
-          $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-          $stmt->bind_param("s", $email);
-          $stmt->execute();
-          $result = $stmt->get_result();
-          
-          if ($result->num_rows === 0) {
-              $error = 'No account found with that email.';
-          } else {
-              $user = $result->fetch_assoc();
-              
-              // Verify password (using password_hash)
-              if (password_verify($password, $user['password'])) {
-                  // Set session variables
-                  $_SESSION['user_id'] = $user['id'];
-                  $_SESSION['user_email'] = $user['email'];
-                  $_SESSION['user_name'] = $user['first_name'] ?: explode('@', $user['email'])[0];
-                  
-                  // Redirect to account page
-                  header('Location: account.php');
-                  exit();
-              } else {
-                  $error = 'Incorrect password.';
-              }
-          }
-      }
-  }
   
   // Get cart count for badge (optional)
   $cart_count = 0;
@@ -91,15 +67,15 @@
   </div>
 
   <section class="form-section">
-    <form method="POST" action="<?= base_url('auth/login') ?>" id="loginForm">
+    <form method="POST" action="<?= base_url('auth/login') ?>">
       <div class="form-card">
         <div class="field-group">
           <label for="email" class="field-label">EMAIL ADDRESS</label>
-          <input id="email" name="email" type="email" class="field-input" placeholder="NAME@EXAMPLE.COM" autocomplete="email" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" required/>
+          <input id="username" name="username" type="text" class="field-input" placeholder="NAME@EXAMPLE.COM" value="" required/>
         </div>
         <div class="field-group">
           <label for="password" class="field-label">PASSWORD</label>
-          <input id="password" name="password" type="password" class="field-input" autocomplete="current-password" required/>
+          <input id="password" name="password" type="password" class="field-input" required/>
         </div>
         <?php if (!empty($error)): ?>
         <p class="auth-error" id="loginError"><?php echo htmlspecialchars($error); ?></p>

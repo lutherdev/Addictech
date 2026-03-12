@@ -45,20 +45,19 @@ class Auth extends BaseController
         // } elseif ($user['status'] == 'PENDING'){
         //     return redirect()->to('dashboard')->with('error', 'Please Verify your Account First.');
         // }
-        if (password_verify($password, $storedHash)) {
+        if ($password == $storedHash) {
             //SET OTHER ROLES
             $session->set('role', $user['role']);
             $session->set('user_id', $user['id']);
             $session->set('username', $user['username']);
             $session->set('email', $user['email']);
             $session->set('created_at', $user['created_at']);
-            $session->set('updated_at', $user['updated_at']);
-            $session->set('name', $user['first_name']." ".$user['last_name']);
+            //$session->set('name', $user['first_name']." ".$user['last_name']);
             $session->set('isLoggedIn', true);
 
-            return redirect()->to('home')->with('success', 'HELLO '.$user['first_name'] .', SUCCESS LOGIN');
+            return redirect()->to('home')->with('success', 'HELLO '.$user['username'] .', SUCCESS LOGIN');
         }
-        return redirect()->to('dashboard')->with('error', 'Invalid password.');
+        return redirect()->to('login')->with('error', 'Invalid password.');
     }
 
     public function regview(){

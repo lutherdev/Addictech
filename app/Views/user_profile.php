@@ -57,7 +57,7 @@
                             <label class="block text-gray-700 text-sm font-medium mb-2">
                                 <i class="fas fa-user mr-2 text-green-600"></i>NAME
                             </label>
-                            <p class="text-gray-900"><?= esc($user['name']) ?></p>
+                            <p class="text-gray-900"><?= esc($user['username']) ?></p>
                         </div>
 
                         <div>
@@ -89,7 +89,7 @@
                                 <i class="fas fa-calendar-plus mr-2 text-green-600"></i>Last Updated
                             </label>
                             <p class="text-gray-900">
-                                <?= date("F d, Y", strtotime($user['updated_at'])) ?>
+                                <?= "something date" ?>
                             </p>
                         </div>
 
