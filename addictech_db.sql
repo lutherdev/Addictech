@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2026 at 04:11 PM
+-- Generation Time: Mar 12, 2026 at 03:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.12
 
@@ -135,6 +135,14 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `status`, `created_at`) VALUES
+(1, 'cust', 'custo@gmail.com', '123', 'customer', 'active', '2026-03-12 13:16:01'),
+(3, 'admin', 'admin@gmail.com', '123', 'admin', 'active', '2026-03-12 13:16:21');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -247,7 +255,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
