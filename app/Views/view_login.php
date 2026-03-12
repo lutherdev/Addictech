@@ -4,23 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>addictech – Login</title>
-  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="<?= base_url('/public/css/login.css') ?>" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
   <?php
-  // Start session
-  session_start();
-  
-  // Include database configuration
-  require_once 'config/database.php';
-  
   // If already logged in, redirect to account
-  if (isset($_SESSION['user_id'])) {
-      header('Location: account.php');
-      exit();
-  }
+  // if (isset($_SESSION['user_id'])) {
+  //     header('Location: account.php');
+  //     exit();
+  // }
   
   // Initialize error message
   $error = '';
@@ -97,7 +91,7 @@
   </div>
 
   <section class="form-section">
-    <form method="POST" action="" id="loginForm">
+    <form method="POST" action="<?= base_url('auth/login') ?>" id="loginForm">
       <div class="form-card">
         <div class="field-group">
           <label for="email" class="field-label">EMAIL ADDRESS</label>
