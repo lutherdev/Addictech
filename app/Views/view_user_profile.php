@@ -1,5 +1,9 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
+<head>
+  <title>addictech – User Profile</title>
+  <link rel="stylesheet" href="<?= base_url('/public/css/user_profile.css') ?>" />
+</head>
 <body>
 
   <?php
@@ -26,7 +30,7 @@
         <hr class="sidebar-rule"/>
         <nav class="sidebar-nav">
           <a href="#" class="sidebar-link" id="linkPassword">PASSWORD</a>
-          <a href="logout.php" class="sidebar-link" id="linkLogout">LOGOUT</a>
+          <a href="<?=base_url("auth/logout")?>" class="sidebar-link" id="linkLogout">LOGOUT</a>
         </nav>
       </aside>
       <div class="account-vdivider"></div>
