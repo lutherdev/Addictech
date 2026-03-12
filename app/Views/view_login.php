@@ -3,6 +3,7 @@
 <head>
   <title>addictech – Login</title>
   <link rel="stylesheet" href="<?= base_url('/public/css/user_profile.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('/public/js/login.js') ?>" />
 </head>
 <body>
  <?php if (session()->getFlashdata('error')) : ?>
@@ -64,22 +65,6 @@
       </div>
     </form>
   </section>
-
-  <!-- Optional JavaScript for client-side validation -->
-  <script>
-    // Client-side validation (optional, as we have server-side)
-    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const errEl = document.getElementById('loginError');
-      
-      if (!email || !password) {
-        e.preventDefault();
-        errEl.textContent = 'Please fill in all fields.';
-      }
-    });
-  </script>
-
 </body>
 </html>
 <?= $this->endSection() ?>
