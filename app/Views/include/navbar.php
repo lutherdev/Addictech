@@ -1,100 +1,81 @@
-<?php 
-$staticPersonnel = ['dashboard', 'users', 'equipments'];
-$staticAssociate = ['dashboard', 'borrow', 'return', 'reserve'];
-$staticStudent = ['dashboard', 'borrow', 'return'];
-$session = session();
-?>
-<!-- Mobile Menu Button -->
-    <button onclick="toggleSidebar()" class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-green-900 text-white rounded-md shadow-lg">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-    </button>
+<?php
+/**
+ * NAVBAR PARTIAL
+ *
+ * Variables (all optional — pass from controller or view):
+ *   $nav_active  string   Which link is active: 'home'|'about'|'catalog'|'contact'
+ *   $cart_count  int      Number of items in cart (for badge)
+ *   $wish_count  int      Number of wishlisted items (for badge)
+ *   $current_user array  Logged-in user (checks for null to decide account link)
+ */
 
-    <!-- Mobile Overlay -->
-    <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="toggleSidebar()"></div>
+$nav_active  = $nav_active  ?? '';
+$cart_count  = $cart_count  ?? 0;
+$wish_count  = $wish_count  ?? 0;
 
-        <!-- Sidebar Nav -->
-        <nav id="sidebar" class="w-66 bg-gradient-to-b from-green-900 to-yellow-500 text-white p-6 fixed lg:static inset-y-0 left-0 z-40 transform lg:transform-none transition-transform duration-300 -translate-x-full lg:translate-x-0">
-            <!-- Header -->
-            <div class="mb-10">
-                <div class="flex justify-between items-center">
-                    <h1 class="text-xl font-bold tracking-wide">INVENTORY SYSTEM</h1>
-                    <!-- Close button for mobile -->
-                    <button onclick="toggleSidebar()" class="lg:hidden p-1 rounded hover:bg-green-800">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <p class="text-green-200 text-sm mt-2 opacity-90">Information Technology Services Office (ITSO)</p>
-                <p class="text-green-200 text-sm mt-2 opacity-90">Hello, <?= $session->get('username');?> | <?= $session->get('name');?> | <?= $session->get('role');?></p>
-                <a href="<?= base_url('user/profile')?>" class="text-green-400 font-semibold text-sm mt-2 hover:text-green-300 transition" ><span>PROFILE</span></a>
-            </div>
-            
-            <!-- Navigation Links -->
-
-<ul class="space-y-2">
-    <?php if ($session->get('role') == 'Personnel'): ?>
-<?php foreach ($staticPersonnel as $stP) : ?>
-    <li class="w-full">
-        <a href="<?= base_url($stP) ?>" 
-           class="flex items-center px-4 py-3 rounded-lg text-white transition-colors no-underline w-full hover:bg-green-700">
-            <span><?= strtoupper($stP) ?></span>
-        </a>
-    </li>
-<?php endforeach; ?>
-        <?php elseif ($session->get('role') == 'Associate'): ?>
-            <?php foreach ($staticAssociate as $stA) : ?>
-        <li class="w-full">
-            <a href="<?= base_url($stA)?>" onclick="setActiveNavItem(this)" class="flex items-center px-4 py-3 rounded-lg text-white transition-colors no-underline w-full hover:bg-green-700">
-                <span><?=strtoupper($stA) ?></span>
-            </a>
-        </li>
-            <?php endforeach; ?>
-    <?php endif; ?>
-    <li class="w-full">
-        <a href="<?= base_url('auth/logout')?>" onclick="setActiveNavItem(this)" class="flex items-center px-4 py-3 rounded-lg text-white transition-colors no-underline w-full hover:bg-green-700">
-            <span>LOGOUT</span>
-        </a>
-    </li>
-</ul>
-        </nav>
-<script>
-function setActiveNavItem(clickedElement) {
-    document.querySelectorAll('nav ul li a').forEach(item => {
-        item.classList.remove('bg-green-900', 'shadow-sm', 'relative', 'font-semibold');
-        const existingIndicator = item.querySelector('.active-indicator');
-        if (existingIndicator) existingIndicator.remove();
-    });
-
-    clickedElement.classList.add('bg-green-900', 'shadow-sm', 'relative', 'font-semibold');
-
-    const indicator = document.createElement('div');
-    indicator.className = 'absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-white rounded-full active-indicator';
-    clickedElement.prepend(indicator);
+// Helper: apply 'active' class
+function nav_class(string $page, string $active): string {
+    return $page === $active ? 'nav-link active' : 'nav-link';
 }
+?>
 
-document.addEventListener('DOMContentLoaded', function () {
+<nav class="navbar">
 
-    const path = window.location.pathname;             
-    const segments = path.split('/').filter(Boolean);  
-    const currentPage = segments[segments.length - 1]; 
+  <!-- LEFT: brand -->
+  <div class="nav-left">
+    <a href="<?= base_url('/') ?>" class="brand">addictech</a>
+  </div>
 
-    let matchedItem = null;
+  <!-- CENTER: links -->
+  <div class="nav-links">
+    <a href="<?= base_url('/') ?>"        class="<?= nav_class('home',    $nav_active) ?>">HOME</a>
+    <a href="<?= base_url('about') ?>"    class="<?= nav_class('about',   $nav_active) ?>">ABOUT</a>
+    <a href="<?= base_url('catalog') ?>"  class="<?= nav_class('catalog', $nav_active) ?>">CATALOG</a>
+    <a href="<?= base_url('contact') ?>"  class="<?= nav_class('contact', $nav_active) ?>">CONTACT</a>
+  </div>
 
-    document.querySelectorAll('nav ul li a').forEach(item => {
-        const linkPath = new URL(item.href).pathname;
-        const linkSegments = linkPath.split('/').filter(Boolean);
-        const linkPage = linkSegments[linkSegments.length - 1];
+  <!-- RIGHT: icons -->
+  <div class="nav-icons">
 
-        if (currentPage === linkPage) {
-            matchedItem = item;
-        }
-    });
+    <!-- Wishlist -->
+    <a href="<?= base_url('wishlist') ?>" class="icon-btn wish-icon-wrap" aria-label="Wishlist">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <?php if ($wish_count > 0): ?>
+        <span class="wish-badge"><?= $wish_count ?></span>
+      <?php endif; ?>
+    </a>
 
-    if (matchedItem) {
-        setActiveNavItem(matchedItem);
-    }
-});
-</script>
+    <!-- Cart -->
+    <a href="<?= base_url('cart') ?>" class="icon-btn cart-icon-wrap" aria-label="Cart">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <?php if ($cart_count > 0): ?>
+        <span class="cart-badge"><?= $cart_count ?></span>
+      <?php endif; ?>
+    </a>
+
+    <!-- Account -->
+    <a href="<?= base_url('account') ?>" class="icon-btn" aria-label="Account">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+
+    <!-- Logout (only shown when logged in) -->
+    <?php if (!empty($current_user)): ?>
+    <a href="<?= base_url('auth/logout') ?>" class="icon-btn" aria-label="Logout" title="Logout">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </a>
+    <?php endif; ?>
+
+  </div>
+</nav>
