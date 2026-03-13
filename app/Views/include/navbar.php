@@ -23,12 +23,12 @@ function nav_class(string $page, string $active): string {
 
   <!-- LEFT: brand -->
   <div class="nav-left">
-    <a href="<?= base_url('/') ?>" class="brand">addictech</a>
+    <a href="<?= base_url('home') ?>" class="brand">addictech</a>
   </div>
 
   <!-- CENTER: links -->
   <div class="nav-links">
-    <a href="<?= base_url('/') ?>"        class="<?= nav_class('home',    $nav_active) ?>">HOME</a>
+    <a href="<?= base_url('home') ?>"        class="<?= nav_class('home',    $nav_active) ?>">HOME</a>
     <a href="<?= base_url('about') ?>"    class="<?= nav_class('about',   $nav_active) ?>">ABOUT</a>
     <a href="<?= base_url('catalog') ?>"  class="<?= nav_class('catalog', $nav_active) ?>">CATALOG</a>
     <a href="<?= base_url('contact') ?>"  class="<?= nav_class('contact', $nav_active) ?>">CONTACT</a>
