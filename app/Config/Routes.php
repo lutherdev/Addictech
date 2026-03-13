@@ -64,7 +64,7 @@ $routes->post('product/statuschange', 'Product::statuschange');
 
 // ========================ORDER==================================
 
-$routes->get('/borrow', 'Borrow::borrowview'); //view
+$routes->get('catalog', 'Order::viewcatalog'); //view
 $routes->post('/borrow/equipment', 'Borrow::borrow');
 $routes->post('/borrow/borrow', 'Borrow::borrow'); //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

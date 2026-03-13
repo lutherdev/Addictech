@@ -7,26 +7,21 @@
 <body>
 
   <?php
-  // Start session
-  session_start();
-  
-  // Include database configuration
-  require_once 'config/database.php';
   
   // Initialize cart and wishlist in session if they don't exist
-  if (!isset($_SESSION['cart'])) {
-      $_SESSION['cart'] = [];
-  }
-  if (!isset($_SESSION['wishlist'])) {
-      $_SESSION['wishlist'] = [];
-  }
+  // if (!isset($_SESSION['cart'])) {
+  //     $_SESSION['cart'] = [];
+  // }
+  // if (!isset($_SESSION['wishlist'])) {
+  //     $_SESSION['wishlist'] = [];
+  // }
   
-  // Get products from database
-  $products = [];
-  $result = $conn->query("SELECT * FROM products ORDER BY id");
-  while ($row = $result->fetch_assoc()) {
-      $products[] = $row;
-  }
+  // // Get products from database
+  // $products = [];
+  // $result = $conn->query("SELECT * FROM products ORDER BY id");
+  // while ($row = $result->fetch_assoc()) {
+  //     $products[] = $row;
+  // }
   
   // If no products in database, use sample data
   if (empty($products)) {
@@ -139,40 +134,7 @@
   $products_json = json_encode($products);
   ?>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-left">
-      <a href="index.php" class="brand">addictech</a>
-    </div>
-    <div class="nav-links">
-      <a href="index.php" class="nav-link">HOME</a>
-      <a href="about.php" class="nav-link">ABOUT</a>
-      <a href="catalog.php" class="nav-link active">CATALOG</a>
-      <a href="contact.php" class="nav-link">CONTACT</a>
-    </div>
-    <div class="nav-icons">
-      <a href="wishlist.php" class="icon-btn wish-icon-wrap" aria-label="Wishlist">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        <?php if ($wishlist_count > 0): ?>
-        <span class="wish-badge" id="wishBadge"><?php echo $wishlist_count; ?></span>
-        <?php else: ?>
-        <span class="wish-badge" id="wishBadge" style="display:none">0</span>
-        <?php endif; ?>
-      </a>
-      <a href="cart.php" class="icon-btn cart-icon-wrap" aria-label="Cart">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <?php if ($cart_count > 0): ?>
-        <span class="cart-badge" id="cartBadge"><?php echo $cart_count; ?></span>
-        <?php else: ?>
-        <span class="cart-badge" id="cartBadge" style="display:none">0</span>
-        <?php endif; ?>
-      </a>
-      <a href="account.php" class="icon-btn" aria-label="Account">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </a>
-    </div>
-  </nav>
-
+  
   <main class="catalog-main">
     <div class="catalog-toolbar">
       <div class="search-wrap">

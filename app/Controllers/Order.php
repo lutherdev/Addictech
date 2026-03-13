@@ -24,7 +24,7 @@ class Order extends BaseController
         $this->orderItemModel = model('OrderItemModel');
         $this->cartModel = model('CartModel');
         $this->cartItemModel = model('CartItemModel');
-        $this->productModel = model('ProductModel');
+        $this->productModel = model('Products_model');
     }
 
     private function checkLogin()
@@ -48,6 +48,18 @@ class Order extends BaseController
         ];
         
         return view('orders/index', $data);
+    }
+
+    public function viewcatalog()
+    {
+        $userId = $this->session->get('user_id');
+        
+        $data = [
+            'title' => 'Catalog',
+            //'products' => $this->productModel->findAll()
+        ];
+        
+        return view('view_catalog', $data);
     }
 
     public function checkout()
