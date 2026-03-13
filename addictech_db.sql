@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 12, 2026 at 03:25 PM
+-- Generation Time: Mar 13, 2026 at 11:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.12
 
@@ -108,15 +108,35 @@ CREATE TABLE `order_items` (
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
-  `category_id` int(11) DEFAULT NULL,
+  `category` enum('keyboard','mouse','headset','monitor','speaker','cam') NOT NULL,
   `name` varchar(150) NOT NULL,
+  `variant` varchar(150) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
   `stock` int(11) DEFAULT 0,
   `image` varchar(255) DEFAULT NULL,
-  `status` enum('active','inactive') DEFAULT 'active',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `category`, `name`, `variant`, `description`, `price`, `stock`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'keyboard', 'MK Pro X', 'Cherry MX Red', 'Mechanical full-size keyboard with per-key RGB lighting, tactile switches, and a durable aluminum top frame built for long gaming sessions.', 5890.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(2, 'keyboard', 'MK Slim 60%', 'Low Profile', 'Ultra-compact 60% layout with low-profile switches. Perfect for minimalist desk setups and on-the-go use.', 3490.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(3, 'mouse', 'Viper V2', 'Standard', 'Lightweight ambidextrous gaming mouse with a precision optical sensor and up to 20,000 DPI resolution.', 2850.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(4, 'mouse', 'Basilisk X', 'Ergonomic', 'Ergonomic right-handed mouse with customizable scroll resistance and 6 programmable buttons for power users.', 4200.00, 0, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(5, 'headset', 'Void RGB', 'Wireless', 'Surround sound USB headset with custom-tuned 50mm drivers and long-range wireless for unrestricted play.', 5990.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(6, 'headset', 'Cloud II', 'Wired', 'Award-winning gaming headset with memory foam ear cushions and detachable noise-cancelling microphone.', 4490.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(7, 'monitor', 'UltraSharp 27', '4K UHD', '27-inch 4K IPS display with factory-calibrated colors, USB-C connectivity, and ultra-slim bezels for immersive work.', 21900.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(8, 'monitor', 'Odyssey G5', '1440p 165Hz', '27-inch 1440p curved gaming monitor with a 165Hz refresh rate and 1ms response time for competitive play.', 14500.00, 0, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(9, 'speaker', 'Audioengine A2', 'Powered', 'Compact powered desktop speakers with a built-in amplifier delivering audiophile-grade stereo sound from a small footprint.', 16800.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(10, 'speaker', 'Logitech Z200', 'Stereo', 'Affordable stereo speakers with clear, room-filling sound and easy-access volume control on the front panel.', 2390.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(11, 'cam', 'C920 HD Pro', '1080p', 'Full HD 1080p webcam with dual built-in stereo mics and automatic low-light correction for crisp video calls.', 4350.00, 1, NULL, 'active', '2026-03-13 10:13:46', '2026-03-13 10:14:15'),
+(12, 'cam', 'StreamCam', 'USB-C 60fps', 'Premium USB-C streaming camera with smooth 60fps 1080p video and intelligent auto-focus that tracks your face.', 9290.00, 0, NULL, 'active', '2026-03-13 10:13:46', '2026-03-13 10:14:18');
 
 -- --------------------------------------------------------
 
@@ -126,21 +146,28 @@ CREATE TABLE `products` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   `role` enum('admin','customer') DEFAULT 'customer',
   `status` enum('active','inactive') DEFAULT 'active',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `postal_code` varchar(20) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `status`, `created_at`) VALUES
-(1, 'cust', 'custo@gmail.com', '123', 'customer', 'active', '2026-03-12 13:16:01'),
-(3, 'admin', 'admin@gmail.com', '123', 'admin', 'active', '2026-03-12 13:16:21');
+INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `phone`, `role`, `status`, `address`, `city`, `postal_code`, `country`, `created_at`, `updated_at`) VALUES
+(1, 'custo@gmail.com', '123', 'cust', 'Omer', '09123456789', 'customer', 'active', '123 Street', 'Manila', '1000', 'Philippines', '2026-03-13 09:03:21', '2026-03-13 09:03:21'),
+(2, 'admin@gmail.com', '123', 'admin', 'lol', '09111222333', 'admin', 'active', '456 Avenue', 'Quezon City', '1100', 'Philippines', '2026-03-13 09:03:21', '2026-03-13 09:03:21');
 
 --
 -- Indexes for dumped tables
@@ -195,14 +222,14 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `category` (`category`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
@@ -249,7 +276,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -293,12 +320,6 @@ ALTER TABLE `orders`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
