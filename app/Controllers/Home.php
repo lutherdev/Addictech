@@ -34,26 +34,20 @@ class Home extends BaseController
         // );
 
         // if ($role == 'customer') {
-        //     return view('view_home_customer', $data);
+        //     return view('view_homepage');
         // } else if ($role == 'admin') {
-        //     return view('view_home_admin', $data2);
+        //     return view('view_user_profile', $data);
         // } else if ($role == 'God'){
         //     return view('view_homepage');
-
-        if ($role == 'customer') {
-            return view('view_user_profile', $data);
-        } else if ($role == 'admin') {
-            return view('view_user_profile', $data);
-        } else if ($role == 'God'){
-            return view('view_homepage');
-        } else {
-            if (session()->getFlashdata('error')) :
-            return redirect()->to('login')->with('error', session()->getFlashdata('error'));
-            elseif (session()->getFlashdata('success')) :
-            return redirect()->to('login')->with('success', session()->getFlashdata('success'));
-            else : return redirect()->to('login');
-            endif;            
-        }
+        // } else {
+        //     if (session()->getFlashdata('error')) :
+        //     return redirect()->to('login')->with('error', session()->getFlashdata('error'));
+        //     elseif (session()->getFlashdata('success')) :
+        //     return redirect()->to('login')->with('success', session()->getFlashdata('success'));
+        //     else : return redirect()->to('login');
+        //     endif;            
+        // }
+        return view('view_homepage');
     }
 
     public function viewcatalog()
