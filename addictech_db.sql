@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 13, 2026 at 11:48 AM
+-- Generation Time: Mar 13, 2026 at 02:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.12
 
@@ -151,7 +151,7 @@ CREATE TABLE `users` (
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `role` enum('admin','customer') DEFAULT 'customer',
+  `role` enum('admin','customer') NOT NULL DEFAULT 'customer',
   `status` enum('active','inactive') DEFAULT 'active',
   `address` varchar(255) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
@@ -166,8 +166,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `phone`, `role`, `status`, `address`, `city`, `postal_code`, `country`, `created_at`, `updated_at`) VALUES
-(1, 'custo@gmail.com', '123', 'cust', 'Omer', '09123456789', 'customer', 'active', '123 Street', 'Manila', '1000', 'Philippines', '2026-03-13 09:03:21', '2026-03-13 09:03:21'),
-(2, 'admin@gmail.com', '123', 'admin', 'lol', '09111222333', 'admin', 'active', '456 Avenue', 'Quezon City', '1100', 'Philippines', '2026-03-13 09:03:21', '2026-03-13 09:03:21');
+(5, 'DEVTURD@GMAIL.COM', '$2y$12$/QDpYJixbLC4QnRgj6K.suWsCjOgt9YtB2OTX5fvfDpWXxFX67BsC', 'LUTHER', 'SAMBELI', NULL, '', 'active', NULL, NULL, NULL, NULL, '2026-03-13 04:46:21', '2026-03-13 04:46:21'),
+(6, 'ADMIN@GMAIL.COM', '$2y$12$5BxWXJDYKnHpNCGECplpwO8ddnYqPpwcFTMlXGHan7jUS3CXB81hO', 'LUTHER', 'SAMBELI', '09541235', '', 'active', NULL, NULL, '1900', 'Philippines', '2026-03-13 04:53:13', '2026-03-13 05:15:50');
 
 --
 -- Indexes for dumped tables
@@ -282,7 +282,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
