@@ -6,4 +6,3 @@
   <link rel="stylesheet" href="<?= base_url('/public/css/style.css') ?>" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 </head>
-<body>
