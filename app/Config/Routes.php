@@ -11,6 +11,7 @@ $routes->get('/', 'Home::index');
 //$routes->get('home', 'Home::index');
 $routes->get('home', 'Users::profile');
 $routes->get('catalog', 'Home::viewcatalog'); //view
+$routes->get('wishlist', 'Home::viewwishlist');
 
 
 

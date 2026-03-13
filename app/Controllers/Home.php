@@ -66,4 +66,15 @@ class Home extends BaseController
         
         return view('view_catalog', $data);
     }
+
+    public function viewwishlist()
+    {
+        $productModel = model('Products_model');
+        $data = [
+            'title' => 'Catalog',
+            'products' => $productModel->findAll()
+        ];
+        
+        return view('view_wishlist', $data);
+    }
 }

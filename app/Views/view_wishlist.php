@@ -3,26 +3,29 @@
 <head>
   <title>addictech – Catalog</title>
   <link rel="stylesheet" href="<?= base_url('/public/css/wishlist.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('/public/css/catalog.css') ?>" />
 </head>
 <body>
 
 <?php
-// Normalize products to match DB schema (stock: 0/1, category: cam vs webcam)
 $products_json = json_encode(array_map(function($p) {
     return [
-        'id'       => (int) $p['id'],
-        'name'     => $p['name'],
-        'category' => $p['category'],   // raw from DB: cam, keyboard, mouse, etc.
-        'price'    => (float) $p['price'],
-        'variant'  => $p['variant']  ?? '',
-        'desc'     => $p['description'] ?? '',  // DB column is 'description'
-        'stock'    => (int) $p['stock'],         // DB is 0 or 1
+        'id'      => (int) $p['id'],
+        'name'    => $p['name'],
+        'category'=> $p['category'],
+        'price'   => (float) $p['price'],
+        'variant' => $p['variant']   ?? '',
+        'desc'    => $p['description'] ?? '',
+        'stock'   => (int) $p['stock'],
     ];
 }, $products));
 ?>
  
-<main class="catalog-main">
-  <div class="catalog-toolbar">
+<main class="wishlist-main">
+ 
+  <!-- HEADER ROW -->
+  <div class="wishlist-header">
+    <h1 class="wishlist-title">MY WISHLIST</h1>
     <div class="search-wrap">
       <input type="text" class="search-input" placeholder="SEARCH" id="searchInput" />
       <button class="search-icon-btn" aria-label="Search">
@@ -31,21 +34,14 @@ $products_json = json_encode(array_map(function($p) {
         </svg>
       </button>
     </div>
-    <div class="filter-tags">
-      <button class="tag active" data-filter="all">ALL</button>
-      <button class="tag" data-filter="keyboard">KEYBOARD</button>
-      <button class="tag" data-filter="mouse">MOUSE</button>
-      <button class="tag" data-filter="headset">HEADSET</button>
-      <button class="tag" data-filter="monitor">MONITOR</button>
-      <button class="tag" data-filter="speaker">SPEAKER</button>
-      <button class="tag" data-filter="cam">WEB CAM</button><!-- matches DB 'cam' -->
-      <button class="tag sort-btn" id="sortBtn">Sort By Price</button>
-    </div>
   </div>
+ 
+  <!-- GRID -->
   <div class="product-grid" id="productGrid"></div>
+ 
 </main>
  
-<!-- MODAL -->
+<!-- MODAL (same as catalog) -->
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal" id="productModal">
     <button class="modal-close" id="modalClose" aria-label="Close">
@@ -85,11 +81,11 @@ $products_json = json_encode(array_map(function($p) {
             <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
           </svg>
         </button>
-        <button class="modal-wish-btn" id="modalWishBtn" aria-label="Add to wishlist">
-          <svg id="wishIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <button class="modal-wish-btn modal-wish-active" id="modalWishBtn" aria-label="Remove from wishlist">
+          <svg id="wishIcon" width="18" height="18" viewBox="0 0 24 24" fill="#e05252" stroke="#e05252" stroke-width="1.8">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
-          <span id="wishLabel">WISHLIST</span>
+          <span id="wishLabel">WISHLISTED</span>
         </button>
       </div>
  
@@ -111,13 +107,22 @@ $products_json = json_encode(array_map(function($p) {
 </div>
  
 <div class="atc-toast" id="atcToast"></div>
+ 
 <script>
   const products     = <?= $products_json ?>;
   const CART_ADD_URL = '<?= base_url('cart/add') ?>';
   const CSRF_NAME    = '<?= csrf_token() ?>';
   const CSRF_HASH    = '<?= csrf_hash() ?>';
+ 
+  /* wishlist set — all items on this page are already wishlisted */
+  const wishlistIds = new Set(products.map(function(p) { return p.id; }));
+ 
+  function isWishlisted(id)      { return wishlistIds.has(id); }
+  function toggleWishlist(product) {
+    /* remove from wishlist — placeholder until backend ready */
+    wishlistIds.delete(product.id);
+    return Promise.resolve(false);
+  }
 </script>
 <script src="<?= base_url('/public/js/wishlist.js') ?>"></script>
-</body>
-</html>
 <?= $this->endSection() ?>
