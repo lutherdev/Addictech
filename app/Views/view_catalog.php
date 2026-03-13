@@ -16,38 +16,14 @@
   //     $_SESSION['wishlist'] = [];
   // }
   
-  // // Get products from database
-  // $products = [];
-  // $result = $conn->query("SELECT * FROM products ORDER BY id");
-  // while ($row = $result->fetch_assoc()) {
-  //     $products[] = $row;
-  // }
-  
-  // If no products in database, use sample data
-  if (empty($products)) {
-      $products = [
-        ['id'=>1, 'name'=>'MK Pro X', 'category'=>'keyboard', 'price'=>5890, 'stock'=>1, 'variant'=>'Cherry MX Red', 'desc'=>'Mechanical full-size keyboard with per-key RGB lighting, tactile switches, and a durable aluminum top frame built for long gaming sessions.'],
-        ['id'=>2, 'name'=>'MK Slim 60%', 'category'=>'keyboard', 'price'=>3490, 'stock'=>1, 'variant'=>'Low Profile', 'desc'=>'Ultra-compact 60% layout with low-profile switches. Perfect for minimalist desk setups and on-the-go use.'],
-        ['id'=>3, 'name'=>'Viper V2', 'category'=>'mouse', 'price'=>2850, 'stock'=>1, 'variant'=>'Standard', 'desc'=>'Lightweight ambidextrous gaming mouse with a precision optical sensor and up to 20,000 DPI resolution.'],
-        ['id'=>4, 'name'=>'Basilisk X', 'category'=>'mouse', 'price'=>4200, 'stock'=>0, 'variant'=>'Ergonomic', 'desc'=>'Ergonomic right-handed mouse with customizable scroll resistance and 6 programmable buttons for power users.'],
-        ['id'=>5, 'name'=>'Void RGB', 'category'=>'headset', 'price'=>5990, 'stock'=>1, 'variant'=>'Wireless', 'desc'=>'Surround sound USB headset with custom-tuned 50mm drivers and long-range wireless for unrestricted play.'],
-        ['id'=>6, 'name'=>'Cloud II', 'category'=>'headset', 'price'=>4490, 'stock'=>1, 'variant'=>'Wired', 'desc'=>'Award-winning gaming headset with memory foam ear cushions and detachable noise-cancelling microphone.'],
-        ['id'=>7, 'name'=>'UltraSharp 27', 'category'=>'monitor', 'price'=>21900, 'stock'=>1, 'variant'=>'4K UHD', 'desc'=>'27-inch 4K IPS display with factory-calibrated colors, USB-C connectivity, and ultra-slim bezels for immersive work.'],
-        ['id'=>8, 'name'=>'Odyssey G5', 'category'=>'monitor', 'price'=>14500, 'stock'=>0, 'variant'=>'1440p 165Hz', 'desc'=>'27-inch 1440p curved gaming monitor with a 165Hz refresh rate and 1ms response time for competitive play.'],
-        ['id'=>9, 'name'=>'Audioengine A2', 'category'=>'speaker', 'price'=>16800, 'stock'=>1, 'variant'=>'Powered', 'desc'=>'Compact powered desktop speakers with a built-in amplifier delivering audiophile-grade stereo sound from a small footprint.'],
-        ['id'=>10, 'name'=>'Logitech Z200', 'category'=>'speaker', 'price'=>2390, 'stock'=>1, 'variant'=>'Stereo', 'desc'=>'Affordable stereo speakers with clear, room-filling sound and easy-access volume control on the front panel.'],
-        ['id'=>11, 'name'=>'C920 HD Pro', 'category'=>'webcam', 'price'=>4350, 'stock'=>1, 'variant'=>'1080p', 'desc'=>'Full HD 1080p webcam with dual built-in stereo mics and automatic low-light correction for crisp video calls.'],
-        ['id'=>12, 'name'=>'StreamCam', 'category'=>'webcam', 'price'=>9290, 'stock'=>0, 'variant'=>'USB-C 60fps', 'desc'=>'Premium USB-C streaming camera with smooth 60fps 1080p video and intelligent auto-focus that tracks your face.'],
-      ];
-  }
-  
-  // Handle AJAX requests
+
+  // // Handle AJAX requests
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
       header('Content-Type: application/json');
       
       $response = ['success' => false, 'message' => ''];
       
-      switch ($_POST['action']) {
+      switch ($_POST['action']) { //TURN TO PHP, NEED TO BE SAVED SA BACKEND
           case 'toggle_wishlist':
               $product_id = (int)$_POST['product_id'];
               $product = null;
@@ -81,7 +57,7 @@
               }
               break;
               
-          case 'add_to_cart':
+          case 'add_to_cart': //TURN TO PHP, NEED TO BE SAVED SA BACKEND
               $product_id = (int)$_POST['product_id'];
               $quantity = (int)($_POST['quantity'] ?? 1);
               $product = null;
@@ -127,12 +103,12 @@
   }
   
   // Get counts for badges
-  $cart_count = array_sum(array_column($_SESSION['cart'], 'qty'));
-  $wishlist_count = count($_SESSION['wishlist']);
+  // $cart_count = array_sum(array_column($_SESSION['cart'], 'qty'));
+  // $wishlist_count = count($_SESSION['wishlist']);
   
   // Convert products to JSON for JavaScript
   $products_json = json_encode($products);
-  ?>
+  // ?>
 
   
   <main class="catalog-main">
@@ -217,35 +193,43 @@
   <script>
     // Pass PHP data to JavaScript
     const products = <?php echo $products_json; ?>;
-    const wishlistData = <?php echo json_encode($_SESSION['wishlist']); ?>;
+    // const wishlistData = <?php //echo json_encode($_SESSION['wishlist']); ?>;
     
-    // Create wishlist set for quick lookup
-    const wishlistIds = new Set(Object.keys(wishlistData).map(id => parseInt(id)));
+    // // // Create wishlist set for quick lookup
+    // const wishlistIds = new Set(Object.keys(wishlistData).map(id => parseInt(id)));
 
-    /* ── WISHLIST FUNCTIONS ── */
+    // /* ── WISHLIST FUNCTIONS ── */
+   
+    // function toggleWishlist(product) {
+    //   return fetch('catalog.php', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    //     body: `action=toggle_wishlist&product_id=${product.id}`
+    //   })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     if (data.success) {
+    //       if (data.wished) {
+    //         wishlistIds.add(product.id);
+    //       } else {
+    //         wishlistIds.delete(product.id);
+    //       }
+    //       updateWishBadge(data.wishlist_count);
+    //       return data.wished;
+    //     }
+    //     return false;
+    //   });
+    // }
+
+    //  function isWishlisted(id) {
+    //   return wishlistIds.has(id);
+    // }
     function isWishlisted(id) {
-      return wishlistIds.has(id);
+      return false;
     }
 
     function toggleWishlist(product) {
-      return fetch('catalog.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `action=toggle_wishlist&product_id=${product.id}`
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          if (data.wished) {
-            wishlistIds.add(product.id);
-          } else {
-            wishlistIds.delete(product.id);
-          }
-          updateWishBadge(data.wishlist_count);
-          return data.wished;
-        }
-        return false;
-      });
+      return Promise.resolve(false); // placeholder
     }
 
     function addToCart(product, qty) {
@@ -293,9 +277,9 @@
       t.textContent = message;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
-    }
+} 
 
-    /* ── MODAL STATE ── */
+     /* ── MODAL STATE ── */
     let currentProduct = null;
     let qty = 1;
 
@@ -395,9 +379,8 @@
     function closeModal() {
       document.getElementById('modalBackdrop').classList.remove('open');
       document.body.style.overflow = '';
-    }
-
-    /* ── EVENT LISTENERS ── */
+    } 
+    <!-- /* ── EVENT LISTENERS ── */
     document.addEventListener('DOMContentLoaded', () => {
       // Modal close events
       document.getElementById('modalClose').addEventListener('click', closeModal);

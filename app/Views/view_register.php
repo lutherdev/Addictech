@@ -8,10 +8,7 @@
 
   <?php
   // Start session
-  session_start();
-  
-  // Include database configuration
-  require_once 'config/database.php';
+
   
   // If already logged in, redirect to account
   if (isset($_SESSION['user_id'])) {
@@ -25,86 +22,6 @@
   $email = '';
   $first_name = '';
   $last_name = '';
-  
-  // Handle signup form submission
-  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      
-      // Get and sanitize input
-      $email = strtolower(trim($_POST['email'] ?? ''));
-      $password = $_POST['password'] ?? '';
-      $confirm_password = $_POST['confirm_password'] ?? '';
-      $first_name = trim($_POST['first_name'] ?? '');
-      $last_name = trim($_POST['last_name'] ?? '');
-      
-      // Validation
-      $errors = [];
-      
-      if (empty($email)) {
-          $errors[] = 'Email address is required.';
-      } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-          $errors[] = 'Please enter a valid email address.';
-      }
-      
-      if (empty($password)) {
-          $errors[] = 'Password is required.';
-      } elseif (strlen($password) < 6) {
-          $errors[] = 'Password must be at least 6 characters long.';
-      }
-      
-      if ($password !== $confirm_password) {
-          $errors[] = 'Passwords do not match.';
-      }
-      
-      // Check if email already exists
-      if (empty($errors)) {
-          $check_stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-          $check_stmt->bind_param("s", $email);
-          $check_stmt->execute();
-          $check_result = $check_stmt->get_result();
-          
-          if ($check_result->num_rows > 0) {
-              $errors[] = 'An account with this email already exists.';
-          }
-      }
-      
-      // If no errors, create user
-      if (empty($errors)) {
-          // Hash password
-          $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-          
-          // Get current date for member since
-          $member_since = strtoupper(date('F Y'));
-          
-          // Insert user into database
-          $insert_stmt = $conn->prepare("
-              INSERT INTO users (
-                  email, password, first_name, last_name, 
-                  country, language, member_since, created_at
-              ) VALUES (?, ?, ?, ?, 'Philippines', 'English', ?, NOW())
-          ");
-          
-          $insert_stmt->bind_param("sssss", 
-              $email, $hashed_password, $first_name, $last_name, $member_since
-          );
-          
-          if ($insert_stmt->execute()) {
-              $user_id = $conn->insert_id;
-              
-              // Set session variables
-              $_SESSION['user_id'] = $user_id;
-              $_SESSION['user_email'] = $email;
-              $_SESSION['user_name'] = $first_name ?: explode('@', $email)[0];
-              
-              // Redirect to account page
-              header('Location: account.php');
-              exit();
-          } else {
-              $error = 'An error occurred while creating your account. Please try again.';
-          }
-      } else {
-          $error = implode(' ', $errors);
-      }
-  }
   
   // Get cart count for badge
   $cart_count = 0;
@@ -142,7 +59,7 @@
   </div>
 
   <section class="form-section">
-    <form method="POST" action="" id="signupForm">
+    <form method="POST" action="<?= base_url('auth/register') ?>" id="signupForm">
       <div class="form-card">
         <!-- Optional: Add name fields for better user experience -->
         <div class="field-group">
@@ -177,17 +94,19 @@
                  autocomplete="new-password" required/>
         </div>
         
-        <?php if (!empty($error)): ?>
-        <p class="auth-error" id="signupError"><?php echo htmlspecialchars($error); ?></p>
-        <?php else: ?>
-        <p class="auth-error" id="signupError"></p>
+        <?php if(session()->getFlashdata('error')): ?>
+        <p class="auth-error"><?= session()->getFlashdata('error') ?></p>
+        <?php endif; ?>
+
+        <?php if(session()->getFlashdata('success')): ?>
+        <p style="color:green"><?= session()->getFlashdata('success') ?></p>
         <?php endif; ?>
       </div>
 
       <div class="cta-section">
         <button type="submit" class="btn-signin" id="signupBtn">CREATE ACCOUNT</button>
         <p class="register-prompt">
-          Already have an account? <a href="login.php" class="link-register">Login</a>
+          Already have an account? <a href="<?= base_url()?>" class="link-register">Login</a>
         </p>
       </div>
     </form>

@@ -3,186 +3,219 @@
 namespace App\Controllers;
 
 use App\Models\ProductModel;
-use App\Models\CategoryModel;
 
-class Product extends BaseController
+class Products extends BaseController
 {
-    protected $session;
-    protected $productModel;
-    protected $categoryModel;
-
-    public function __construct()
-    {
-        $this->session = session();
-        $this->productModel = model('ProductModel');
-        $this->categoryModel = model('CategoryModel');
-    }
-
-    private function checkLogin()
-    {
-        if (!$this->session->get('isLoggedIn')) {
-            return redirect()->to('/login')->with('error', 'Please login first.');
-        }
-        return null;
-    }
-    
     public function index()
     {
-        $check = $this->checkLogin();
-        if ($check) return $check;
+        $session = session();
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please login first.');
+        }
 
+        $productModel = new ProductModel();
         $data = [
-            'title' => 'Products List',
-            'products' => $this->productModel->getProductsWithCategory(),
-            'categories' => $this->categoryModel->findAll()
+            'title' => 'Product Management',
+            'products' => $productModel->findAll()
         ];
-        
-        return view('products/index', $data);
+
+        return view('products_home', $data);
     }
 
     public function add()
     {
-        $check = $this->checkLogin();
-        if ($check) return $check;
-
-        $data = [
-            'title' => 'Add New Product',
-            'categories' => $this->categoryModel->findAll()
-        ];
-        
-        return view('products/add', $data);
+        return view('products_add');
     }
 
     public function insert()
     {
-        $check = $this->checkLogin();
-        if ($check) return $check;
-
+        $productModel = new ProductModel();
+        $session = session();
         $validation = service('validation');
-        
+
         $data = [
-            'category_id' => $this->request->getPost('category_id'),
-            'name' => $this->request->getPost('name'),
+            'category'    => $this->request->getPost('category'),
+            'name'        => $this->request->getPost('name'),
+            'variant'     => $this->request->getPost('variant'),
             'description' => $this->request->getPost('description'),
-            'price' => $this->request->getPost('price'),
-            'stock' => $this->request->getPost('stock'),
-            'status' => $this->request->getPost('status') ?? 'active',
-            'created_at' => date('Y-m-d H:i:s')
+            'price'       => $this->request->getPost('price'),
+            'stock'       => $this->request->getPost('stock'),
+            'image'       => $this->request->getPost('image'),
+            'status'      => $this->request->getPost('status') ?? 'active',
+            'created_at'  => date('Y-m-d H:i:s'),
+            'updated_at'  => date('Y-m-d H:i:s'),
         ];
 
-        // Handle image upload
-        $file = $this->request->getFile('image');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $file->move('uploads/products', $newName);
-            $data['image'] = 'uploads/products/' . $newName;
+        if (!$validation->run($data, 'product')) { // assumes you have a validation group 'product'
+            $errors = implode('<br>', $validation->getErrors());
+            $session->setFlashData('errors', $errors);
+            return redirect()->to('products/add');
         }
 
-        if (!$validation->run($data, 'productValidation')) {
-            $this->session->setFlashData('errors', implode('<br>', $validation->getErrors()));
-            return redirect()->back()->withInput();
-        }
-
-        $this->productModel->insert($data);
-        $this->session->setFlashData('success', 'Product added successfully.');
-        return redirect()->to('product');
-    }
-
-    public function edit($id)
-    {
-        $check = $this->checkLogin();
-        if ($check) return $check;
-
-        $data = [
-            'title' => 'Edit Product',
-            'product' => $this->productModel->find($id),
-            'categories' => $this->categoryModel->findAll()
-        ];
-        
-        return view('products/edit', $data);
-    }
-
-    public function update($id)
-    {
-        $check = $this->checkLogin();
-        if ($check) return $check;
-
-        $data = [
-            'category_id' => $this->request->getPost('category_id'),
-            'name' => $this->request->getPost('name'),
-            'description' => $this->request->getPost('description'),
-            'price' => $this->request->getPost('price'),
-            'stock' => $this->request->getPost('stock'),
-            'status' => $this->request->getPost('status'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ];
-
-        // Handle image upload
-        $file = $this->request->getFile('image');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            // Delete old image
-            $oldProduct = $this->productModel->find($id);
-            if ($oldProduct['image'] && file_exists($oldProduct['image'])) {
-                unlink($oldProduct['image']);
-            }
-            
-            $newName = $file->getRandomName();
-            $file->move('uploads/products', $newName);
-            $data['image'] = 'uploads/products/' . $newName;
-        }
-
-        $this->productModel->update($id, $data);
-        $this->session->setFlashData('success', 'Product updated successfully.');
-        return redirect()->to('product');
-    }
-
-    public function delete($id)
-    {
-        $check = $this->checkLogin();
-        if ($check) return $check;
-
-        // Delete product image
-        $product = $this->productModel->find($id);
-        if ($product['image'] && file_exists($product['image'])) {
-            unlink($product['image']);
-        }
-
-        $this->productModel->delete($id);
-        $this->session->setFlashData('success', 'Product deleted successfully.');
-        return redirect()->to('product');
+        $productModel->insert($data);
+        $session->setFlashData('success', 'Product added successfully.');
+        return redirect()->to('products');
     }
 
     public function view($id)
     {
+        $productModel = new ProductModel();
         $data = [
-            'title' => 'Product Details',
-            'product' => $this->productModel->getProductWithCategory($id)
+            'title'   => 'View Product',
+            'product' => $productModel->find($id)
         ];
-        
-        return view('products/view', $data);
+
+        return view('products_view', $data);
     }
 
-    public function search()
+    public function edit($id)
     {
-        $keyword = $this->request->getGet('keyword');
-        
+        $productModel = new ProductModel();
+        $session = session();
         $data = [
-            'title' => 'Search Results',
-            'products' => $this->productModel->searchProducts($keyword),
-            'keyword' => $keyword
+            'title'   => 'Edit Product',
+            'product' => $productModel->find($id)
         ];
-        
-        return view('products/search', $data);
+
+        return view('products_edit', $data);
     }
 
-    public function byCategory($categoryId)
+    public function update($id)
     {
+        $productModel = new ProductModel();
+        $session = session();
+
         $data = [
-            'title' => 'Products by Category',
-            'products' => $this->productModel->where('category_id', $categoryId)->findAll(),
-            'category' => $this->categoryModel->find($categoryId)
+            'category'    => $this->request->getPost('category'),
+            'name'        => $this->request->getPost('name'),
+            'variant'     => $this->request->getPost('variant'),
+            'description' => $this->request->getPost('description'),
+            'price'       => $this->request->getPost('price'),
+            'stock'       => $this->request->getPost('stock'),
+            'image'       => $this->request->getPost('image'),
+            'status'      => $this->request->getPost('status'),
+            'updated_at'  => date('Y-m-d H:i:s')
         ];
-        
-        return view('products/category', $data);
+
+        $productModel->update($id, $data);
+        $session->setFlashData('success', 'Product updated successfully.');
+        return redirect()->to('products');
+    }
+
+    public function delete($id)
+    {
+        $productModel = new ProductModel();
+        $productModel->delete($id);
+        return redirect()->to('products')->with('success', 'Product deleted successfully.');
+    }
+
+    public function statusChangeView()
+    {
+        $productModel = new ProductModel();
+        $data['products'] = $productModel->findAll();
+        return view('products_status', $data);
+    }
+
+    public function statusChange()
+    {
+        $productModel = new ProductModel();
+        $session = session();
+
+        $id = $this->request->getPost('product_id');
+        $status = $this->request->getPost('status');
+
+        if (!$id || !$status) {
+            return redirect()->back()->with('error', 'Invalid form submission.');
+        }
+
+        $productModel->update($id, [
+            'status'     => strtolower($status),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect()->to('products')->with('success', 'Product status updated successfully.');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     // Relationships
+    public function cartItems()
+    {
+        return $this->hasMany('App\Models\CartItemModel', 'product_id', 'id');
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany('App\Models\OrderItemModel', 'product_id', 'id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany('App\Models\FavoriteModel', 'product_id', 'id');
+    }
+
+    // Custom Methods
+    public function getActiveProducts()
+    {
+        return $this->where('status', 'active')
+                    ->where('stock >', 0)
+                    ->findAll();
+    }
+
+    public function getLowStockProducts($threshold = 5)
+    {
+        return $this->where('stock <=', $threshold)
+                    ->where('stock >', 0)
+                    ->findAll();
+    }
+
+    public function getOutOfStockProducts()
+    {
+        return $this->where('stock', 0)
+                    ->orWhere('stock IS NULL')
+                    ->findAll();
+    }
+
+    public function searchProducts($keyword)
+    {
+        return $this->like('name', $keyword)
+                    ->orLike('description', $keyword)
+                    ->where('status', 'active')
+                    ->findAll();
+    }
+
+    public function getProductsByCategory($category)
+    {
+        return $this->where('category', $category)
+                    ->where('status', 'active')
+                    ->findAll();
+    }
+
+    public function updateStock($id, $quantity)
+    {
+        $product = $this->find($id);
+        if ($product) {
+            $newStock = $product['stock'] - $quantity;
+            return $this->update($id, ['stock' => $newStock]);
+        }
+        return false;
+    }
+
+    public function isInStock($id, $quantity = 1)
+    {
+        $product = $this->find($id);
+        return $product && $product['stock'] >= $quantity;
     }
 }

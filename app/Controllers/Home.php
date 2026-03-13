@@ -55,4 +55,15 @@ class Home extends BaseController
             endif;            
         }
     }
+
+    public function viewcatalog()
+    {
+        $productModel = model('Products_model');
+        $data = [
+            'title' => 'Catalog',
+            'products' => $productModel->findAll()
+        ];
+        
+        return view('view_catalog', $data);
+    }
 }

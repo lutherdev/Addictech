@@ -34,9 +34,9 @@ class Auth extends BaseController
         $usermodel = model('Users_model');
         $session = session();
         //set other session details
-        $user = $usermodel->where('username', $this->request->getPost('username'))->first();  
+        $user = $usermodel->where('email', $this->request->getPost('email'))->first();  
         if (!$user){
-            return redirect()->to('dashboard')->with('error', 'Invalid username');
+            return redirect()->to('dashboard')->with('error', 'Invalid email bro');
         }
         $password = $this->request->getPost('password'); 
         $storedHash = $user['password'];               // hash from DB
@@ -47,129 +47,91 @@ class Auth extends BaseController
         // }
         if ($password == $storedHash) {
             //SET OTHER ROLES
-            $session->set('role', $user['role']);
-            $session->set('user_id', $user['id']);
-            $session->set('username', $user['username']);
-            $session->set('email', $user['email']);
-            $session->set('created_at', $user['created_at']);
-            //$session->set('name', $user['first_name']." ".$user['last_name']);
-            $session->set('isLoggedIn', true);
+            $sessionData = [
+            'user_id'      => $user['id'],
+            'role'         => $user['role'],
+            'first_name'   => $user['first_name'],
+            'last_name'    => $user['last_name'],
+            'email'        => $user['email'],
+            'phone'        => $user['phone'],
+            'address'      => $user['address'],
+            'city'         => $user['city'],
+            'postal_code'  => $user['postal_code'],
+            'country'      => $user['country'],
+            'created_at'   => $user['created_at'],
+            'updated_at'   => $user['updated_at'],
+            'isLoggedIn'   => true
+            ];
+            $session->set($sessionData);
 
-            return redirect()->to('home')->with('success', 'HELLO '.$user['username'] .', SUCCESS LOGIN');
+            return redirect()->to('home')->with('success', 'HELLO '.$user['first_name'] .', SUCCESS LOGIN');
         }
         return redirect()->to('login')->with('error', 'Invalid password.');
     }
 
     public function regview(){
-        return view('register');
+        return view('view_register');
     }
 
-    public function register(){
-        $usermodel = model('Users_model');
-        $session = session();
-        //IMPLEMENT REGISTER AND FORM VALIDATION FOR IT!!
-        //this is not the same as ADD USER ng personnel!
-        $validation = service('validation');
+    public function register()
+{
+    $usermodel = model('Users_model');
+    $session = session();
+    $validation = service('validation');
 
-        $dataToVal = array (
-            'username' => $this->request->getPost('username'),
-            'password' => $this->request->getPost('password'), 
-            'email' => $this->request->getPost('email'),
-            'firstname' => $this->request->getPost('firstname'),
-            'middlename' => $this->request->getPost('middlename'),
-            'lastname' => $this->request->getPost('lastname'),
-            'role' => $this->request->getPost('role'),
-            'status' => "Active"
-        );
+    $email = strtolower(trim($this->request->getPost('email')));
+    $password = $this->request->getPost('password');
+    $confirm = $this->request->getPost('confirm_password');
+    $first = $this->request->getPost('first_name');
+    $last = $this->request->getPost('last_name');
 
-        $data = array (
-            'username' => $this->request->getPost('username'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'email' => strtoupper($this->request->getPost('email')),
-            'first_name' => strtoupper($this->request->getPost('firstname')),
-            'middle_name' => strtoupper($this->request->getPost('middlename')),
-            'last_name' => strtoupper($this->request->getPost('lastname')),
-            'role' => strtoupper($this->request->getPost('role')),
-            'status' => "PENDING"
-        );
+    // Validation rules
+    $rules = [
+        'email' => 'required|valid_email',
+        'password' => 'required|min_length[6]',
+        'confirm_password' => 'matches[password]'
+    ];
 
-        $existuser = $usermodel->where('username', $data['username'])->first();
-        if ($existuser){ //if the user exists and if that user isnt equal to the one u r editing
-            $session->setFlashData('error', 'username already exists');
-            return redirect()->to('register');
-        }
-
-        $existemail = $usermodel->where('email', $data['email'])->first();
-        if ($existemail){ //if the user exists and if that user isnt equal to the one u r editing
-            $session->setFlashData('error', 'email already used');
-            return redirect()->to('register');
-        }
-
-        if(!$validation->run($dataToVal, 'signup')){
-            $errors = implode('<br>', $validation->getErrors());
-            $session->setFlashData('error', $errors);
-            return redirect()->to('register');
-        }
-
-        $usermodel->insert($data);
-
-        $user = $usermodel
-        ->select('email, id, first_name, last_name')
-        ->where('email', $data['email'])
-        ->first();
-
-        $token = $this->createResetToken($user['id']);
-        $message = "<h2>Hello, ".$user['first_name'].' ' .$user['last_name'].",</h2><br>
-            PLEASE CONFIRM YOUR ACCOUNT BY CLICKING THE LINK BELOW<br>. 
-            ------> <a href=".base_url('auth/verify/'.$token).">!!!CLICK THIS LINK!!!</a> <------------
-            <br>From ITSO TEAM";
-        $email = service('email');
-        $email->setFrom('lutherdeanph2@gmail.com', 'noname');
-        $email->setTo($user['email']);
-        $email->setSubject('VERIFY ACCOUNT');
-        $email->setMessage($message);
-        if(!$email->send()){
-            $session->setFlashData('error', $email->printDebugger(['headers', 'subject', 'body']));
-            return redirect()->to('dashboard');
-        }
-
-        $session->setFlashData('success', 'Register Success. Verify your Account.');
-        return redirect()->to('dashboard');
+    if (!$this->validate($rules)) {
+        $session->setFlashdata('error', implode('<br>', $validation->getErrors()));
+        return redirect()->back()->withInput();
     }
 
-    public function verify($token){
-        $session = session();
+    // Check if email exists
+    $exist = $usermodel->where('email', strtoupper($email))->first();
 
-        $tokenModel = model('User_Token_model');
-        $usermodel = model('Users_model');
-
-        $tokenData = $tokenModel->where('token', $token)->first();
-
-        if (!$tokenData) {
-            $session->setFlashData('error', 'Invalid or expired token.');
-            return redirect()->to('/dashboard');
-        }
-
-        $tokenTime = strtotime($tokenData['created_at']);
-            if (time() - $tokenTime > 3600) {  // 1 hour
-                $session->setFlashData('error', 'Token expired.');
-                return redirect()->to('/dashboard');
-            }
-
-        if($tokenData['used'] == 1){
-            $session->setFlashData('error', 'token already used!');
-            return redirect()->to('/dashboard');
-        }
-        $tokenModel->update($tokenData['id'], ['used' => 1]);
-
-        $usermodel->update($tokenData['user_id'], ['status' => 'ACTIVE']);
-
-        $tokenModel->delete($tokenData['id']);
-
-        $session->setFlashData('success', 'account verified!');
-        return redirect()->to('dashboard');
-
+    if ($exist) {
+        $session->setFlashdata('error', 'An account with this email already exists.');
+        return redirect()->back()->withInput();
     }
+
+    // Insert user
+    $data = [
+        'email' => strtoupper($email),
+        'password' => password_hash($password, PASSWORD_DEFAULT),
+        'first_name' => strtoupper($first),
+        'last_name' => strtoupper($last),
+        'role' => 'USER',
+        'status' => 'ACTIVE'
+    ];
+
+    $usermodel->insert($data);
+
+    // Get inserted user
+    $user = $usermodel->where('email', strtoupper($email))->first();
+
+    // Login user automatically
+    $session->set([
+        'user_id' => $user['id'],
+        'user_email' => $user['email'],
+        'user_name' => $user['first_name'],
+        'logged_in' => true
+    ]);
+
+    $session->setFlashdata('success', 'Account created successfully.');
+
+    return redirect()->to('login');
+}
 
     public function logout(){
         $session = session();

@@ -5,11 +5,15 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// ======================== DASH BOARD ==================================
+// ======================== Home ==================================
 
 $routes->get('/', 'Home::index');
 //$routes->get('home', 'Home::index');
 $routes->get('home', 'Users::profile');
+$routes->get('catalog', 'Home::viewcatalog'); //view
+
+
+
 $routes->get('dashboard', 'Dashboard::index'); //leads to all kinds of dashboard
 
 // ======================== AUTH ==================================
@@ -24,10 +28,10 @@ $routes->get('auth/logout', 'Auth::logout');
 
 // ========================USERS==================================
 
-$routes->get('/users', 'Users::index'); //view leads to user dashboard
+$routes->get('/users', 'Users::index'); //view leads to nowhere
 
-// $routes->get('/users/add', 'Users::add');
-// $routes->post('/users/insert', 'Users::insert');
+$routes->get('user/profile', 'Users::profile');
+
 
 $routes->get('users/view/(:num)', 'Users::view/$1');//view
 
@@ -37,7 +41,7 @@ $routes->post('users/update/(:num)', 'Users::update/$1'); //not view
 
 $routes->get('users/delete/(:num)', 'Users::delete/$1');
 
-$routes->get('user/profile', 'Users::profile');
+
 
 $routes->get('user/deactivate', 'Users::deactview');
 $routes->post('/deactivate', 'Users::deact');
@@ -64,7 +68,7 @@ $routes->post('product/statuschange', 'Product::statuschange');
 
 // ========================ORDER==================================
 
-$routes->get('catalog', 'Order::viewcatalog'); //view
+
 $routes->post('/borrow/equipment', 'Borrow::borrow');
 $routes->post('/borrow/borrow', 'Borrow::borrow'); //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

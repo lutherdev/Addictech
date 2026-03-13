@@ -35,7 +35,7 @@
       </aside>
       <div class="account-vdivider"></div>
       <div class="account-info">
-        <h1 class="account-greeting" id="greeting">HI <?php echo strtoupper($user['username'] ?: explode('@', $user['email'])[0]); ?></h1>
+        <h1 class="account-greeting" id="greeting">WASSUP <?php echo strtoupper($user['first_name'] ?: explode('@', $user['email'])[0]); ?>!</h1>
 
         <div class="info-grid">
           <div class="info-row">
@@ -48,11 +48,11 @@
           </div>
           <div class="info-row">
             <span class="info-key">NUMBER:</span>
-            <span class="info-val" id="infoNumber"><?php echo '123213'; ?></span>
+            <span class="info-val" id="infoNumber"><?php echo strtoupper($user['phone']); ?></span>
           </div>
           <div class="info-row">
             <span class="info-key">ADDRESS:</span>
-            <span class="info-val" id="infoAddress"><?php echo  'BRTGY STAORSA'; ?></span>
+            <span class="info-val" id="infoAddress"><?php echo isset($user['address']) ? $user['address'] . ', ' . $user['city'] . ' ' . $user['postal_code'] . ', ' . $user['country'] : '—'; ?></span>
           </div>
         </div>
       </div>
@@ -126,24 +126,27 @@
           <div class="profile-grid">
             <div class="profile-field">
               <p class="profile-field-label">FIRST NAME</p>
-              <p class="profile-field-val" id="viewFirstName"><?php echo $user['username'] ?: '—'; ?></p>
+              <p class="profile-field-val" id="viewFirstName"><?php echo $user['first_name'] ?: '—'; ?></p>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">LAST NAME</p>
-              <p class="profile-field-val" id="viewLastName"><?php echo $user['username'] ?: '—'; ?></p>
+              <p class="profile-field-val" id="viewLastName"><?php echo $user['last_name'] ?: '—'; ?></p>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">COUNTRY</p>
-              <p class="profile-field-val" id="viewCountry"><?php echo $user['username'] ?: 'Philippines'; ?></p>
+              <p class="profile-field-val" id="viewCountry"><?php echo $user['country'] ?: 'Philippines'; ?></p>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">LANGUAGE</p>
-              <p class="profile-field-val" id="viewLanguage"><?php echo $user['username'] ?: 'English'; ?></p>
+              <p class="profile-field-val" id="viewLanguage"><?php echo $user['city'] ?: 'English'; ?></p>
             </div>
           </div>
           <div class="profile-address-row">
             <p class="profile-field-label">ADDRESS</p>
-            <p class="profile-field-val" id="viewAddressFull"><?php echo $user['username'] ?: '—'; ?></p>
+            <p class="profile-field-val" id="viewAddressFull">
+              <?php 
+                echo isset($user['address']) ? $user['address'] . ', ' . $user['city'] . ' ' . $user['postal_code'] . ', ' . $user['country'] : '—'; ?>
+              </p>
           </div>
         </div>
 
