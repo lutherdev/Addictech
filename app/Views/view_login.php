@@ -3,7 +3,6 @@
 <head>
   <title>addictech – Login</title>
   <link rel="stylesheet" href="<?= base_url('/public/css/login.css') ?>" />
-  <script src="<?= base_url('/public/js/login.js') ?>"></script>
 </head>
 <body>
  
@@ -65,6 +64,7 @@
       </div>
     </form>
   </section>
+  <script src="<?= base_url('/public/js/login.js') ?>"></script>
 </body>
 </html>
 <?= $this->endSection() ?>
