@@ -36,7 +36,7 @@ class Auth extends BaseController
         //set other session details
         $user = $usermodel->where('email', $this->request->getPost('email'))->first();  
         if (!$user){
-            return redirect()->to('dashboard')->with('error', 'Invalid email bro');
+            return redirect()->to('login')->with('error', 'Invalid email bro');
         }
         $password = $this->request->getPost('password'); 
         $storedHash = $user['password'];               // hash from DB
@@ -45,7 +45,7 @@ class Auth extends BaseController
         // } elseif ($user['status'] == 'PENDING'){
         //     return redirect()->to('dashboard')->with('error', 'Please Verify your Account First.');
         // }
-        if ($password == $storedHash) {
+        if (password_verify($password, $storedHash)) {
             //SET OTHER ROLES
             $sessionData = [
             'user_id'      => $user['id'],
@@ -86,16 +86,16 @@ class Auth extends BaseController
     $last = $this->request->getPost('last_name');
 
     // Validation rules
-    $rules = [
-        'email' => 'required|valid_email',
-        'password' => 'required|min_length[6]',
-        'confirm_password' => 'matches[password]'
-    ];
+    // $rules = [
+    //     'email' => 'required|valid_email',
+    //     'password' => 'required|min_length[6]',
+    //     'confirm_password' => 'matches[password]'
+    // ];
 
-    if (!$this->validate($rules)) {
-        $session->setFlashdata('error', implode('<br>', $validation->getErrors()));
-        return redirect()->back()->withInput();
-    }
+    // if (!$this->validate($rules)) {
+    //     $session->setFlashdata('error', implode('<br>', $validation->getErrors()));
+    //     return redirect()->back()->withInput();
+    // }
 
     // Check if email exists
     $exist = $usermodel->where('email', strtoupper($email))->first();
@@ -121,16 +121,27 @@ class Auth extends BaseController
     $user = $usermodel->where('email', strtoupper($email))->first();
 
     // Login user automatically
-    $session->set([
-        'user_id' => $user['id'],
-        'user_email' => $user['email'],
-        'user_name' => $user['first_name'],
-        'logged_in' => true
-    ]);
+
+    $sessionData = [
+            'user_id'      => $user['id'],
+            'role'         => $user['role'],
+            'first_name'   => $user['first_name'],
+            'last_name'    => $user['last_name'],
+            'email'        => $user['email'],
+            'phone'        => $user['phone'],
+            'address'      => $user['address'],
+            'city'         => $user['city'],
+            'postal_code'  => $user['postal_code'],
+            'country'      => $user['country'],
+            'created_at'   => $user['created_at'],
+            'updated_at'   => $user['updated_at'],
+            'isLoggedIn'   => true
+            ];
+            $session->set($sessionData);
 
     $session->setFlashdata('success', 'Account created successfully.');
 
-    return redirect()->to('login');
+    return redirect()->to('user/profile');
 }
 
     public function logout(){

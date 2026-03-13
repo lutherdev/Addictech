@@ -222,68 +222,68 @@
   </style>
 
   <script>
-    // Client-side validation (optional, complements server-side)
-    document.getElementById('signupForm')?.addEventListener('submit', function(e) {
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const confirm = document.getElementById('confirm_password').value;
-      const errorEl = document.getElementById('signupError');
+    // // Client-side validation (optional, complements server-side)
+    // document.getElementById('signupForm')?.addEventListener('submit', function(e) {
+    //   const email = document.getElementById('email').value.trim();
+    //   const password = document.getElementById('password').value;
+    //   const confirm = document.getElementById('confirm_password').value;
+    //   const errorEl = document.getElementById('signupError');
       
-      // Clear previous error
-      errorEl.textContent = '';
+    //   // Clear previous error
+    //   errorEl.textContent = '';
       
-      // Email validation
-      if (!email) {
-        e.preventDefault();
-        errorEl.textContent = 'Email address is required.';
-        return;
-      }
+    //   // Email validation
+    //   if (!email) {
+    //     e.preventDefault();
+    //     errorEl.textContent = 'Email address is required.';
+    //     return;
+    //   }
       
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        e.preventDefault();
-        errorEl.textContent = 'Please enter a valid email address.';
-        return;
-      }
+    //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //   if (!emailRegex.test(email)) {
+    //     e.preventDefault();
+    //     errorEl.textContent = 'Please enter a valid email address.';
+    //     return;
+    //   }
       
-      // Password validation
-      if (!password) {
-        e.preventDefault();
-        errorEl.textContent = 'Password is required.';
-        return;
-      }
+    //   // Password validation
+    //   if (!password) {
+    //     e.preventDefault();
+    //     errorEl.textContent = 'Password is required.';
+    //     return;
+    //   }
       
-      if (password.length < 6) {
-        e.preventDefault();
-        errorEl.textContent = 'Password must be at least 6 characters.';
-        return;
-      }
+    //   if (password.length < 6) {
+    //     e.preventDefault();
+    //     errorEl.textContent = 'Password must be at least 6 characters.';
+    //     return;
+    //   }
       
-      if (password !== confirm) {
-        e.preventDefault();
-        errorEl.textContent = 'Passwords do not match.';
-        return;
-      }
-    });
+    //   if (password !== confirm) {
+    //     e.preventDefault();
+    //     errorEl.textContent = 'Passwords do not match.';
+    //     return;
+    //   }
+    // });
     
     // Optional: Add password strength indicator
-    document.getElementById('password')?.addEventListener('input', function() {
-      const password = this.value;
-      const hint = document.querySelector('.field-hint');
+    // document.getElementById('password')?.addEventListener('input', function() {
+    //   const password = this.value;
+    //   const hint = document.querySelector('.field-hint');
       
-      if (hint) {
-        if (password.length === 0) {
-          hint.style.color = 'var(--text-muted)';
-          hint.textContent = 'Minimum 6 characters';
-        } else if (password.length < 6) {
-          hint.style.color = '#c0392b';
-          hint.textContent = 'Too short (' + password.length + '/6)';
-        } else {
-          hint.style.color = '#4caf7d';
-          hint.textContent = '✓ Good length (' + password.length + ' characters)';
-        }
-      }
-    });
+    //   if (hint) {
+    //     if (password.length === 0) {
+    //       hint.style.color = 'var(--text-muted)';
+    //       hint.textContent = 'Minimum 6 characters';
+    //     } else if (password.length < 6) {
+    //       hint.style.color = '#c0392b';
+    //       hint.textContent = 'Too short (' + password.length + '/6)';
+    //     } else {
+    //       hint.style.color = '#4caf7d';
+    //       hint.textContent = '✓ Good length (' + password.length + ' characters)';
+    //     }
+    //   }
+    // });
   </script>
 
 </body>

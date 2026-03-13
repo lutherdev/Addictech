@@ -21,6 +21,18 @@
   ?>
   <!-- ACCOUNT BODY -->
   <main class="account-main">
+    <?php if (session()->getFlashdata('error')) : ?>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 text-center">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
     <div class="account-top">
       <aside class="account-sidebar">
         <div class="sidebar-member">
@@ -40,15 +52,15 @@
         <div class="info-grid">
           <div class="info-row">
             <span class="info-key">USER'S ID:</span>
-            <span class="info-val" id="infoId"><?php echo $user['user_id']; ?></span>
+            <span class="info-val" id="infoId"><?php echo $user['user_id'] ?: '—';?></span>
           </div>
           <div class="info-row">
             <span class="info-key">EMAIL:</span>
-            <span class="info-val" id="infoEmail"><?php echo strtoupper($user['email']); ?></span>
+            <span class="info-val" id="infoEmail"><?php echo strtoupper($user['email']) ?: '—'; ?></span>
           </div>
           <div class="info-row">
             <span class="info-key">NUMBER:</span>
-            <span class="info-val" id="infoNumber"><?php echo strtoupper($user['phone']); ?></span>
+            <span class="info-val" id="infoNumber"><?php echo strtoupper($user['phone']) ?: '—';?></span>
           </div>
           <div class="info-row">
             <span class="info-key">ADDRESS:</span>
@@ -134,11 +146,11 @@
             </div>
             <div class="profile-field">
               <p class="profile-field-label">COUNTRY</p>
-              <p class="profile-field-val" id="viewCountry"><?php echo $user['country'] ?: 'Philippines'; ?></p>
+              <p class="profile-field-val" id="viewCountry"><?php echo $user['country'] ?: '—'; ?></p>
             </div>
             <div class="profile-field">
-              <p class="profile-field-label">LANGUAGE</p>
-              <p class="profile-field-val" id="viewLanguage"><?php echo $user['city'] ?: 'English'; ?></p>
+              <p class="profile-field-label">POSTAL CODE</p>
+              <p class="profile-field-val" id="viewLanguage"><?php echo $user['postal_code'] ?: '—'; ?></p>
             </div>
           </div>
           <div class="profile-address-row">
@@ -150,39 +162,39 @@
           </div>
         </div>
 
-        <!-- EDIT MODE -->
-        <!-- <div id="profileEdit" class="hidden">
-          <form id="profileForm" method="POST" action="update_profile.php">
+        <!-- EDIT MODE TODO: ADD OTHER DETAILS, CITY, EMAIL AND ALL--> 
+        <div id="profileEdit" class="hidden">
+          <form id="profileForm" method="POST" action="<?= base_url('users/update/'. $user["user_id"]); ?>">
             <div class="profile-grid">
               <div class="profile-field">
                 <p class="profile-field-label">FIRST NAME</p>
-                <input class="settings-input" id="editFirstName" name="first_name" type="text" value="<?php// echo htmlspecialchars($user['first_name']); ?>"/>
+                <input class="settings-input" id="editFirstName" name="first_name" type="text" value="<?php echo htmlspecialchars($user['first_name']); ?>"/>
               </div>
               <div class="profile-field">
                 <p class="profile-field-label">LAST NAME</p>
-                <input class="settings-input" id="editLastName" name="last_name" type="text" value="<?php// echo htmlspecialchars($user['last_name']); ?>"/>
+                <input class="settings-input" id="editLastName" name="last_name" type="text" value="<?php echo htmlspecialchars($user['last_name']); ?>"/>
               </div>
               <div class="profile-field">
                 <p class="profile-field-label">COUNTRY</p>
-                <input class="settings-input" id="editCountry" name="country" type="text" value="<?php// echo htmlspecialchars($user['country'] ?: 'Philippines'); ?>"/>
+                <input class="settings-input" id="editCountry" name="country" type="text" value="<?php echo htmlspecialchars($user['country'] ?: 'Philippines'); ?>"/>
               </div>
               <div class="profile-field">
-                <p class="profile-field-label">LANGUAGE</p>
-                <input class="settings-input" id="editLanguage" name="language" type="text" value="<?php//echo htmlspecialchars($user['language'] ?: 'English'); ?>"/>
+                <p class="profile-field-label">POSTAL</p>
+                <input class="settings-input" id="editLanguage" name="postal_code" type="text" value="<?php echo htmlspecialchars($user['postal_code'] ?: '--'); ?>"/>
               </div>
             </div>
             <div class="profile-address-row">
               <p class="profile-field-label">ADDRESS</p>
-              <input class="settings-input" id="editAddressFull" name="address" type="text" style="width:100%" value="<?php// echo htmlspecialchars($user['address']); ?>"/>
+              <input class="settings-input" id="editAddressFull" name="address" type="text" style="width:100%" value="<?php echo htmlspecialchars($user['address']); ?>"/>
             </div>
             <div class="profile-field">
               <p class="profile-field-label">PHONE NUMBER</p>
-              <input class="settings-input" id="editPhone" name="phone" type="tel" value="<?php// echo htmlspecialchars($user['phone']); ?>"/>
+              <input class="settings-input" id="editPhone" name="phone" type="tel" value="<?php echo htmlspecialchars($user['phone']); ?>"/>
             </div>
             <div class="edit-actions">
               <button type="submit" class="save-btn">SAVE CHANGES</button>
               <button type="button" class="cancel-btn" onclick="cancelEdit()">CANCEL</button>
-            </div> -->
+            </div>
           </form>
         </div>
       </div>

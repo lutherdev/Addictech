@@ -93,36 +93,36 @@ class Users extends BaseController
     }
 
     //ACTUAL UPDATE
-    public function update($id) { //validation for inputs and flashdata set
+    public function update($id) { //TODO: validation for inputs and flashdata set
         $usermodel = model('Users_model');
         $session = session();
         $user = $usermodel->find($id);
         
-        $data = array (
-            'username' => $this->request->getPost('username'),
-            'first_name' => $this->request->getPost('first_name'),
-            'middle_name' => $this->request->getPost('middle_name'),
-            'last_name' => $this->request->getPost('last_name'),
-            'role' => $this->request->getPost('role'),
-            'status' => $this->request->getPost('status'),
-            'email' => $this->request->getPost('email'),
-        );
+        //add email, postal, other stuff
+        $data = [
+        'first_name'  => $this->request->getPost('first_name'),
+        'last_name'   => $this->request->getPost('last_name'),
+        'country'     => $this->request->getPost('country'),
+        'postal_code'    => $this->request->getPost('postal_code'),
+        'address'     => $this->request->getPost('address'),
+        'phone'       => $this->request->getPost('phone'),
+        ];
+        $session->set($data);
+        // $existuser = $usermodel->where('username', $data['username'])->first();
+        // if ($existuser && $existuser['id'] != $id){ //if the user exists and if that user isnt equal to the one u r editing
+        //     $session->setFlashData('error', 'username already exists');
+        //     return redirect()->to('dashboard');
+        // }
 
-        $existuser = $usermodel->where('username', $data['username'])->first();
-        if ($existuser && $existuser['id'] != $id){ //if the user exists and if that user isnt equal to the one u r editing
-            $session->setFlashData('error', 'username already exists');
-            return redirect()->to('dashboard');
-        }
-
-        $existemail = $usermodel->where('email', $data['email'])->first();
-        if ($existemail && $existemail['id'] != $id){ //if the user exists and if that user isnt equal to the one u r editing
-            $session->setFlashData('error', 'email already used');
-            return redirect()->to('dashboard');
-        }
+        // $existemail = $usermodel->where('email', $data['email'])->first();
+        // if ($existemail && $existemail['id'] != $id){ //if the user exists and if that user isnt equal to the one u r editing
+        //     $session->setFlashData('error', 'email already used');
+        //     return redirect()->to('dashboard');
+        // }
 
         $usermodel->update($id, $data);
         $session->setFlashData('success', 'User updated successfully.');
-        return redirect()->to('dashboard');
+        return redirect()->to('user/profile');
     }
 
     public function delete($id) { //modal for sureness
