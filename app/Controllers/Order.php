@@ -248,4 +248,165 @@ class Order extends BaseController
             return redirect()->to('order/view/' . $id)->with('error', 'Failed to cancel order.');
         }
     }
+
+    // ======================== ADMIN FUNCTIONS ========================
+ 
+    public function adminIndex()
+    {
+        $check = $this->checkLogin();
+        if ($check) return $check;
+ 
+        $db = db_connect();
+ 
+        // Join orders with users and order_items to get all needed columns
+        $orders = $db->table('orders o')
+            ->select('
+                o.id,
+                o.total_price,
+                o.status,
+                o.created_at,
+                CONCAT(u.first_name, " ", u.last_name) AS username,
+                p.name    AS product_name,
+                p.image   AS product_image,
+                SUM(oi.quantity) AS total_quantity
+            ')
+            ->join('users u',       'u.id = o.user_id',          'left')
+            ->join('order_items oi', 'oi.order_id = o.id',        'left')
+            ->join('products p',    'p.id = oi.product_id',       'left')
+            ->groupBy('o.id, p.id')
+            ->orderBy('o.created_at', 'DESC')
+            ->get()
+            ->getResultArray();
+ 
+        $data = [
+            'title'  => 'Admin – Orders',
+            'orders' => $orders
+        ];
+ 
+        return view('view_admin_order', $data);
+    }
+ 
+    public function adminView($id)
+    {
+        $check = $this->checkLogin();
+        if ($check) return $check;
+ 
+        $db = db_connect();
+ 
+        $order = $db->table('orders o')
+            ->select('o.*, u.email, CONCAT(u.first_name, " ", u.last_name) AS username')
+            ->join('users u', 'u.id = o.user_id', 'left')
+            ->where('o.id', $id)
+            ->get()
+            ->getRowArray();
+ 
+        if (!$order) {
+            return redirect()->to('admin/orders')->with('error', 'Order not found.');
+        }
+ 
+        $orderItems = $this->orderItemModel->getOrderItemsWithProducts($id);
+ 
+        $data = [
+            'title'       => 'View Order',
+            'order'       => $order,
+            'order_items' => $orderItems
+        ];
+ 
+        return view('admin/orders/view', $data);
+    }
+ 
+    public function adminUpdateView($id)
+    {
+        $check = $this->checkLogin();
+        if ($check) return $check;
+ 
+        $db = db_connect();
+ 
+        $order = $db->table('orders o')
+            ->select('o.*, u.email, CONCAT(u.first_name, " ", u.last_name) AS username')
+            ->join('users u', 'u.id = o.user_id', 'left')
+            ->where('o.id', $id)
+            ->get()
+            ->getRowArray();
+ 
+        if (!$order) {
+            return redirect()->to('admin/orders')->with('error', 'Order not found.');
+        }
+ 
+        $data = [
+            'title' => 'Update Order',
+            'order' => $order
+        ];
+ 
+        return view('admin/orders/update', $data);
+    }
+ 
+    public function adminUpdate($id)
+    {
+        $check = $this->checkLogin();
+        if ($check) return $check;
+ 
+        $status = $this->request->getPost('status');
+        $allowedStatuses = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];
+ 
+        if (!in_array($status, $allowedStatuses)) {
+            return redirect()->to('admin/orders/update/' . $id)->with('error', 'Invalid status selected.');
+        }
+ 
+        $order = $this->orderModel->find($id);
+ 
+        if (!$order) {
+            return redirect()->to('admin/orders')->with('error', 'Order not found.');
+        }
+ 
+        // If cancelling from admin, restore stock
+        if ($status === 'cancelled' && $order['status'] !== 'cancelled') {
+            $db = db_connect();
+            $db->transStart();
+ 
+            try {
+                $this->orderModel->update($id, ['status' => 'cancelled']);
+ 
+                $orderItems = $this->orderItemModel->where('order_id', $id)->findAll();
+                foreach ($orderItems as $item) {
+                    $product  = $this->productModel->find($item['product_id']);
+                    $newStock = $product['stock'] + $item['quantity'];
+                    $this->productModel->update($item['product_id'], ['stock' => $newStock]);
+                }
+ 
+                $db->transComplete();
+ 
+                if ($db->transStatus() === false) {
+                    throw new \Exception('Transaction failed');
+                }
+ 
+            } catch (\Exception $e) {
+                $db->transRollback();
+                return redirect()->to('admin/orders/update/' . $id)->with('error', 'Failed to cancel order.');
+            }
+        } else {
+            $this->orderModel->update($id, ['status' => $status]);
+        }
+ 
+        return redirect()->to('admin/orders')->with('success', 'Order status updated successfully.');
+    }
+ 
+    public function adminDelete($id)
+    {
+        $check = $this->checkLogin();
+        if ($check) return $check;
+ 
+        $order = $this->orderModel->find($id);
+ 
+        if (!$order) {
+            return redirect()->to('admin/orders')->with('error', 'Order not found.');
+        }
+ 
+        // Delete order items first, then the order
+        $this->orderItemModel->where('order_id', $id)->delete();
+        $this->orderModel->delete($id);
+ 
+        return redirect()->to('admin/orders')->with('success', 'Order deleted successfully.');
+    }
+ 
 }
