@@ -89,6 +89,11 @@ $routes->post('reset/(:any)', 'Password::reset/$1'); //not view
 $routes->get('password/change', 'Password::changeview'); //view
 $routes->post('passwordchange', 'Password::change'); //not view
 
-
+// ======================== ORDERS (ADMIN) ==========================
+$routes->get('admin/orders', 'Order::adminIndex');
+$routes->get('admin/orders/view/(:num)', 'Order::adminView/$1');
+$routes->get('admin/orders/update/(:num)', 'Order::adminUpdateView/$1');
+$routes->post('admin/orders/update/(:num)', 'Order::adminUpdate/$1');
+$routes->get('admin/orders/delete/(:num)', 'Order::adminDelete/$1');
 
 
