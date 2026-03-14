@@ -339,56 +339,59 @@ class Order extends BaseController
             'order' => $order
         ];
  
-        return view('admin/orders/update', $data);
+        return view('view_adminEdit_order', $data);
     }
  
     public function adminUpdate($id)
     {
         $check = $this->checkLogin();
         if ($check) return $check;
- 
+
+        $orderModel     = new \App\Models\OrderModel();
+        $orderItemModel = new \App\Models\OrderItemModel();
+        $productModel   = new \App\Models\Products_model();
+
         $status = $this->request->getPost('status');
         $allowedStatuses = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];
- 
+
         if (!in_array($status, $allowedStatuses)) {
             return redirect()->to('admin/orders/update/' . $id)->with('error', 'Invalid status selected.');
         }
- 
-        $order = $this->orderModel->find($id);
- 
+
+        $order = $orderModel->find($id);
+
         if (!$order) {
             return redirect()->to('admin/orders')->with('error', 'Order not found.');
         }
- 
-        // If cancelling from admin, restore stock
+
         if ($status === 'cancelled' && $order['status'] !== 'cancelled') {
             $db = db_connect();
             $db->transStart();
- 
+
             try {
-                $this->orderModel->update($id, ['status' => 'cancelled']);
- 
-                $orderItems = $this->orderItemModel->where('order_id', $id)->findAll();
+                $orderModel->update($id, ['status' => 'cancelled']);
+
+                $orderItems = $orderItemModel->where('order_id', $id)->findAll();
                 foreach ($orderItems as $item) {
-                    $product  = $this->productModel->find($item['product_id']);
+                    $product  = $productModel->find($item['product_id']);
                     $newStock = $product['stock'] + $item['quantity'];
-                    $this->productModel->update($item['product_id'], ['stock' => $newStock]);
+                    $productModel->update($item['product_id'], ['stock' => $newStock]);
                 }
- 
+
                 $db->transComplete();
- 
+
                 if ($db->transStatus() === false) {
                     throw new \Exception('Transaction failed');
                 }
- 
+
             } catch (\Exception $e) {
                 $db->transRollback();
                 return redirect()->to('admin/orders/update/' . $id)->with('error', 'Failed to cancel order.');
             }
         } else {
-            $this->orderModel->update($id, ['status' => $status]);
+            $orderModel->update($id, ['status' => $status]);
         }
- 
+
         return redirect()->to('admin/orders')->with('success', 'Order status updated successfully.');
     }
  
