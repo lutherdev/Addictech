@@ -11,8 +11,8 @@ $routes->get('/', 'Home::index');
 $routes->get('home', 'Home::index');
 $routes->get('catalog', 'Home::viewcatalog'); //view
 $routes->get('wishlist', 'Home::viewwishlist');
-
-
+$routes->get('admin/users', 'Users::viewusers');
+$routes->get('admin/products', 'Products::index');
 
 $routes->get('dashboard', 'Dashboard::index'); //leads to all kinds of dashboard
 
@@ -35,9 +35,12 @@ $routes->get('user/profile', 'Users::profile');
 
 $routes->get('users/view/(:num)', 'Users::view/$1');//view
 
-$routes->get('users/edit/(:num)', 'Users::edit/$1');//view
-$routes->get('user/edit/(:num)', 'Users::edit/$1');//view
-$routes->post('users/update/(:num)', 'Users::update/$1'); //not view
+
+$routes->get('admin/users/view/(:num)', 'Users::view/$1');//view
+
+$routes->get('admin/users/edit/(:num)', 'Users::edit/$1');//view
+$routes->get('admin/user/edit/(:num)', 'Users::edit/$1');//view
+$routes->post('users/update/(:num)', 'Users::update/$1'); //process
 
 $routes->get('users/delete/(:num)', 'Users::delete/$1');
 
@@ -51,33 +54,28 @@ $routes->post('users/statuschange', 'Users::statuschange');
 
 // ========================EQUIPMENTS==================================
 
-$routes->get('product', 'Product::index'); //view
+$routes->get('products', 'Products::index'); //view
 
-$routes->get('product/add', 'Product::add'); //view
-$routes->post('product/insert', 'Product::insert'); //not view
+$routes->get('products/add', 'Products::add'); //view
+$routes->post('products/insert', 'Products::insert'); //not view
 
-$routes->get('product/view/(:num)', 'Product::view/$1'); // view
+$routes->get('products/view/(:num)', 'Products::view/$1'); // view
 
-$routes->get('product/edit/(:num)', 'Product::edit/$1');
-$routes->post('product/update/(:num)', 'Product::update/$1');
+$routes->get('products/edit/(:num)', 'Products::edit/$1');
+$routes->post('products/update/(:num)', 'Products::update/$1');
 
-$routes->get('product/delete/(:num)', 'Product::delete/$1');
+$routes->get('products/delete/(:num)', 'Products::delete/$1');
 
-$routes->get('product/status', 'Product::statuschangeview');
+$routes->get('products/status', 'Products::statuschangeview');
+$routes->post('products/statuschange', 'Products::statuschange');
+// ========================ORDERITEM==================================
+
+
+$routes->get('cart', 'OrderItem::viewcart');
+
+
+$routes->get('checkout', 'OrderItem::viewcart');
 $routes->post('product/statuschange', 'Product::statuschange');
-
-// ========================ORDER==================================
-
-
-$routes->post('/borrow/equipment', 'Borrow::borrow');
-$routes->post('/borrow/borrow', 'Borrow::borrow'); //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-$routes->get('/borrow/view/(:num)', 'Borrow::view/$1');
-
-$routes->get('/borrow/edit/(:num)', 'Borrow::edit/$1'); //view
-$routes->post('/borrow/update/(:num)', 'Borrow::update/$1'); //controller
-
-$routes->get('borrow/delete/(:num)', 'Borrow::delete/$1');
 
 
 // ========================PASSWORD==================================

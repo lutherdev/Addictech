@@ -1,0 +1,360 @@
+/* =========================================
+   Add Product Page — Matches Products Style
+   Beige bg, right sidebar nav, outlined inputs
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #e8e4da;
+  font-family: 'Arial', sans-serif;
+  color: #1a1a1a;
+}
+
+/* Page wrapper: main content + right sidebar */
+.add-product-page {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 64px);
+  padding: 2rem;
+  gap: 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ── Main Content ── */
+.add-product-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Title row */
+.add-product-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  color: #1a1814 !important;
+  margin-bottom: 0.5rem !important;
+  text-transform: uppercase !important;
+}
+
+.btn-back {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #1a1a1a;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-back:hover {
+  background: #1a1a1a;
+  color: #e8e4da;
+}
+
+/* ── Flash Messages ── */
+.flash {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 2px;
+}
+
+.flash-success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.flash-error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* ── Form Wrapper ── */
+.form-wrapper {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  padding: 2rem;
+}
+
+/* Two-column grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2.5rem;
+}
+
+.form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Side-by-side price + stock */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* ── Form Groups ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+.optional {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #888;
+  font-size: 0.7rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: #e8e4da;
+  border: 1.5px solid #b0aa9a;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.875rem;
+  color: #1a1a1a;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #1a1a1a;
+  background: #ede9df;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #aaa;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Custom select arrow */
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231a1a1a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.field-hint {
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 0.25rem;
+  letter-spacing: 0.03em;
+}
+
+/* ── Image Upload ── */
+.image-upload-area {
+  position: relative;
+  border: 1.5px dashed #b0aa9a;
+  background: #e8e4da;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  overflow: hidden;
+}
+
+.image-upload-area:hover,
+.image-upload-area.drag-over {
+  border-color: #1a1a1a;
+  background: #ede9df;
+}
+
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: #aaa;
+  pointer-events: none;
+}
+
+.image-preview svg {
+  width: 48px;
+  height: 48px;
+}
+
+.image-preview span {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: none; /* triggered by JS click */
+}
+
+/* ── Form Actions ── */
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #c8c3b5;
+}
+
+.btn-cancel {
+  display: inline-block;
+  padding: 0.65rem 1.6rem;
+  border: 1.5px solid #b0aa9a;
+  background: transparent;
+  color: #666;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+}
+
+.btn-submit {
+  display: inline-block;
+  padding: 0.65rem 2rem;
+  border: 1.5px solid #1a1a1a;
+  background: #1a1a1a;
+  color: #e8e4da;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-submit:hover {
+  background: transparent;
+  color: #1a1a1a;
+}
+
+/* ── Right Sidebar Navigation ── */
+.sidebar-nav {
+  width: 120px;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+
+.sidebar-nav nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.sidebar-nav nav ul li a {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #1a1a1a;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.sidebar-nav nav ul li a:hover,
+.sidebar-nav nav ul li a.active {
+  color: #555;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .add-product-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-nav {
+    width: 100%;
+  }
+
+  .sidebar-nav nav ul {
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+  }
+}

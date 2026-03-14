@@ -2,34 +2,34 @@
 
 namespace App\Controllers;
 
-use App\Models\ProductModel;
+use App\Models\Products_Model;
 
 class Products extends BaseController
 {
     public function index()
     {
-        $session = session();
-        if (!$session->get('isLoggedIn')) {
-            return redirect()->to('/login')->with('error', 'Please login first.');
-        }
+        // $session = session();
+        // if (!$session->get('isLoggedIn')) {
+        //     return redirect()->to('/login')->with('error', 'Please login first.');
+        // }
 
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $data = [
             'title' => 'Product Management',
             'products' => $productModel->findAll()
         ];
 
-        return view('products_home', $data);
+        return view('view_admin_product', $data);
     }
 
     public function add()
     {
-        return view('products_add');
+        return view('view_adminAdd_product');
     }
 
     public function insert()
     {
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $session = session();
         $validation = service('validation');
 
@@ -59,30 +59,30 @@ class Products extends BaseController
 
     public function view($id)
     {
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $data = [
             'title'   => 'View Product',
             'product' => $productModel->find($id)
         ];
 
-        return view('products_view', $data);
+        return view('view_adminView_product', $data);
     }
 
     public function edit($id)
     {
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $session = session();
         $data = [
             'title'   => 'Edit Product',
             'product' => $productModel->find($id)
         ];
 
-        return view('products_edit', $data);
+        return view('view_adminEdit_product', $data);
     }
 
     public function update($id)
     {
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $session = session();
 
         $data = [
@@ -104,21 +104,21 @@ class Products extends BaseController
 
     public function delete($id)
     {
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $productModel->delete($id);
         return redirect()->to('products')->with('success', 'Product deleted successfully.');
     }
 
     public function statusChangeView()
     {
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $data['products'] = $productModel->findAll();
         return view('products_status', $data);
     }
 
     public function statusChange()
     {
-        $productModel = new ProductModel();
+        $productModel = new Products_Model();
         $session = session();
 
         $id = $this->request->getPost('product_id');

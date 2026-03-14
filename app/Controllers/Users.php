@@ -69,7 +69,18 @@ class Users extends BaseController
     //     return redirect()->to('users');
     // }
 
-    public function view($id) {
+    public function viewusers() { //admin view all users
+        $usermodel = model('Users_model');
+
+        $data = array(
+            'title' => 'TW32 App - View User Record',
+            'users' => $usermodel->findAll()
+        );
+
+        return view('view_admin_user', $data);
+    }
+
+    public function view($id) {  //single user view from admin dashboard
         $usermodel = model('Users_model');
 
         $data = array(
@@ -77,7 +88,7 @@ class Users extends BaseController
             'user' => $usermodel->find($id)
         );
 
-        return view('users_view', $data);
+        return view('view_adminView_user', $data);
     }
 
     public function edit($id) { //FOR FORM
@@ -89,7 +100,7 @@ class Users extends BaseController
             'user' => $usermodel->find($id)
         );
 
-        return view('users_edit', $data);
+        return view('view_adminEdit_user', $data);
     }
 
     //ACTUAL UPDATE
