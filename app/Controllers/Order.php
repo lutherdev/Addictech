@@ -290,29 +290,30 @@ class Order extends BaseController
     {
         $check = $this->checkLogin();
         if ($check) return $check;
- 
+
         $db = db_connect();
- 
+
         $order = $db->table('orders o')
             ->select('o.*, u.email, CONCAT(u.first_name, " ", u.last_name) AS username')
             ->join('users u', 'u.id = o.user_id', 'left')
             ->where('o.id', $id)
             ->get()
             ->getRowArray();
- 
+
         if (!$order) {
             return redirect()->to('admin/orders')->with('error', 'Order not found.');
         }
- 
-        $orderItems = $this->orderItemModel->getOrderItemsWithProducts($id);
- 
+
+        $orderItemModel = new \App\Models\OrderItemModel();
+        $orderItems = $orderItemModel->getOrderItemsWithProducts($id);
+
         $data = [
             'title'       => 'View Order',
             'order'       => $order,
             'order_items' => $orderItems
         ];
- 
-        return view('admin/orders/view', $data);
+
+        return view('view_adminView_order', $data);
     }
  
     public function adminUpdateView($id)
