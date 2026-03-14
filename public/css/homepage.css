@@ -19,7 +19,7 @@
 .hero-img-placeholder {
   position: absolute;
   inset: 0;
-  background: url('../images/1.png') center center / cover no-repeat;
+  background: url('../images/7.png') center center / cover no-repeat;
 }
 
 /* scrolling marquee text */
@@ -357,7 +357,7 @@
 .location-img-placeholder {
   position: absolute;
   inset: 0;
-  background: url('../images/4.png') center center / cover no-repeat;
+  background: url('../images/6.png') center center / cover no-repeat;
 }
 
 
