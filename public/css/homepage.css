@@ -10,7 +10,7 @@
   width: 100%;
   height: 62vh;
   min-height: 340px;
-  background: #b0aea8;   /* placeholder */
+  background: #b0aea8;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -19,16 +19,17 @@
 .hero-img-placeholder {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #a8a49e 0%, #c8c4bc 100%);
+  background: url('../images/1.png') center center / cover no-repeat;
 }
 
 /* scrolling marquee text */
 .hero-marquee-wrap {
   position: absolute;
-  bottom: 0;
+  top: 50%;
   left: 0;
   width: 100%;
   overflow: hidden;
+  transform: translateY(-50%);
   pointer-events: none;
 }
 
@@ -43,7 +44,7 @@
   font-size: clamp(3rem, 10vw, 7rem);
   font-weight: 900;
   letter-spacing: -.02em;
-  color: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.55);
   padding-right: 3rem;
   text-transform: lowercase;
   user-select: none;
@@ -142,64 +143,89 @@
   font-weight: 400;
 }
 
-/* RIGHT: two stacked promo panels */
+/* RIGHT: single promo panel */
 .promo-stack {
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr;
 }
 
 .promo-panel {
   position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  padding: 1.6rem 1.8rem;
+  min-height: 440px;
+  background: #5a5a54;
 }
 
-.promo-panel:first-child  { background: linear-gradient(145deg, #6b6b60 0%, #9a9890 100%); }
-.promo-panel:last-child   { background: linear-gradient(145deg, #4a4a44 0%, #7a7872 100%); }
-
-.promo-panel-label {
-  font-family: var(--font-body);
-  font-size: .6rem;
-  font-weight: 700;
-  letter-spacing: .18em;
-  color: rgba(255,255,255,.6);
-  margin-bottom: .4rem;
-  display: block;
-}
-
-.promo-panel-text {
-  font-family: var(--font-body);
-  font-size: clamp(2rem, 4.5vw, 3.2rem);
-  font-weight: 900;
-  line-height: .95;
-  color: #fff;
-  letter-spacing: -.01em;
-  text-transform: uppercase;
-}
-
-/* decorative image placeholder inside promo */
+/* full-bleed background image */
 .promo-img {
   position: absolute;
   inset: 0;
-  opacity: .25;
 }
 
 .promo-img-placeholder {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: url('../images/2.png') center center / cover no-repeat;
 }
 
-.promo-img-placeholder svg { opacity: .4; }
+/* dark overlay so text is readable */
+.promo-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+
+/* TOP LEFT text block */
+.promo-topleft {
+  position: absolute;
+  top: 1.6rem;
+  left: 1.8rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+/* BOTTOM RIGHT text block */
+.promo-bottomright {
+  position: absolute;
+  bottom: 1.6rem;
+  right: 1.8rem;
+  z-index: 2;
+  text-align: right;
+}
+
+.promo-shop-link {
+  font-family: var(--font-body);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: rgba(255,255,255,.85);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color .2s;
+  display: inline-block;
+  margin-bottom: .2rem;
+}
+
+.promo-shop-link:hover { color: #fff; }
+
+.promo-panel-text {
+  font-family: var(--font-body);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  line-height: .92;
+  color: #fff;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .home-bottom { grid-template-columns: 1fr; }
-  .promo-stack { grid-template-rows: 200px 200px; }
+  .promo-panel { min-height: 320px; }
   .hero        { height: 50vh; }
 }
 
@@ -331,7 +357,7 @@
 .location-img-placeholder {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #888480 0%, #b0aea8 100%);
+  background: url('../images/4.png') center center / cover no-repeat;
 }
 
 
@@ -346,7 +372,7 @@
 }
 
 .contact-img-placeholder {
-  background: linear-gradient(145deg, #3a3a36 0%, #5a5a54 100%);
+  background: url('../images/5.png') center center / cover no-repeat;
 }
 
 .contact-right {
@@ -464,6 +490,16 @@
   font-weight: 300;
   letter-spacing: .06em;
   color: var(--text-muted);
+}
+
+.banner-4 {
+  width: 100%;
+  height: 480px;
+  background: url('../images/3.png') center center / cover no-repeat;
+}
+
+@media (max-width: 768px) {
+  .banner-4 { height: 280px; }
 }
 
 /* ── RESPONSIVE ── */

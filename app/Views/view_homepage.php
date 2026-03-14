@@ -9,10 +9,10 @@
      HERO
 ═══════════════════════════════════════ -->
 <section class="hero">
-
+ 
   <!-- placeholder background (swap with <img> when ready) -->
   <div class="hero-img-placeholder"></div>
-
+ 
   <!-- search bar -->
   <div class="hero-search">
     <input type="text" placeholder="SEARCH"/>
@@ -22,7 +22,7 @@
       </svg>
     </button>
   </div>
-
+ 
   <!-- scrolling brand marquee -->
   <div class="hero-marquee-wrap">
     <div class="hero-marquee">
@@ -33,14 +33,14 @@
       <span>addictech /</span><span>addictech /</span><span>addictech /</span>
     </div>
   </div>
-
+ 
 </section>
-
+ 
 <!-- ═══════════════════════════════════════
      BOTTOM: SHOP BY + PROMO PANELS
 ═══════════════════════════════════════ -->
 <div class="home-bottom">
-
+ 
   <!-- LEFT: Shop by Product Type -->
   <div class="shop-by">
     <h2 class="shop-by-heading">Shop by<br>Product Type</h2>
@@ -53,53 +53,44 @@
       <a href="<?= base_url('catalog?category=cam') ?>"       class="shop-by-link">WEB CAMS</a>
     </nav>
   </div>
-
-  <!-- RIGHT: stacked promo panels -->
+ 
+  <!-- RIGHT: single image panel with text overlays -->
   <div class="promo-stack">
-
-    <!-- TOP promo -->
     <div class="promo-panel">
+ 
+      <!-- background image placeholder — swap with <img> when 2.png is ready -->
       <div class="promo-img">
-        <div class="promo-img-placeholder">
-          <!-- placeholder icon -->
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1">
-            <rect x="3" y="3" width="18" height="18" rx="1"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-        </div>
+        <div class="promo-img-placeholder"></div>
       </div>
-      <div>
-        <span class="promo-panel-label">SHOP›</span>
+ 
+      <!-- TOP LEFT: SHOP link + WE THE BEST -->
+      <div class="promo-topleft">
+        <a href="<?= base_url('view_catalog') ?>" class="promo-shop-link">SHOP›</a>
         <p class="promo-panel-text">WE<br>THE<br>BEST</p>
       </div>
-    </div>
-
-    <!-- BOTTOM promo -->
-    <div class="promo-panel">
-      <div class="promo-img">
-        <div class="promo-img-placeholder">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1">
-            <rect x="3" y="3" width="18" height="18" rx="1"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-        </div>
-      </div>
-      <div>
+ 
+      <!-- BOTTOM RIGHT: YOU THE BEST -->
+      <div class="promo-bottomright">
         <p class="promo-panel-text">YOU<br>THE<br>BEST</p>
       </div>
+ 
     </div>
-
   </div>
-
+ 
 </div>
-
-
+ 
+ 
+<!-- ═══════════════════════════════════════
+     BANNER — 4.png
+═══════════════════════════════════════ -->
+<div class="banner-4"></div>
+ 
 <!-- ═══════════════════════════════════════
      BESTSELLERS
 ═══════════════════════════════════════ -->
 <section class="bestsellers">
   <h2 class="section-heading">BESTSELLERS</h2>
-
+ 
   <div class="bs-grid">
     <?php
     // Pass $bestsellers from controller, fallback to first 3 products
@@ -119,17 +110,17 @@
     </a>
     <?php endforeach; ?>
   </div>
-
+ 
   <div class="bs-cta">
     <a href="<?= base_url('catalog') ?>" class="btn-viewall">VIEW ALL</a>
   </div>
 </section>
-
+ 
 <!-- ═══════════════════════════════════════
      LOCATIONS + IMAGE SPLIT
 ═══════════════════════════════════════ -->
 <div class="location-split">
-
+ 
   <!-- LEFT: location text box -->
   <div class="location-left">
     <div class="location-box">
@@ -137,29 +128,29 @@
       <p class="location-address">67 Street<br>Bulacan,<br>Manila 2027</p>
     </div>
   </div>
-
+ 
   <!-- RIGHT: image placeholder -->
   <div class="location-right">
     <div class="location-img-placeholder"></div>
   </div>
-
+ 
 </div>
-
+ 
 <!-- ═══════════════════════════════════════
      CONTACT + IMAGE SPLIT
 ═══════════════════════════════════════ -->
 <div class="contact-split">
-
+ 
   <!-- LEFT: image placeholder -->
   <div class="contact-img-placeholder"></div>
-
+ 
   <!-- RIGHT: contact form -->
   <div class="contact-right">
     <h2 class="contact-heading">CONTACT US</h2>
-
+ 
     <form class="contact-form" method="POST" action="<?= base_url('contact/send') ?>">
       <?= csrf_field() ?>
-
+ 
       <div class="contact-field">
         <label class="contact-label">Full Name</label>
         <input type="text" name="full_name" class="contact-input" required/>
@@ -172,13 +163,13 @@
         <label class="contact-label">Concern</label>
         <textarea name="concern" class="contact-input contact-textarea" rows="3" required></textarea>
       </div>
-
+ 
       <button type="submit" class="btn-submit">SUBMIT</button>
     </form>
-
+ 
     <p class="contact-need">NEED ANYTHING?</p>
     <a href="mailto:addictechthebest@gmail.com" class="contact-email">addictechthebest@gmail.com</a>
-
+ 
     <!-- social icons -->
     <div class="contact-socials">
       <a href="#" class="contact-social" aria-label="Facebook">
@@ -199,10 +190,10 @@
         </svg>
       </a>
     </div>
-
+ 
     <p class="contact-handle">@addictechthebest</p>
   </div>
-
+ 
 </div>
-
+ 
 <?= $this->endSection() ?>
