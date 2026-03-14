@@ -51,20 +51,20 @@ $routes->post('users/statuschange', 'Users::statuschange');
 
 // ========================EQUIPMENTS==================================
 
-$routes->get('product', 'Product::index'); //view
+$routes->get('products', 'Products::index'); //view
 
-$routes->get('product/add', 'Product::add'); //view
-$routes->post('product/insert', 'Product::insert'); //not view
+$routes->get('products/add', 'Products::add'); //view
+$routes->post('products/insert', 'Products::insert'); //not view
 
-$routes->get('product/view/(:num)', 'Product::view/$1'); // view
+$routes->get('products/view/(:num)', 'Products::view/$1'); // view
 
-$routes->get('product/edit/(:num)', 'Product::edit/$1');
-$routes->post('product/update/(:num)', 'Product::update/$1');
+$routes->get('products/edit/(:num)', 'Products::edit/$1');
+$routes->post('products/update/(:num)', 'Products::update/$1');
 
-$routes->get('product/delete/(:num)', 'Product::delete/$1');
+$routes->get('products/delete/(:num)', 'Products::delete/$1');
 
-$routes->get('product/status', 'Product::statuschangeview');
-$routes->post('product/statuschange', 'Product::statuschange');
+$routes->get('products/status', 'Products::statuschangeview');
+$routes->post('products/statuschange', 'Products::statuschange');
 
 // ========================ORDER==================================
 
@@ -90,7 +90,5 @@ $routes->post('reset/(:any)', 'Password::reset/$1'); //not view
 
 $routes->get('password/change', 'Password::changeview'); //view
 $routes->post('passwordchange', 'Password::change'); //not view
-
-
 
 
