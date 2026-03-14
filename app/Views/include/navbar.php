@@ -32,6 +32,7 @@ function nav_class(string $page, string $active): string {
     <a href="<?= base_url('about') ?>"    class="<?= nav_class('about',   $nav_active) ?>">ABOUT</a>
     <a href="<?= base_url('catalog') ?>"  class="<?= nav_class('catalog', $nav_active) ?>">CATALOG</a>
     <a href="<?= base_url('contact') ?>"  class="<?= nav_class('contact', $nav_active) ?>">CONTACT</a>
+    <a href="<?= base_url('admin/users') ?>"  class="<?= nav_class('contact', $nav_active) ?>">admin - user</a>
   </div>
 
   <!-- RIGHT: icons -->

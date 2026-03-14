@@ -68,6 +68,16 @@ class Users extends BaseController
     //     $session->setFlashData('success', 'Adding new user is successful.');
     //     return redirect()->to('users');
     // }
+    public function viewusers() {
+        $usermodel = model('Users_model');
+
+        $data = array(
+            'title' => 'TW32 App - View User Record',
+            'users' => $usermodel->findAll()
+        );
+
+        return view('view_admin_user', $data);
+    }
 
     public function view($id) {
         $usermodel = model('Users_model');
@@ -77,7 +87,7 @@ class Users extends BaseController
             'user' => $usermodel->find($id)
         );
 
-        return view('users_view', $data);
+        return view('view_adminView_user', $data);
     }
 
     public function edit($id) { //FOR FORM
@@ -89,7 +99,7 @@ class Users extends BaseController
             'user' => $usermodel->find($id)
         );
 
-        return view('users_edit', $data);
+        return view('view_adminEdit_user', $data);
     }
 
     //ACTUAL UPDATE
@@ -194,5 +204,169 @@ class Users extends BaseController
             ->update();
 
     return redirect()->to('users')->with('success', 'User status updated successfully.');   // or wherever your equipment list is
+    }
+
+    // =========================================================
+    // ADMIN — USER MANAGEMENT
+    // =========================================================
+
+    /**
+     * Admin: List all user accounts
+     * Route: GET admin/users
+     */
+    public function adminViewUsers()
+    {
+        $session = session();
+
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please login first.');
+        }
+
+        if ($session->get('role') !== 'admin') {
+            return redirect()->to('/dashboard')->with('error', 'Access denied.');
+        }
+
+        $usermodel = model('Users_model');
+
+        $data = [
+            'title' => 'Admin – Manage Users',
+            'users' => $usermodel->orderBy('created_at', 'DESC')->findAll(),
+        ];
+
+        return view('admin_users', $data);
+    }
+
+    /**
+     * Admin: View a single user's full details
+     * Route: GET admin/users/view/:id
+     */
+    public function adminViewUser($id)
+    {
+        $session = session();
+
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please login first.');
+        }
+
+        if ($session->get('role') !== 'admin') {
+            return redirect()->to('/dashboard')->with('error', 'Access denied.');
+        }
+
+        $usermodel = model('Users_model');
+        $user = $usermodel->find($id);
+
+        if (!$user) {
+            return redirect()->to('admin/users')->with('error', 'User not found.');
+        }
+
+        $data = [
+            'title' => 'Admin – View User',
+            'user'  => $user,
+        ];
+
+        return view('admin_user_view', $data);
+    }
+
+    /**
+     * Admin: Show edit form for a user
+     * Route: GET admin/users/edit/:id
+     */
+    public function adminEditUser($id)
+    {
+        $session = session();
+
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please login first.');
+        }
+
+        if ($session->get('role') !== 'admin') {
+            return redirect()->to('/dashboard')->with('error', 'Access denied.');
+        }
+
+        $usermodel = model('Users_model');
+        $user = $usermodel->find($id);
+
+        if (!$user) {
+            return redirect()->to('admin/users')->with('error', 'User not found.');
+        }
+
+        $data = [
+            'title' => 'Admin – Edit User',
+            'user'  => $user,
+        ];
+
+        return view('admin_user_edit', $data);
+    }
+
+    /**
+     * Admin: Process user update (all fields including role & status)
+     * Route: POST admin/users/update/:id
+     */
+    public function adminUpdateUser($id)
+    {
+        $session = session();
+
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please login first.');
+        }
+
+        if ($session->get('role') !== 'admin') {
+            return redirect()->to('/dashboard')->with('error', 'Access denied.');
+        }
+
+        $usermodel = model('Users_model');
+
+        if (!$usermodel->find($id)) {
+            return redirect()->to('admin/users')->with('error', 'User not found.');
+        }
+
+        $data = [
+            'first_name'    => $this->request->getPost('first_name'),
+            'last_name'     => $this->request->getPost('last_name'),
+            'middle_name'   => $this->request->getPost('middle_name'),
+            'email'         => $this->request->getPost('email'),
+            'phone'         => $this->request->getPost('phone'),
+            'role'          => $this->request->getPost('role'),
+            'status'        => strtoupper($this->request->getPost('status')),
+            'address_line1' => $this->request->getPost('address_line1'),
+            'city'          => $this->request->getPost('city'),
+            'postal_code'   => $this->request->getPost('postal_code'),
+            'country'       => $this->request->getPost('country'),
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $usermodel->update($id, $data);
+
+        return redirect()->to('admin/users')->with('success', 'User updated successfully.');
+    }
+
+    /**
+     * Admin: Delete a user
+     * Route: GET admin/users/delete/:id
+     */
+    public function adminDeleteUser($id)
+    {
+        $session = session();
+
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please login first.');
+        }
+
+        if ($session->get('role') !== 'admin') {
+            return redirect()->to('/dashboard')->with('error', 'Access denied.');
+        }
+
+        $usermodel = model('Users_model');
+
+        if (!$usermodel->find($id)) {
+            return redirect()->to('admin/users')->with('error', 'User not found.');
+        }
+
+        try {
+            $usermodel->delete($id);
+            return redirect()->to('admin/users')->with('success', 'User deleted successfully.');
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            return redirect()->to('admin/users')->with('error', 'Cannot delete this user because they have existing records.');
+        }
     }
 }

@@ -12,7 +12,7 @@ $routes->get('home', 'Home::index');
 $routes->get('catalog', 'Home::viewcatalog'); //view
 $routes->get('wishlist', 'Home::viewwishlist');
 
-
+$routes->get('admin/users', 'Users::viewusers');
 
 $routes->get('dashboard', 'Dashboard::index'); //leads to all kinds of dashboard
 
@@ -33,10 +33,11 @@ $routes->get('/users', 'Users::index'); //view leads to nowhere
 $routes->get('user/profile', 'Users::profile');
 
 
-$routes->get('users/view/(:num)', 'Users::view/$1');//view
+$routes->get('admin/users/view/(:num)', 'Users::view/$1');//view
+$routes->get('admin/users/edit/(:num)', 'Users::edit/$1');//view
 
-$routes->get('users/edit/(:num)', 'Users::edit/$1');//view
-$routes->get('user/edit/(:num)', 'Users::edit/$1');//view
+$routes->get('admin/user/edit/(:num)', 'Users::edit/$1');//view
+
 $routes->post('users/update/(:num)', 'Users::update/$1'); //not view
 
 $routes->get('users/delete/(:num)', 'Users::delete/$1');
