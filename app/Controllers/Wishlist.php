@@ -13,28 +13,24 @@ $products_json = json_encode(array_map(function($p) {
         'name'    => $p['name'],
         'category'=> $p['category'],
         'price'   => (float) $p['price'],
-        'variant' => $p['variant']   ?? '',
-        'desc'    => $p['description'] ?? '',
+        'variant' => $p['variant']      ?? '',
+        'desc'    => $p['description']  ?? '',
         'stock'   => (int) $p['stock'],
     ];
 }, $products));
 ?>
 
 <main class="wishlist-main">
-<?php if (session()->getFlashdata('error')) : ?>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 text-center">
-                <i class="fas fa-exclamation-triangle mr-2"></i>
-                <?= session()->getFlashdata('error') ?>
-            </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashdata('success')) : ?>
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-center">
-                <i class="fas fa-check-circle mr-2"></i>
-                <?= session()->getFlashdata('success') ?>
-            </div>
-        <?php endif; ?>
+
+  <?php if (session()->getFlashdata('error')) : ?>
+    <div class="flash flash-error"><?= session()->getFlashdata('error') ?></div>
+  <?php endif; ?>
+  <?php if (session()->getFlashdata('success')) : ?>
+    <div class="flash flash-success"><?= session()->getFlashdata('success') ?></div>
+  <?php endif; ?>
+
   <div class="wishlist-header">
-    <h1 class="wishlist-title">CATALOG</h1>
+    <h1 class="wishlist-title">MY WISHLIST</h1>
     <div class="search-wrap">
       <input type="text" class="search-input" placeholder="SEARCH" id="searchInput" />
       <button class="search-icon-btn" aria-label="Search">
@@ -55,11 +51,17 @@ $products_json = json_encode(array_map(function($p) {
               <line x1="1" y1="1" x2="299" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
               <line x1="299" y1="1" x2="1" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
             </svg>
-            <button type="button" class="card-wish-btn" data-id="<?= $p['id'] ?>">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#e05252" stroke="#e05252" stroke-width="1.8">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-            </button>
+            <!-- Heart button — submits form to remove from wishlist -->
+            <form method="POST" action="<?= base_url('wishlist/remove') ?>"
+                  class="card-wish-form" onsubmit="handleWishRemove(event, <?= $p['id'] ?>)">
+              <?= csrf_field() ?>
+              <input type="hidden" name="product_id" value="<?= $p['id'] ?>">
+              <button type="submit" class="card-wish-btn" aria-label="Remove from wishlist">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#e05252" stroke="#e05252" stroke-width="1.8">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </button>
+            </form>
           </div>
           <div class="product-meta">
             <span class="product-name"><?= esc(strtoupper($p['name'])) ?></span>
@@ -117,7 +119,7 @@ $products_json = json_encode(array_map(function($p) {
             <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
           </svg>
         </button>
-        <button type="button" class="modal-wish-btn modal-wish-active" id="modalWishBtn" aria-label="Remove from wishlist">
+        <button type="button" class="modal-wish-btn modal-wish-active" id="modalWishBtn">
           <svg id="wishIcon" width="18" height="18" viewBox="0 0 24 24" fill="#e05252" stroke="#e05252" stroke-width="1.8">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
@@ -147,10 +149,16 @@ $products_json = json_encode(array_map(function($p) {
           ADD TO CART
         </button>
 
-        <button id="modalBuyNowBtn" class="modal-atc-btn" type="submit"
+        <button id="modalBuyNowBtn" class="modal-buynow-btn" type="submit"
                 formaction="<?= base_url('orders/buynow') ?>">
           BUY NOW
         </button>
+      </form>
+
+      <!-- Hidden form for modal wishlist remove -->
+      <form id="modalWishForm" method="POST" action="<?= base_url('wishlist/remove') ?>">
+        <?= csrf_field() ?>
+        <input type="hidden" name="product_id" id="modalWishProductId" />
       </form>
     </div>
   </div>
@@ -159,18 +167,79 @@ $products_json = json_encode(array_map(function($p) {
 <div class="atc-toast" id="atcToast"></div>
 
 <script>
-  const products  = <?= $products_json ?>;
-  const CSRF_NAME = '<?= csrf_token() ?>';
-  const CSRF_HASH = '<?= csrf_hash() ?>';
+  const products        = <?= $products_json ?>;
+  const CSRF_NAME       = '<?= csrf_token() ?>';
+  const CSRF_HASH       = '<?= csrf_hash() ?>';
+  const WISHLIST_REMOVE = '<?= base_url('wishlist/remove') ?>';
 
   const wishlistIds = new Set(products.map(function(p) { return p.id; }));
 
   function isWishlisted(id) { return wishlistIds.has(id); }
+
+  // Card heart button — intercepts form submit, removes card from grid
+  function handleWishRemove(e, productId) {
+    e.preventDefault();
+    const card = document.querySelector('.product-card[data-id="' + productId + '"]');
+
+    fetch(WISHLIST_REMOVE, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams({
+        product_id:  productId,
+        [CSRF_NAME]: CSRF_HASH
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.success && card) {
+        card.remove();
+        updateWishBadge(data.count);
+        // show empty state if no cards left
+        if (document.querySelectorAll('.product-card').length === 0) {
+          document.querySelector('.product-grid').innerHTML =
+            '<div class="wishlist-empty">Your wishlist is empty. ' +
+            '<a href="/catalog">Browse the catalog →</a></div>';
+        }
+      }
+    })
+    .catch(function() { showToast('Could not remove item.'); });
+  }
+
+  // Modal wish button — same AJAX remove
   function toggleWishlist(product) {
-    wishlistIds.delete(product.id);
-    return Promise.resolve(false);
+    return fetch(WISHLIST_REMOVE, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams({
+        product_id:  product.id,
+        [CSRF_NAME]: CSRF_HASH
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.success) {
+        wishlistIds.delete(product.id);
+        updateWishBadge(data.count);
+        // remove card from grid
+        const card = document.querySelector('.product-card[data-id="' + product.id + '"]');
+        if (card) card.remove();
+        if (document.querySelectorAll('.product-card').length === 0) {
+          document.querySelector('.product-grid').innerHTML =
+            '<div class="wishlist-empty">Your wishlist is empty. ' +
+            '<a href="/catalog">Browse the catalog →</a></div>';
+        }
+      }
+      return false;
+    })
+    .catch(function() { return false; });
   }
 </script>
-<script src="<?= base_url('/public/js/catalog.js') ?>"></script>
+<script src="<?= base_url('/public/js/wishlist.js') ?>"></script>
 
 <?= $this->endSection() ?>

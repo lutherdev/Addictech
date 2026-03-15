@@ -77,12 +77,9 @@ $routes->post('reset/(:any)', 'Password::reset/$1'); //not view
 $routes->get('password/change', 'Password::changeview'); //view
 $routes->post('passwordchange', 'Password::change'); //not view
 
-// ======================== ORDERS (ADMIN) ==========================
-// $routes->get('admin/orders', 'Order::adminIndex');
-// $routes->get('admin/orders/view/(:num)', 'Order::adminView/$1');
-// $routes->get('admin/orders/update/(:num)', 'Order::adminUpdateView/$1');
-// $routes->post('admin/orders/update/(:num)', 'Order::adminUpdate/$1');
-// $routes->get('admin/orders/delete/(:num)', 'Order::adminDelete/$1');
+// ======================== WISHLIST ==========================
+$routes->post('wishlist/toggle', 'Wishlist::toggle');
+$routes->post('wishlist/remove', 'Wishlist::remove');
 
 // ====================== CART=======================================
 
@@ -105,7 +102,7 @@ $routes->get('orders/buynow/(:num)/(:num)', 'Orders::buyNow/$1/$2');
 $routes->post('orders/buynow',   'Orders::buyNow');
 $routes->post('orders/place', 'Orders::placeOrder');
 
-// Admin
+// ======================== ORDERS (ADMIN) ==========================
 $routes->get('admin/orders',                        'Orders::adminIndex');
 $routes->get('admin/orders/view/(:num)',             'Orders::adminView/$1');
 //$routes->get('admin/orders/view/(:num)',             'Orders::adminIndex');

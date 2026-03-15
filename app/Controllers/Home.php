@@ -63,12 +63,29 @@ class Home extends BaseController
 
     public function viewwishlist()
     {
-        $productModel = model('Products_model');
-        $data = [
-            'title' => 'Catalog',
-            'products' => $productModel->findAll()
+    $session = session();
+    if (!$session->get('isLoggedIn')) {
+        return redirect()->to('login')->with('error', 'Please login first.');
+    }
+
+    $wishlistModel = model('Wishlists_model');
+    $user_id       = $session->get('user_id');
+    $wishlist      = $wishlistModel->getWishlistByUser($user_id);
+
+    // Map to product format the view expects
+    $products = array_map(function($item) {
+        return [
+            'id'          => $item['product_id'],
+            'name'        => $item['name'],
+            'category'    => $item['category'],
+            'price'       => $item['price'],
+            'variant'     => $item['variant']     ?? '',
+            'description' => $item['description'] ?? '',
+            'stock'       => $item['stock'],
+            'image'       => $item['image'],
         ];
-        
-        return view('view_wishlist', $data);
+    }, $wishlist);
+
+    return view('view_wishlist', ['products' => $products]);
     }
 }
