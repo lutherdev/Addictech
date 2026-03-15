@@ -53,7 +53,7 @@
           <div class="detail-row">
             <div class="detail-group">
               <span class="detail-label">TOTAL PRICE</span>
-              <span class="detail-value detail-price">₱<?= number_format($order['total_price'], 0) ?></span>
+              <span class="detail-value detail-price">₱<?= number_format($order['total'], 0) ?></span>
             </div>
             <div class="detail-group">
               <span class="detail-label">DATE PLACED</span>
@@ -96,13 +96,13 @@
             </tr>
           </thead>
           <tbody>
-            <?php if (!empty($order_items)): ?>
-              <?php foreach ($order_items as $item): ?>
+            <?php if (!empty($order['items'])): ?>
+              <?php foreach ($order['items'] as $item): ?>
                 <tr>
                   <td class="col-img">
                     <?php if (!empty($item['image'])): ?>
                       <img src="<?= base_url('uploads/' . esc($item['image'])) ?>"
-                           alt="<?= esc($item['name']) ?>" class="item-thumb" />
+                           alt="<?= esc($item['product_name'] ?? '') ?>" class="item-thumb" />
                     <?php else: ?>
                       <div class="item-thumb-placeholder">
                         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -113,7 +113,7 @@
                       </div>
                     <?php endif; ?>
                   </td>
-                  <td class="col-product item-name"><?= esc($item['name']) ?></td>
+                 <td class="col-product item-name"><?= esc($item['product_name'] ?? '—') ?></td>
                   <td class="col-category item-category"><?= esc($item['category'] ?? '—') ?></td>
                   <td class="col-qty item-qty"><?= esc($item['quantity']) ?></td>
                   <td class="col-unit item-price">₱<?= number_format($item['price'], 0) ?></td>
@@ -129,7 +129,7 @@
           <tfoot>
             <tr>
               <td colspan="5" class="total-label">TOTAL</td>
-              <td class="total-value">₱<?= number_format($order['total_price'], 0) ?></td>
+              <td class="total-value">₱<?= number_format($order['total'], 0) ?></td>
             </tr>
           </tfoot>
         </table>

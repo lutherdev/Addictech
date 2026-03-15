@@ -12,7 +12,7 @@ class Orders_model extends Model
     protected $useSoftDeletes   = false;
     protected $useTimestamps    = true;
     protected $createdField     = 'created_at';
-    protected $updatedField     = 'updated_at';
+    protected $updatedField     = '';
 
     protected $allowedFields = [
         'user_id',
@@ -42,25 +42,41 @@ class Orders_model extends Model
                     ->findAll();
     }
 
-    // Get a single order with its items
     public function getOrderWithItems($order_id)
     {
-        $order = $this->find($order_id);
+        $order = $this->select('orders.*, CONCAT(users.first_name, " ", users.last_name) AS username, users.email')
+                    ->join('users', 'users.id = orders.user_id', 'left')
+                    ->where('orders.id', $order_id)
+                    ->first();
+
         if (!$order) return null;
 
-        $orderItemsModel = model('OrderItemModel');
+        $orderItemsModel = new \App\Models\OrderItemModel();
         $order['items']  = $orderItemsModel->getItemsByOrder($order_id);
         return $order;
     }
 
-    // Get all orders (admin use)
-    public function getAllWithUser()
-    {
-        return $this->select('orders.*, users.email, users.first_name, users.last_name')
-                    ->join('users', 'users.id = orders.user_id')
-                    ->orderBy('orders.created_at', 'DESC')
-                    ->findAll();
-    }
+public function getAllWithUser()
+{
+    return $this->select('
+            orders.id,
+            orders.total,
+            orders.status,
+            orders.created_at,
+            CONCAT(users.first_name, " ", users.last_name) AS username,
+            users.email,
+            MIN(order_items.product_name) AS product_name,
+            MIN(order_items.variant)      AS variant,
+            MIN(products.image)           AS product_image,
+            SUM(order_items.quantity)     AS total_quantity
+        ')
+        ->join('users',       'users.id = orders.user_id',             'left')
+        ->join('order_items', 'order_items.order_id = orders.id',      'left')
+        ->join('products',    'products.id = order_items.product_id',  'left')
+        ->groupBy('orders.id')
+        ->orderBy('orders.created_at', 'DESC')
+        ->findAll();
+}
 
     // Update order status
     public function updateStatus($order_id, $status)

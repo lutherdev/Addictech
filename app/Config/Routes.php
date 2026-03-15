@@ -107,10 +107,11 @@ $routes->post('orders/place', 'Orders::placeOrder');
 
 // Admin
 $routes->get('admin/orders',                        'Orders::adminIndex');
-// $routes->get('admin/orders/view/(:num)',             'Orders::adminView/$1');
-$routes->get('admin/orders/view/(:num)',             'Orders::adminIndex');
+$routes->get('admin/orders/view/(:num)',             'Orders::adminView/$1');
+//$routes->get('admin/orders/view/(:num)',             'Orders::adminIndex');
 $routes->get('admin/orders/update/(:num)',          'Orders::adminEdit/$1');
 $routes->post('admin/orders/update/(:num)',          'Orders::adminUpdateStatus/$1');
 $routes->post('admin/orders/payment/(:num)',         'Orders::adminUpdatePayment/$1');
+$routes->get('admin/orders/delete/(:num)',          'Orders::adminDelete/$1');
 
 
