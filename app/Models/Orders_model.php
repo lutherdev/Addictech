@@ -12,7 +12,7 @@ class Orders_model extends Model
     protected $useSoftDeletes   = false;
     protected $useTimestamps    = true;
     protected $createdField     = 'created_at';
-    protected $updatedField     = 'updated_at';
+    protected $updatedField     = '';
 
     protected $allowedFields = [
         'user_id',
@@ -23,7 +23,7 @@ class Orders_model extends Model
         'delivery_address',
         'subtotal',
         'shipping_fee',
-        'total',
+        'total_price',
         'payment_status',
         'notes',
     ];

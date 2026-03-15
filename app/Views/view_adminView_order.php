@@ -102,7 +102,7 @@
                   <td class="col-img">
                     <?php if (!empty($item['image'])): ?>
                       <img src="<?= base_url('uploads/' . esc($item['image'])) ?>"
-                           alt="<?= esc($item['name']) ?>" class="item-thumb" />
+                           alt="<?= esc($item['product_name'] ?? '') ?>" class="item-thumb" />
                     <?php else: ?>
                       <div class="item-thumb-placeholder">
                         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -113,7 +113,7 @@
                       </div>
                     <?php endif; ?>
                   </td>
-                  <td class="col-product item-name"><?= esc($item['name']) ?></td>
+                 <td class="col-product item-name"><?= esc($item['product_name'] ?? '—') ?></td>
                   <td class="col-category item-category"><?= esc($item['category'] ?? '—') ?></td>
                   <td class="col-qty item-qty"><?= esc($item['quantity']) ?></td>
                   <td class="col-unit item-price">₱<?= number_format($item['price'], 0) ?></td>

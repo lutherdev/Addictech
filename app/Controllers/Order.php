@@ -20,7 +20,7 @@ class Order extends BaseController
     public function __construct()
     {
         $this->session = session();
-        $this->orderModel = model('OrderModel');
+        $this->orderModel = model('Orders_Model');
         $this->orderItemModel = model('OrderItemModel');
         $this->cartModel = model('CartModel');
         $this->cartItemModel = model('CartItemModel');
@@ -126,17 +126,9 @@ class Order extends BaseController
             $this->orderModel->insert($orderData);
             $orderId = $this->orderModel->insertID();
 
-            // Create order items and update stock
-            foreach ($cartItems as $item) {
-                // Add to order items
-                $this->orderItemModel->insert([
-                    'order_id' => $orderId,
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price']
-                ]);
+            $this->orderItemModel->insertFromCart($orderId, $cartItems);
 
-                // Update product stock
+            foreach ($cartItems as $item) {
                 $newStock = $item['stock'] - $item['quantity'];
                 $this->productModel->update($item['product_id'], ['stock' => $newStock]);
             }
@@ -195,7 +187,7 @@ class Order extends BaseController
         $data = [
             'title' => 'Order Details',
             'order' => $order,
-            'order_items' => $this->orderItemModel->getOrderItemsWithProducts($id)
+            'order_items' => $this->orderItemModel->getItemsByOrder($id)
         ];
         
         return view('orders/view', $data);
@@ -305,7 +297,7 @@ class Order extends BaseController
         }
 
         $orderItemModel = new \App\Models\OrderItemModel();
-        $orderItems = $orderItemModel->getOrderItemsWithProducts($id);
+        $orderItems = $orderItemModel->getItemsByOrder($id);
 
         $data = [
             'title'       => 'View Order',
@@ -347,9 +339,9 @@ class Order extends BaseController
         $check = $this->checkLogin();
         if ($check) return $check;
 
-        $orderModel     = new \App\Models\OrderModel();
-        $orderItemModel = new \App\Models\OrderItemModel();
-        $productModel   = new \App\Models\Products_model();
+        $orderModel     = $this->orderModel;
+        $orderItemModel = $this->orderItemModel;
+        $productModel   = $this->productModel;
 
         $status = $this->request->getPost('status');
         $allowedStatuses = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];

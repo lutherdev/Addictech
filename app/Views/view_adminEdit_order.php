@@ -15,7 +15,7 @@
       <div class="update-order-title-row">
         <h1 class="page-title">UPDATE ORDER</h1>
         <div class="title-actions">
-          <a href="<?= base_url('admin/orders/view/' . $order['id']) ?>" class="btn-outline">← BACK</a>
+          <a href="<?= base_url('admin/orders') ?>" class="btn-outline">← BACK</a>
         </div>
       </div>
 
@@ -108,7 +108,7 @@
             <?php endif; ?>
 
             <div class="form-actions">
-              <a href="<?= base_url('admin/orders/view/' . $order['id']) ?>" class="btn-cancel">CANCEL</a>
+              <a href="<?= base_url('admin/orders') ?>" class="btn-cancel">CANCEL</a>
               <button type="submit" class="btn-submit">SAVE CHANGES</button>
             </div>
 
