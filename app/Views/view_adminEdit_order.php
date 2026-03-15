@@ -78,7 +78,7 @@
               <label for="status">NEW STATUS</label>
               <select id="status" name="status" required>
                 <?php
-                  $statuses = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];
+                  $statuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
                   foreach ($statuses as $s):
                     $selected = $order['status'] === $s ? 'selected' : '';
                 ?>
@@ -91,14 +91,14 @@
             <div class="status-flow">
               <div class="flow-step <?= $order['status'] === 'pending'    ? 'active' : ($order['status'] !== 'cancelled' ? 'done' : '') ?>">PENDING</div>
               <div class="flow-arrow">→</div>
-              <div class="flow-step <?= $order['status'] === 'processing' ? 'active' : (in_array($order['status'], ['shipped','completed']) ? 'done' : '') ?>">PROCESSING</div>
+              <div class="flow-step <?= $order['status'] === 'processing' ? 'active' : (in_array($order['status'], ['shipped','delivered']) ? 'done' : '') ?>">PROCESSING</div>
               <div class="flow-arrow">→</div>
-              <div class="flow-step <?= $order['status'] === 'shipped'    ? 'active' : ($order['status'] === 'completed' ? 'done' : '') ?>">SHIPPED</div>
+              <div class="flow-step <?= $order['status'] === 'shipped'    ? 'active' : ($order['status'] === 'delivered' ? 'done' : '') ?>">SHIPPED</div>
               <div class="flow-arrow">→</div>
-              <div class="flow-step <?= $order['status'] === 'completed'  ? 'active' : '' ?>">COMPLETED</div>
+              <div class="flow-step <?= $order['status'] === 'delivered'  ? 'active' : '' ?>">DELIVERED</div>
             </div>
 
-            <?php if ($order['status'] !== 'cancelled' && $order['status'] !== 'completed'): ?>
+            <?php if ($order['status'] !== 'cancelled' && $order['status'] !== 'delivered'): ?>
               <p class="cancel-warning">
                 ⚠ Setting status to <strong>CANCELLED</strong> will automatically restore product stock.
               </p>

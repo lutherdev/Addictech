@@ -1,40 +1,34 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <head>
-  <title>addictech – Wishlist</title>
-  <link rel="stylesheet" href="<?= base_url('/public/css/wishlist.css') ?>" />
+  <title>addictech – Catalog</title>
   <link rel="stylesheet" href="<?= base_url('/public/css/catalog.css') ?>" />
 </head>
 
 <?php
 $products_json = json_encode(array_map(function($p) {
     return [
-        'id'      => (int) $p['id'],
-        'name'    => $p['name'],
-        'category'=> $p['category'],
-        'price'   => (float) $p['price'],
-        'variant' => $p['variant']   ?? '',
-        'desc'    => $p['description'] ?? '',
-        'stock'   => (int) $p['stock'],
+        'id'       => (int) $p['id'],
+        'name'     => $p['name'],
+        'category' => $p['category'],
+        'price'    => (float) $p['price'],
+        'variant'  => $p['variant']     ?? '',
+        'desc'     => $p['description'] ?? '',
+        'stock'    => (int) $p['stock'],
     ];
 }, $products));
 ?>
 
-<main class="wishlist-main">
-<?php if (session()->getFlashdata('error')) : ?>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 text-center">
-                <i class="fas fa-exclamation-triangle mr-2"></i>
-                <?= session()->getFlashdata('error') ?>
-            </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashdata('success')) : ?>
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-center">
-                <i class="fas fa-check-circle mr-2"></i>
-                <?= session()->getFlashdata('success') ?>
-            </div>
-        <?php endif; ?>
-  <div class="wishlist-header">
-    <h1 class="wishlist-title">CATALOG</h1>
+<main class="catalog-main">
+
+  <?php if (session()->getFlashdata('error')) : ?>
+    <div class="flash flash-error"><?= session()->getFlashdata('error') ?></div>
+  <?php endif; ?>
+  <?php if (session()->getFlashdata('success')) : ?>
+    <div class="flash flash-success"><?= session()->getFlashdata('success') ?></div>
+  <?php endif; ?>
+
+  <div class="catalog-toolbar">
     <div class="search-wrap">
       <input type="text" class="search-input" placeholder="SEARCH" id="searchInput" />
       <button class="search-icon-btn" aria-label="Search">
@@ -43,23 +37,32 @@ $products_json = json_encode(array_map(function($p) {
         </svg>
       </button>
     </div>
+    <div class="filter-tags">
+      <button class="tag active" data-filter="all">ALL</button>
+      <button class="tag" data-filter="KEYBOARD">KEYBOARD</button>
+      <button class="tag" data-filter="MOUSE">MOUSE</button>
+      <button class="tag" data-filter="HEADSET">HEADSET</button>
+      <button class="tag" data-filter="MONITOR">MONITOR</button>
+      <button class="tag" data-filter="SPEAKER">SPEAKER</button>
+      <button class="tag" data-filter="WEB CAM">WEB CAM</button>
+      <button class="tag sort-btn" id="sortBtn">Sort By Price</button>
+    </div>
   </div>
 
-  <div class="product-grid">
+  <div class="product-grid" id="productGrid">
     <?php if (!empty($products)) : ?>
       <?php foreach ($products as $p) : ?>
-        <div class="product-card" data-id="<?= $p['id'] ?>">
+        <div class="product-card"
+             data-id="<?= $p['id'] ?>"
+             data-category="<?= esc($p['category']) ?>"
+             data-price="<?= $p['price'] ?>"
+             data-name="<?= esc(strtolower($p['name'])) ?>">
           <div class="product-img">
             <svg width="100%" height="100%" viewBox="0 0 300 340" preserveAspectRatio="none" fill="none">
               <rect x="1" y="1" width="298" height="338" stroke="#b8b4aa" stroke-width="1.5"/>
               <line x1="1" y1="1" x2="299" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
               <line x1="299" y1="1" x2="1" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
             </svg>
-            <button type="button" class="card-wish-btn" data-id="<?= $p['id'] ?>">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#e05252" stroke="#e05252" stroke-width="1.8">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-            </button>
           </div>
           <div class="product-meta">
             <span class="product-name"><?= esc(strtoupper($p['name'])) ?></span>
@@ -68,10 +71,7 @@ $products_json = json_encode(array_map(function($p) {
         </div>
       <?php endforeach; ?>
     <?php else : ?>
-      <div class="wishlist-empty">
-        Your wishlist is empty.
-        <a href="<?= base_url('catalog') ?>">Browse the catalog →</a>
-      </div>
+      <div class="catalog-empty">No products found.</div>
     <?php endif; ?>
   </div>
 
@@ -117,11 +117,11 @@ $products_json = json_encode(array_map(function($p) {
             <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
           </svg>
         </button>
-        <button type="button" class="modal-wish-btn modal-wish-active" id="modalWishBtn" aria-label="Remove from wishlist">
-          <svg id="wishIcon" width="18" height="18" viewBox="0 0 24 24" fill="#e05252" stroke="#e05252" stroke-width="1.8">
+        <button type="button" class="modal-wish-btn" id="modalWishBtn" aria-label="Add to wishlist">
+          <svg id="wishIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
-          <span id="wishLabel">WISHLISTED</span>
+          <span id="wishLabel">WISHLIST</span>
         </button>
       </div>
 
@@ -147,7 +147,7 @@ $products_json = json_encode(array_map(function($p) {
           ADD TO CART
         </button>
 
-        <button id="modalBuyNowBtn" class="modal-atc-btn" type="submit"
+        <button id="modalBuyNowBtn" class="modal-buynow-btn" type="submit"
                 formaction="<?= base_url('orders/buynow') ?>">
           BUY NOW
         </button>
@@ -159,17 +159,14 @@ $products_json = json_encode(array_map(function($p) {
 <div class="atc-toast" id="atcToast"></div>
 
 <script>
-  const products  = <?= $products_json ?>;
-  const CSRF_NAME = '<?= csrf_token() ?>';
-  const CSRF_HASH = '<?= csrf_hash() ?>';
+  const products        = <?= $products_json ?>;
+  const CSRF_NAME       = '<?= csrf_token() ?>';
+  const CSRF_HASH       = '<?= csrf_hash() ?>';
+  const WISHLIST_TOGGLE = '<?= base_url('wishlist/toggle') ?>';
 
-  const wishlistIds = new Set(products.map(function(p) { return p.id; }));
+  const wishlistIds = new Set(<?= json_encode($wishlisted_ids ?? []) ?>);
 
   function isWishlisted(id) { return wishlistIds.has(id); }
-  function toggleWishlist(product) {
-    wishlistIds.delete(product.id);
-    return Promise.resolve(false);
-  }
 </script>
 <script src="<?= base_url('/public/js/catalog.js') ?>"></script>
 

@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════
    wishlist.js — addictech
-   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH
+   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH,
+            WISHLIST_REMOVE, handleWishRemove, toggleWishlist
 ═══════════════════════════════════════ */
 
 function updateCartBadge(count) {
@@ -19,6 +20,7 @@ function updateWishBadge(count) {
 
 function showToast(msg) {
   const t = document.getElementById('atcToast');
+  if (!t) return;
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(function() { t.classList.remove('show'); }, 2200);
@@ -29,25 +31,15 @@ let currentProduct = null;
 let qty            = 1;
 
 /* ══════════════════════════════════
-   CARD CLICKS
+   CARD CLICKS — open modal
 ══════════════════════════════════ */
 document.querySelectorAll('.product-card').forEach(function(card) {
-  card.addEventListener('click', function() {
+  card.addEventListener('click', function(e) {
+    // don't open modal if clicking the wish button
+    if (e.target.closest('.card-wish-btn') || e.target.closest('.card-wish-form')) return;
     const id = parseInt(this.dataset.id);
     const p  = products.find(function(x) { return x.id === id; });
     if (p) openModal(p);
-  });
-});
-
-document.querySelectorAll('.card-wish-btn').forEach(function(btn) {
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    const id = parseInt(this.dataset.id);
-    const p  = products.find(function(x) { return x.id === id; });
-    if (!p) return;
-    toggleWishlist(p).then(function() {
-      updateWishBadge(wishlistIds.size);
-    });
   });
 });
 
@@ -117,7 +109,6 @@ document.getElementById('qtyMinus').addEventListener('click', function() {
 document.getElementById('modalWishBtn').addEventListener('click', function() {
   if (!currentProduct) return;
   toggleWishlist(currentProduct).then(function() {
-    updateWishBadge(wishlistIds.size);
     closeModal();
   });
 });

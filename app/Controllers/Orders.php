@@ -137,7 +137,7 @@ public function placeOrder()
     }
 
     $session->setFlashData('success', 'Order placed successfully! ORDER ID:' . $order_id);
-    return redirect()->to('wishlist');
+    return redirect()->to('catalog');
 }
 
 // Direct buy — stores single item in session then redirects to checkout
