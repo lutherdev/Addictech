@@ -111,7 +111,7 @@ class Auth extends BaseController
         'password' => password_hash($password, PASSWORD_DEFAULT),
         'first_name' => strtoupper($first),
         'last_name' => strtoupper($last),
-        'role' => 'USER',
+        'role' => 'customer',
         'status' => 'ACTIVE'
     ];
 
