@@ -61,9 +61,9 @@
                     <?php endif; ?>
                   </td>
                   <td class="col-id order-id">#<?= esc($order['id']) ?></td>
-                  <td class="col-product order-product"><?= esc($order['order_number'] ?? 'N/A') ?></td>
+                  <td class="col-product order-product"><?= esc($order['product_name'] ?? 'N/A') ?></td>
                   <td class="col-user order-user"><?= esc($order['username'] ?? 'N/A') ?></td>
-                  <td class="col-price order-price">₱<?= number_format($order['total'], 0) ?></td>
+                  <td class="col-price order-price">₱<?= number_format($order['total_price'], 0) ?></td>
                   <td class="col-qty order-qty"><?= esc($order['total_quantity'] ?? 1) ?></td>
                   <td class="col-action order-actions">
                     <a href="<?= base_url('admin/orders/view/' . $order['id']) ?>" class="btn-action">VIEW</a>

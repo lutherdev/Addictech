@@ -96,8 +96,8 @@
             </tr>
           </thead>
           <tbody>
-            <?php if (!empty($order_items)): ?>
-              <?php foreach ($order_items as $item): ?>
+            <?php if (!empty($order['items'])): ?>
+              <?php foreach ($order['items'] as $item): ?>
                 <tr>
                   <td class="col-img">
                     <?php if (!empty($item['image'])): ?>
