@@ -260,6 +260,12 @@ body {
 
 .link-register:hover { opacity: 0.55; }
 
+    .summary-checkout-btn:disabled {
+      background: none;
+      border: 1.5px solid var(--text-muted);
+      color: var(--text-muted);
+    }
+
 @media (max-width: 640px) {
   .navbar { padding: 0 1.2rem; }
   .nav-links { gap: 1.2rem; }

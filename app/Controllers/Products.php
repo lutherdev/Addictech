@@ -8,10 +8,10 @@ class Products extends BaseController
 {
     public function index()
     {
-        $session = session();
-        if (!$session->get('isLoggedIn')) {
-            return redirect()->to('/login')->with('error', 'Please login first.');
-        }
+        // $session = session();
+        // if (!$session->get('isLoggedIn')) {
+        //     return redirect()->to('/login')->with('error', 'Please login first.');
+        // }
 
         $productModel = new Products_Model();
         $data = [

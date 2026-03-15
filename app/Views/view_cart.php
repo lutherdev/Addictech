@@ -8,10 +8,10 @@
 
   <?php
   // Start session
-  session_start();
+  //session_start();
   
   // Include database configuration
-  require_once 'config/database.php';
+  //require_once 'config/database.php';
   
   // Initialize cart in session if it doesn't exist
   if (!isset($_SESSION['cart'])) {
@@ -86,34 +86,6 @@
       }
   }
   ?>
-
-  <nav class="navbar">
-    <div class="nav-left">
-      <a href="index.php" class="brand">addictech</a>
-    </div>
-    <div class="nav-links">
-      <a href="index.php" class="nav-link">HOME</a>
-      <a href="about.php" class="nav-link">ABOUT</a>
-      <a href="catalog.php" class="nav-link">CATALOG</a>
-      <a href="contact.php" class="nav-link">CONTACT</a>
-    </div>
-    <div class="nav-icons">
-      <button class="icon-btn" aria-label="Wishlist">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      </button>
-      <a href="cart.php" class="icon-btn cart-icon-wrap" aria-label="Cart">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <?php if ($cart_count > 0): ?>
-        <span class="cart-badge" id="cartBadge"><?php echo $cart_count; ?></span>
-        <?php else: ?>
-        <span class="cart-badge" id="cartBadge" style="display:none">0</span>
-        <?php endif; ?>
-      </a>
-      <a href="account.php" class="icon-btn" aria-label="Account">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </a>
-    </div>
-  </nav>
 
   <div class="cart-title-bar">
     <h1 class="cart-title">CART</h1>
@@ -192,142 +164,7 @@
       <?php endif; ?>
     </aside>
   </div>
-
-  <style>
-    .summary-checkout-btn:disabled {
-      background: none;
-      border: 1.5px solid var(--text-muted);
-      color: var(--text-muted);
-    }
-  </style>
-
-  <script>
-    /* ── CART FUNCTIONS WITH AJAX ── */
-    
-    function updateCartDisplay() {
-      // Fetch latest cart data from server
-      fetch('cart.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'action=get_cart'
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          updateBadge(data.cart_count);
-          updateTotal(data.cart_total);
-          
-          // If cart is empty, reload to show empty state
-          if (data.cart_count === 0) {
-            location.reload();
-          }
-        }
-      });
-    }
-
-    function updateBadge(count) {
-      const badge = document.getElementById('cartBadge');
-      if (count > 0) {
-        badge.textContent = count;
-        badge.style.display = 'flex';
-      } else {
-        badge.style.display = 'none';
-      }
-    }
-
-    function updateTotal(total) {
-      document.getElementById('cartTotal').textContent = '₱' + total.toLocaleString();
-    }
-
-    function updateQuantity(id, newQty) {
-      fetch('cart.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `action=update_qty&id=${id}&qty=${newQty}`
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          document.getElementById(`qty-${id}`).textContent = newQty;
-          updateBadge(data.cart_count);
-          updateTotal(data.cart_total);
-        }
-      });
-    }
-
-    function removeItem(id) {
-      fetch('cart.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `action=remove_item&id=${id}`
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          // Remove item from DOM
-          const item = document.querySelector(`.cart-item[data-id="${id}"]`);
-          if (item) {
-            item.remove();
-            
-            // Check if cart is empty
-            if (data.cart_count === 0) {
-              location.reload();
-            } else {
-              updateBadge(data.cart_count);
-              updateTotal(data.cart_total);
-            }
-          }
-        }
-      });
-    }
-
-    /* ── EVENT LISTENERS ── */
-    document.addEventListener('DOMContentLoaded', function() {
-      // Quantity plus buttons
-      document.querySelectorAll('.qty-plus').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.dataset.id;
-          const currentQty = parseInt(document.getElementById(`qty-${id}`).textContent);
-          const newQty = Math.min(currentQty + 1, 99);
-          updateQuantity(id, newQty);
-        });
-      });
-
-      // Quantity minus buttons
-      document.querySelectorAll('.qty-minus').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.dataset.id;
-          const currentQty = parseInt(document.getElementById(`qty-${id}`).textContent);
-          const newQty = Math.max(currentQty - 1, 1);
-          updateQuantity(id, newQty);
-        });
-      });
-
-      // Remove buttons
-      document.querySelectorAll('.item-remove').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.dataset.id;
-          removeItem(id);
-        });
-      });
-
-      // Save order note to localStorage (optional)
-      const orderNote = document.getElementById('orderNote');
-      if (orderNote) {
-        // Load saved note
-        const savedNote = localStorage.getItem('order_note');
-        if (savedNote) {
-          orderNote.value = savedNote;
-        }
-        
-        // Save note on change
-        orderNote.addEventListener('input', () => {
-          localStorage.setItem('order_note', orderNote.value);
-        });
-      }
-    });
-  </script>
-
+    <script src="<?= base_url('/public/js/login.js') ?>"></script>
 </body>
 </html>
 <?= $this->endSection() ?>

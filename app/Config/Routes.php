@@ -11,8 +11,8 @@ $routes->get('/', 'Home::index');
 $routes->get('home', 'Home::index');
 $routes->get('catalog', 'Home::viewcatalog'); //view
 $routes->get('wishlist', 'Home::viewwishlist');
-
-
+$routes->get('admin/users', 'Users::viewusers');
+$routes->get('admin/products', 'Products::index');
 
 $routes->get('dashboard', 'Dashboard::index'); //leads to all kinds of dashboard
 
@@ -35,9 +35,12 @@ $routes->get('user/profile', 'Users::profile');
 
 $routes->get('users/view/(:num)', 'Users::view/$1');//view
 
-$routes->get('users/edit/(:num)', 'Users::edit/$1');//view
-$routes->get('user/edit/(:num)', 'Users::edit/$1');//view
-$routes->post('users/update/(:num)', 'Users::update/$1'); //not view
+
+$routes->get('admin/users/view/(:num)', 'Users::view/$1');//view
+
+$routes->get('admin/users/edit/(:num)', 'Users::edit/$1');//view
+$routes->get('admin/user/edit/(:num)', 'Users::edit/$1');//view
+$routes->post('users/update/(:num)', 'Users::update/$1'); //process
 
 $routes->get('users/delete/(:num)', 'Users::delete/$1');
 
@@ -65,19 +68,14 @@ $routes->get('products/delete/(:num)', 'Products::delete/$1');
 
 $routes->get('products/status', 'Products::statuschangeview');
 $routes->post('products/statuschange', 'Products::statuschange');
+// ========================ORDERITEM==================================
 
-// ========================ORDER==================================
+
+$routes->get('cart', 'OrderItem::viewcart');
 
 
-$routes->post('/borrow/equipment', 'Borrow::borrow');
-$routes->post('/borrow/borrow', 'Borrow::borrow'); //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-$routes->get('/borrow/view/(:num)', 'Borrow::view/$1');
-
-$routes->get('/borrow/edit/(:num)', 'Borrow::edit/$1'); //view
-$routes->post('/borrow/update/(:num)', 'Borrow::update/$1'); //controller
-
-$routes->get('borrow/delete/(:num)', 'Borrow::delete/$1');
+$routes->get('checkout', 'OrderItem::viewcart');
+$routes->post('product/statuschange', 'Product::statuschange');
 
 
 // ========================PASSWORD==================================
@@ -90,5 +88,12 @@ $routes->post('reset/(:any)', 'Password::reset/$1'); //not view
 
 $routes->get('password/change', 'Password::changeview'); //view
 $routes->post('passwordchange', 'Password::change'); //not view
+
+// ======================== ORDERS (ADMIN) ==========================
+$routes->get('admin/orders', 'Order::adminIndex');
+$routes->get('admin/orders/view/(:num)', 'Order::adminView/$1');
+$routes->get('admin/orders/update/(:num)', 'Order::adminUpdateView/$1');
+$routes->post('admin/orders/update/(:num)', 'Order::adminUpdate/$1');
+$routes->get('admin/orders/delete/(:num)', 'Order::adminDelete/$1');
 
 
