@@ -53,7 +53,7 @@
           <div class="detail-row">
             <div class="detail-group">
               <span class="detail-label">TOTAL PRICE</span>
-              <span class="detail-value detail-price">₱<?= number_format($order['total_price'], 0) ?></span>
+              <span class="detail-value detail-price">₱<?= number_format($order['total'], 0) ?></span>
             </div>
             <div class="detail-group">
               <span class="detail-label">DATE PLACED</span>
@@ -129,7 +129,7 @@
           <tfoot>
             <tr>
               <td colspan="5" class="total-label">TOTAL</td>
-              <td class="total-value">₱<?= number_format($order['total_price'], 0) ?></td>
+              <td class="total-value">₱<?= number_format($order['total'], 0) ?></td>
             </tr>
           </tfoot>
         </table>

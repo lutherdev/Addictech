@@ -23,7 +23,7 @@ class Orders_model extends Model
         'delivery_address',
         'subtotal',
         'shipping_fee',
-        'total_price',
+        'total',
         'payment_status',
         'notes',
     ];
@@ -60,7 +60,7 @@ public function getAllWithUser()
 {
     return $this->select('
             orders.id,
-            orders.total_price,
+            orders.total,
             orders.status,
             orders.created_at,
             CONCAT(users.first_name, " ", users.last_name) AS username,
