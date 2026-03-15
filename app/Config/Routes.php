@@ -11,7 +11,7 @@ $routes->get('/', 'Home::index');
 $routes->get('home', 'Home::index');
 $routes->get('catalog', 'Home::viewcatalog'); //view
 $routes->get('wishlist', 'Home::viewwishlist');
-$routes->get('admin/users', 'Users::viewusers');
+$routes->get('admin/users', 'Users::index');
 $routes->get('admin/products', 'Products::index');
 
 $routes->get('dashboard', 'Dashboard::index'); //leads to all kinds of dashboard
@@ -25,32 +25,27 @@ $routes->get('register', 'Auth::regview');
 $routes->post('auth/register', 'Auth::register');
 
 $routes->get('auth/logout', 'Auth::logout');
+$routes->get('logout', 'Auth::logout');
 
 // ========================USERS==================================
 
-$routes->get('/users', 'Users::index'); //view leads to nowhere
-
 $routes->get('user/profile', 'Users::profile');
-
-
-$routes->get('users/view/(:num)', 'Users::view/$1');//view
-
 
 $routes->get('admin/users/view/(:num)', 'Users::view/$1');//view
 
-$routes->get('admin/users/edit/(:num)', 'Users::edit/$1');//view
-$routes->get('admin/user/edit/(:num)', 'Users::edit/$1');//view
+$routes->get('admin/users/edit/(:num)', 'Users::edit/$1');//admin view
+$routes->post('admin/users/update/(:num)', 'Users::update/$1'); //process
+
+$routes->get('admin/user/edit/(:num)', 'Users::edit/$1');//user view
 $routes->post('users/update/(:num)', 'Users::update/$1'); //process
 
-$routes->get('users/delete/(:num)', 'Users::delete/$1');
+$routes->get('admin/users/delete/(:num)', 'Users::delete/$1');
 
+// $routes->get('user/deactivate', 'Users::deactview');
+// $routes->post('/deactivate', 'Users::deact');
 
-
-$routes->get('user/deactivate', 'Users::deactview');
-$routes->post('/deactivate', 'Users::deact');
-
-$routes->get('users/status', 'Users::statuschangeview');
-$routes->post('users/statuschange', 'Users::statuschange');
+// $routes->get('users/status', 'Users::statuschangeview');
+// $routes->post('users/statuschange', 'Users::statuschange');
 
 // ========================EQUIPMENTS==================================
 

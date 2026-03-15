@@ -46,11 +46,11 @@ class Products extends BaseController
             'updated_at'  => date('Y-m-d H:i:s'),
         ];
 
-        if (!$validation->run($data, 'product')) { // assumes you have a validation group 'product'
-            $errors = implode('<br>', $validation->getErrors());
-            $session->setFlashData('errors', $errors);
-            return redirect()->to('products/add');
-        }
+        // if (!$validation->run($data, 'product')) { // assumes you have a validation group 'product'
+        //     $errors = implode('<br>', $validation->getErrors());
+        //     $session->setFlashData('errors', $errors);
+        //     return redirect()->to('products/add');
+        // }
 
         $productModel->insert($data);
         $session->setFlashData('success', 'Product added successfully.');

@@ -195,6 +195,7 @@
               <button type="submit" class="save-btn">SAVE CHANGES</button>
               <button type="button" class="cancel-btn" onclick="cancelEdit()">CANCEL</button>
             </div>
+            <input type="hidden" name="redirect_to" value="user/profile">
           </form>
         </div>
       </div>

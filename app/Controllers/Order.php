@@ -253,8 +253,8 @@ class Order extends BaseController
  
     public function adminIndex()
     {
-        $check = $this->checkLogin();
-        if ($check) return $check;
+        // $check = $this->checkLogin();
+        // if ($check) return $check;
  
         $db = db_connect();
  

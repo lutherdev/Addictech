@@ -7,11 +7,7 @@
   $email = '';
   $first_name = '';
   $last_name = '';
-  
-  $cart_count = 0;
-  if (isset($_SESSION['cart'])) {
-      $cart_count = array_sum(array_column($_SESSION['cart'], 'qty'));
-  }
+
   ?>
 
   <div class="page-title-bar">

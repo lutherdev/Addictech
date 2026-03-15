@@ -101,8 +101,8 @@
 
           <div class="admin-field-group">
             <label class="admin-field-label">ADDRESS LINE</label>
-            <input type="text" name="address_line1" class="admin-field-input"
-              value="<?= esc($user['address_line1'] ?? '') ?>" />
+            <input type="text" name="address" class="admin-field-input"
+              value="<?= esc($user['address'] ?? '') ?>" />
           </div>
           <div class="admin-field-group">
             <label class="admin-field-label">CITY</label>
@@ -119,6 +119,7 @@
             <input type="text" name="country" class="admin-field-input"
               value="<?= esc($user['country'] ?? '') ?>" />
           </div>
+          <input type="hidden" name="redirect_to" value="admin/users">
         </div>
 
       </div>

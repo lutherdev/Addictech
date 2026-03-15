@@ -1,155 +1,93 @@
 <?php
-
+// App/Models/Cart_items_model.php
 namespace App\Models;
-
 use CodeIgniter\Model;
 
 class CartItemModel extends Model
 {
-    protected $table = 'cart_items';
-    protected $primaryKey = 'id';
+    protected $table            = 'cart_items';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType = 'array';
-    protected $useSoftDeletes = false;
-    protected $protectFields = true;
+    protected $returnType       = 'array';
+    protected $useSoftDeletes   = false;
+    protected $useTimestamps    = true;
+    protected $createdField     = 'created_at';
+    protected $updatedField     = 'updated_at';
+
     protected $allowedFields = [
-        'cart_id',
+        'user_id',
         'product_id',
-        'quantity'
+        'quantity',
     ];
 
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat = 'datetime';
-    protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
-
-    // Validation
-    protected $validationRules = [
-        'cart_id' => 'required|integer|is_not_unique[carts.id]',
-        'product_id' => 'required|integer|is_not_unique[products.id]',
-        'quantity' => 'permit_empty|integer|greater_than[0]'
-    ];
-    
-    protected $validationMessages = [
-        'cart_id' => [
-            'required' => 'Cart ID is required',
-            'is_not_unique' => 'Cart does not exist'
-        ],
-        'product_id' => [
-            'required' => 'Product ID is required',
-            'is_not_unique' => 'Product does not exist'
-        ]
-    ];
-    
-    protected $skipValidation = false;
-
-    // Relationships
-    public function cart()
+    // Get all cart items for a user with product details
+    public function getCartByUser($user_id)
     {
-        return $this->belongsTo('App\Models\CartModel', 'cart_id', 'id');
-    }
-
-    public function product()
-    {
-        return $this->belongsTo('App\Models\ProductModel', 'product_id', 'id');
-    }
-
-    // Custom Methods
-    public function getCartItemsWithProducts($cartId)
-    {
-        return $this->select('cart_items.*, 
-                             products.name, 
-                             products.price, 
-                             products.image,
-                             products.stock,
-                             products.status as product_status')
+        return $this->select('cart_items.*, products.name, products.variant, products.price, products.image, products.stock, products.category')
                     ->join('products', 'products.id = cart_items.product_id')
-                    ->where('cart_items.cart_id', $cartId)
+                    ->where('cart_items.user_id', $user_id)
                     ->where('products.status', 'active')
                     ->findAll();
     }
 
-    public function getCartItemWithProduct($id)
+    // Add item or increment quantity if already in cart
+    public function addOrUpdate($user_id, $product_id, $quantity = 1)
     {
-        return $this->select('cart_items.*, 
-                             products.name, 
-                             products.price, 
-                             products.image,
-                             products.stock,
-                             products.status as product_status')
-                    ->join('products', 'products.id = cart_items.product_id')
-                    ->where('cart_items.id', $id)
-                    ->first();
-    }
+        $existing = $this->where('user_id', $user_id)
+                         ->where('product_id', $product_id)
+                         ->first();
 
-    public function getCartTotal($cartId)
-    {
-        $result = $this->select('SUM(products.price * cart_items.quantity) as total')
-                      ->join('products', 'products.id = cart_items.product_id')
-                      ->where('cart_items.cart_id', $cartId)
-                      ->first();
-        
-        return $result['total'] ?? 0;
-    }
-
-    public function updateQuantity($id, $quantity)
-    {
-        return $this->update($id, ['quantity' => $quantity]);
-    }
-
-    public function incrementQuantity($id, $increment = 1)
-    {
-        $item = $this->find($id);
-        if ($item) {
-            $newQuantity = $item['quantity'] + $increment;
-            return $this->update($id, ['quantity' => $newQuantity]);
+        if ($existing) {
+            $newQty = min($existing['quantity'] + $quantity, 99);
+            return $this->update($existing['id'], ['quantity' => $newQty]);
         }
-        return false;
+
+        return $this->insert([
+            'user_id'    => $user_id,
+            'product_id' => $product_id,
+            'quantity'   => $quantity,
+        ]);
     }
 
-    public function decrementQuantity($id, $decrement = 1)
+    // Update quantity of a specific cart item
+    public function updateQuantity($id, $user_id, $quantity)
     {
-        $item = $this->find($id);
-        if ($item) {
-            $newQuantity = max(1, $item['quantity'] - $decrement);
-            return $this->update($id, ['quantity' => $newQuantity]);
-        }
-        return false;
+        return $this->where('id', $id)
+                    ->where('user_id', $user_id)
+                    ->set(['quantity' => max(1, min(99, $quantity))])
+                    ->update();
     }
 
-    public function isProductInCart($cartId, $productId)
+    // Remove a specific item
+    public function removeItem($id, $user_id)
     {
-        return $this->where('cart_id', $cartId)
-                    ->where('product_id', $productId)
-                    ->first() !== null;
-    }
-
-    public function getItemCount($cartId)
-    {
-        return $this->where('cart_id', $cartId)
-                    ->selectSum('quantity')
-                    ->first()['quantity'] ?? 0;
-    }
-
-    public function removeByProduct($cartId, $productId)
-    {
-        return $this->where('cart_id', $cartId)
-                    ->where('product_id', $productId)
+        return $this->where('id', $id)
+                    ->where('user_id', $user_id)
                     ->delete();
     }
 
-    public function validateStock($cartId)
+    // Clear entire cart for a user (called after checkout)
+    public function clearCart($user_id)
     {
-        $items = $this->getCartItemsWithProducts($cartId);
-        $errors = [];
-        
-        foreach ($items as $item) {
-            if ($item['quantity'] > $item['stock']) {
-                $errors[] = "{$item['name']} has only {$item['stock']} items in stock.";
-            }
-        }
-        
-        return $errors;
+        return $this->where('user_id', $user_id)->delete();
+    }
+
+    // Get total item count in cart
+    public function getCartCount($user_id)
+    {
+        return $this->selectSum('quantity')
+                    ->where('user_id', $user_id)
+                    ->get()
+                    ->getRow()
+                    ->quantity ?? 0;
+    }
+
+    // Get cart total price
+    public function getCartTotal($user_id)
+    {
+        $items = $this->getCartByUser($user_id);
+        return array_reduce($items, function ($sum, $item) {
+            return $sum + ($item['price'] * $item['quantity']);
+        }, 0);
     }
 }

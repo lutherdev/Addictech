@@ -24,7 +24,7 @@ class Users_model extends Model
         'status',
 
         // address fields nullable, can be input on later on the profile page
-        'address_line1',
+        'address',
         'city',
         'postal_code',
         'country',

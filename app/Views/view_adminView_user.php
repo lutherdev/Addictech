@@ -83,7 +83,7 @@
         <p class="admin-detail-section-label">ADDRESS</p>
         <div class="admin-detail-row">
           <span class="admin-detail-key">ADDRESS</span>
-          <span class="admin-detail-val"><?= esc($user['address_line1'] ?? '—') ?></span>
+          <span class="admin-detail-val"><?= esc($user['address'] ?? '—') ?></span>
         </div>
         <div class="admin-detail-row">
           <span class="admin-detail-key">CITY</span>

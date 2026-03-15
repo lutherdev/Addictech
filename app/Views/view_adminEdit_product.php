@@ -33,7 +33,6 @@
       <div class="form-wrapper">
         <form action="<?= base_url('products/update/' . $product['id']) ?>" method="POST" enctype="multipart/form-data">
           <?= csrf_field() ?>
-          <input type="hidden" name="_method" value="PUT" />
 
           <div class="form-grid">
 

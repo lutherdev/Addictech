@@ -58,7 +58,7 @@
               <td class="admin-id-cell">#<?= esc($user['id']) ?></td>
               <td><?= esc($user['first_name'] . ' ' . $user['last_name']) ?></td>
               <td><?= esc($user['role'] ?? '—') ?></td>
-              <td><?= esc($user['address_line1'] ?? '—') ?><?= !empty($user['city']) ? ', ' . esc($user['city']) : '' ?></td>
+              <td><?= esc($user['address'] ?? '—') ?><?= !empty($user['city']) ? ', ' . esc($user['city']) : '' ?></td>
               <td>
                 <span class="admin-status admin-status-<?= strtolower(esc($user['status'] ?? 'active')) ?>">
                   <?= esc($user['status'] ?? 'ACTIVE') ?>
@@ -92,7 +92,7 @@
     <p class="admin-modal-text">Are you sure you want to delete <strong id="deleteUserName"></strong>? This action cannot be undone.</p>
     <div class="admin-modal-actions">
       <button class="admin-btn admin-btn-view" onclick="closeDeleteModal()">CANCEL</button>
-      <a href="#" id="confirmDeleteBtn" class="admin-btn admin-btn-delete">DELETE</a>
+      <a href="" id="confirmDeleteBtn" class="admin-btn admin-btn-delete">DELETE</a>
     </div>
   </div>
 </div>
