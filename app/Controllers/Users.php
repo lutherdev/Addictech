@@ -22,14 +22,20 @@ class Users extends BaseController
         return view('view_admin_user', $data);
     }
 
-    public function profile(){ ///profile page for current logged in user
+    public function profile() {
         $session = session();
-        $checkses = $session->get('isLoggedIn');
-        if (!$checkses) {
-        return redirect()->to('/login')->with('error', 'Please login first.');
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to('login')->with('error', 'Please login first.');
         }
+
+        $user_id     = $session->get('user_id');
+        $ordersModel = model('Orders_model');
+        $orders      = $ordersModel->getOrdersByUserWithItems($user_id);
+
         $data = $session->get();
-        return view('view_user_profile', ['user' => $data]);
+        $data['orders'] = $orders;
+
+        return view('view_user_profile', ['user' => $data, 'orders' => $orders]);
     }
 
     public function view($id) {  //single user view from admin dashboard

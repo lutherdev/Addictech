@@ -73,4 +73,18 @@ class Orders_model extends Model
     {
         return $this->update($order_id, ['payment_status' => $payment_status]);
     }
+
+    public function getOrdersByUserWithItems($user_id)
+        {
+            $orders = $this->where('user_id', $user_id)
+                        ->orderBy('created_at', 'DESC')
+                        ->findAll();
+
+            $orderItemsModel = model('OrderItemModel');
+            foreach ($orders as &$order) {
+                $order['items'] = $orderItemsModel->getItemsByOrder($order['id']);
+            }
+
+            return $orders;
+        }
 }
