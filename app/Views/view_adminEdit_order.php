@@ -41,18 +41,15 @@
           <div class="detail-row">
             <div class="detail-group">
               <span class="detail-label">CUSTOMER</span>
-              <span class="detail-value"><?= esc($order['username']) ?></span>
+              <span class="detail-value"><?= esc($order['user_id']) ?></span>
             </div>
-            <div class="detail-group">
-              <span class="detail-label">EMAIL</span>
-              <span class="detail-value"><?= esc($order['email']) ?></span>
-            </div>
+            
           </div>
 
           <div class="detail-row">
             <div class="detail-group">
               <span class="detail-label">TOTAL PRICE</span>
-              <span class="detail-value detail-price">₱<?= number_format($order['total_price'], 0) ?></span>
+              <span class="detail-value detail-price">₱<?= number_format($order['total'], 0) ?></span>
             </div>
             <div class="detail-group">
               <span class="detail-label">DATE PLACED</span>

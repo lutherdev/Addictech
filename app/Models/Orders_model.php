@@ -48,7 +48,7 @@ class Orders_model extends Model
         $order = $this->find($order_id);
         if (!$order) return null;
 
-        $orderItemsModel = model('Order_items_model');
+        $orderItemsModel = model('OrderItemModel');
         $order['items']  = $orderItemsModel->getItemsByOrder($order_id);
         return $order;
     }
@@ -56,7 +56,7 @@ class Orders_model extends Model
     // Get all orders (admin use)
     public function getAllWithUser()
     {
-        return $this->select('orders.*, users.username, users.email, users.first_name, users.last_name')
+        return $this->select('orders.*, users.email, users.first_name, users.last_name')
                     ->join('users', 'users.id = orders.user_id')
                     ->orderBy('orders.created_at', 'DESC')
                     ->findAll();
