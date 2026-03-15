@@ -292,7 +292,7 @@ public function placeOrder()
             return redirect()->to('admin/orders');
         }
 
-        return view('view_admin_order_detail', ['order' => $order]);
+        return view('view_adminView_order', ['order' => $order]);
     }
 
     public function adminEdit($order_id)
@@ -352,6 +352,33 @@ public function placeOrder()
         $ordersModel->updatePaymentStatus($order_id, $payment_status);
         $session->setFlashData('success', 'Payment status updated.');
         return redirect()->to('admin/orders/view/' . $order_id);
+    }
+
+        public function adminDelete($order_id)
+    {
+        // $session = session();
+        // if ($session->get('role') !== 'admin') {
+        //     return redirect()->to('login');
+        // }
+
+        $ordersModel     = model('Orders_model');
+        $orderItemsModel = model('OrderItemModel');
+
+        $order = $ordersModel->find($order_id);
+
+        if (!$order) {
+            session()->setFlashData('error', 'Order not found.');
+            return redirect()->to('admin/orders');
+        }
+
+        // Delete order items first to avoid foreign key constraint error
+        $orderItemsModel->where('order_id', $order_id)->delete();
+
+        // Then delete the order
+        $ordersModel->delete($order_id);
+
+        session()->setFlashData('success', 'Order deleted successfully.');
+        return redirect()->to('admin/orders');
     }
 
     // ── HELPERS ────────────────────────────────────────
