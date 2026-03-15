@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 15, 2026 at 02:36 PM
+-- Host: 127.0.0.1:3306
+-- Generation Time: Mar 15, 2026 at 05:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.12
 
@@ -71,13 +71,13 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `order_number`, `status`, `payment_method`, `delivery_method`, `delivery_address`, `subtotal`, `shipping_fee`, `total`, `payment_status`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 5, 'ORD-69B64A051ED34', 'pending', 'cod', 'express', 'Monkhe', 5890.00, 250.00, 6140.00, 'unpaid', '', '2026-03-15 05:56:21', '2026-03-15 05:56:21'),
-(2, 5, 'ORD-69B64B67EBF48', 'pending', 'cod', 'express', 'Monkhe', 5890.00, 250.00, 6140.00, 'unpaid', '', '2026-03-15 06:02:15', '2026-03-15 06:02:15'),
-(3, 5, 'ORD-69B667DD08EAC', 'pending', 'gcash', 'standard', 'Monkhe', 3490.00, 150.00, 3640.00, 'unpaid', '', '2026-03-15 08:03:41', '2026-03-15 08:03:41'),
-(4, 5, 'ORD-69B6690C852DF', 'pending', 'credit_card', 'standard', 'Monkhe', 2850.00, 150.00, 3000.00, 'unpaid', '', '2026-03-15 08:08:44', '2026-03-15 08:08:44'),
-(5, 5, 'ORD-69B6696F173FE', 'pending', 'credit_card', 'standard', 'Monkhe', 5990.00, 150.00, 6140.00, 'unpaid', '', '2026-03-15 08:10:23', '2026-03-15 08:10:23'),
-(6, 5, 'ORD-69B66C4ED3241', 'pending', 'credit_card', 'pickup', 'Monkhe', 4350.00, 0.00, 4350.00, 'unpaid', '', '2026-03-15 08:22:38', '2026-03-15 08:22:38'),
-(7, 5, 'ORD-69B66F4D14AB0', 'processing', 'credit_card', 'pickup', 'Monkhe', 19190.00, 0.00, 19190.00, 'unpaid', '', '2026-03-15 08:35:25', '2026-03-15 09:08:20');
+(2, 5, 'ORD-69B64B67EBF48', 'delivered', 'cod', 'express', 'Monkhe', 5890.00, 250.00, 6140.00, 'unpaid', '', '2026-03-15 06:02:15', '2026-03-16 00:07:18'),
+(3, 5, 'ORD-69B667DD08EAC', 'processing', 'gcash', 'standard', 'Monkhe', 3490.00, 150.00, 3640.00, 'unpaid', '', '2026-03-15 08:03:41', '2026-03-16 00:07:37'),
+(4, 5, 'ORD-69B6690C852DF', 'delivered', 'credit_card', 'standard', 'Monkhe', 2850.00, 150.00, 3000.00, 'unpaid', '', '2026-03-15 08:08:44', '2026-03-16 00:07:24'),
+(5, 5, 'ORD-69B6696F173FE', 'pending', 'credit_card', 'standard', 'Monkhe', 5990.00, 150.00, 6140.00, 'unpaid', '', '2026-03-15 08:10:23', '2026-03-16 00:08:24'),
+(6, 5, 'ORD-69B66C4ED3241', 'delivered', 'credit_card', 'pickup', 'Monkhe', 4350.00, 0.00, 4350.00, 'unpaid', '', '2026-03-15 08:22:38', '2026-03-16 00:07:31'),
+(7, 5, 'ORD-69B66F4D14AB0', 'processing', 'credit_card', 'pickup', 'Monkhe', 19190.00, 0.00, 19190.00, 'unpaid', '', '2026-03-15 08:35:25', '2026-03-15 09:08:20'),
+(8, 5, 'ORD-69B6D84A091F2', 'delivered', 'cod', 'standard', 'Monkhe', 21900.00, 150.00, 22050.00, 'unpaid', '', '2026-03-15 16:03:22', '2026-03-16 00:06:06');
 
 -- --------------------------------------------------------
 
@@ -107,7 +107,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `vari
 (4, 5, 5, 'Void RGB', 'Wireless', 5990.00, 1, 5990.00),
 (5, 6, 11, 'C920 HD Pro', '1080p', 4350.00, 1, 4350.00),
 (6, 7, 10, 'Logitech Z200', 'Stereo', 2390.00, 1, 2390.00),
-(7, 7, 9, 'Audioengine A2', 'Powered', 16800.00, 1, 16800.00);
+(7, 7, 9, 'Audioengine A2', 'Powered', 16800.00, 1, 16800.00),
+(8, 8, 7, 'UltraSharp 27', '4K UHD', 21900.00, 1, 21900.00);
 
 -- --------------------------------------------------------
 
@@ -140,7 +141,7 @@ INSERT INTO `products` (`id`, `category`, `name`, `variant`, `description`, `pri
 (4, 'mouse', 'Basilisk X', 'Ergonomic', 'Ergonomic right-handed mouse with customizable scroll resistance and 6 programmable buttons for power users.', 4200.00, 0, NULL, 'active', '2026-03-13 10:13:46', NULL),
 (5, 'headset', 'Void RGB', 'Wireless', 'Surround sound USB headset with custom-tuned 50mm drivers and long-range wireless for unrestricted play.', 5990.00, 0, NULL, 'active', '2026-03-13 10:13:46', '2026-03-15 00:10:23'),
 (6, 'headset', 'Cloud II', 'Wired', 'Award-winning gaming headset with memory foam ear cushions and detachable noise-cancelling microphone.', 4490.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
-(7, 'monitor', 'UltraSharp 27', '4K UHD', '27-inch 4K IPS display with factory-calibrated colors, USB-C connectivity, and ultra-slim bezels for immersive work.', 21900.00, 1, NULL, 'active', '2026-03-13 10:13:46', NULL),
+(7, 'monitor', 'UltraSharp 27', '4K UHD', '27-inch 4K IPS display with factory-calibrated colors, USB-C connectivity, and ultra-slim bezels for immersive work.', 21900.00, 0, NULL, 'active', '2026-03-13 10:13:46', '2026-03-15 08:03:22'),
 (8, 'monitor', 'Odyssey G5', '1440p 165Hz', '27-inch 1440p curved gaming monitor with a 165Hz refresh rate and 1ms response time for competitive play.', 14500.00, 0, NULL, 'active', '2026-03-13 10:13:46', NULL),
 (9, 'speaker', 'Audioengine A2', 'Powered', 'Compact powered desktop speakers with a built-in amplifier delivering audiophile-grade stereo sound from a small footprint.', 16800.00, 0, NULL, 'active', '2026-03-13 10:13:46', '2026-03-15 00:35:25'),
 (10, 'speaker', 'Logitech Z200', 'Stereo', 'Affordable stereo speakers with clear, room-filling sound and easy-access volume control on the front panel.', 2390.00, 0, NULL, 'active', '2026-03-13 10:13:46', '2026-03-15 00:35:25'),
@@ -189,6 +190,13 @@ CREATE TABLE `wishlists` (
   `product_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlists`
+--
+
+INSERT INTO `wishlists` (`id`, `user_id`, `product_id`, `created_at`) VALUES
+(1, 5, 12, '2026-03-15 23:55:09');
 
 --
 -- Indexes for dumped tables
@@ -255,13 +263,13 @@ ALTER TABLE `cart_items`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -279,7 +287,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
