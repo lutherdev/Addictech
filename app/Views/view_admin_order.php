@@ -90,7 +90,7 @@
         <ul>
           <li><a href="<?= base_url('products') ?>">PRODUCTS</a></li>
           <li><a href="<?= base_url('orders') ?>" class="active">ORDERS</a></li>
-          <li><a href="<?= base_url('users') ?>">USERS</a></li>
+          <li><a href="<?= base_url('admin/users') ?>">USERS</a></li>
           <li><a href="<?= base_url('logout') ?>">LOGOUT</a></li>
         </ul>
       </nav>
