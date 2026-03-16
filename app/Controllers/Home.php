@@ -52,13 +52,21 @@ class Home extends BaseController
 
     public function viewcatalog()
     {
-        $productModel = model('Products_model');
-        $data = [
-            'title' => 'Catalog',
-            'products' => $productModel->findAll()
-        ];
-        
-        return view('view_catalog', $data);
+        $session      = session();
+        $productModel = model("Products_Model");
+        $products     = $productModel->where('status', 'active')->findAll();
+
+        $wishlisted_ids = [];
+        if ($session->get('isLoggedIn')) {
+            $wishlistModel  = model('Wishlists_model');
+            $wishlist       = $wishlistModel->getWishlistByUser($session->get('user_id'));
+            $wishlisted_ids = array_map('intval', array_column($wishlist, 'product_id'));
+        }
+
+        return view('view_catalog', [
+            'products'       => $products,
+            'wishlisted_ids' => $wishlisted_ids,
+        ]);
     }
 
     public function viewwishlist()

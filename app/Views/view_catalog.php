@@ -44,7 +44,7 @@ $products_json = json_encode(array_map(function($p) {
       <button class="tag" data-filter="HEADSET">HEADSET</button>
       <button class="tag" data-filter="MONITOR">MONITOR</button>
       <button class="tag" data-filter="SPEAKER">SPEAKER</button>
-      <button class="tag" data-filter="WEB CAM">WEB CAM</button>
+      <button class="tag" data-filter="cam">WEB CAM</button>
       <button class="tag sort-btn" id="sortBtn">Sort By Price</button>
     </div>
   </div>
