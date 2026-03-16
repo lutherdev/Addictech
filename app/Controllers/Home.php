@@ -96,4 +96,9 @@ class Home extends BaseController
 
     return view('view_wishlist', ['products' => $products]);
     }
+
+    public function viewabout()
+    {
+        return view('view_aboutus');
+    }
 }

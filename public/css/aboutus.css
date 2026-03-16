@@ -1,0 +1,171 @@
+/* =============================
+   ABOUT PAGE — about.css
+   ============================= */
+
+body {
+  background-color: #e8e4da;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #1a1a1a;
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* Header */
+.about-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #1a1814;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.about-subtitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1rem;
+  color: #8a8278;
+  letter-spacing: 0.08em;
+}
+
+/* Team Section */
+.team-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+/* Member Card */
+.member-card {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: background 0.15s;
+}
+
+.member-card:hover {
+  background: #e8e3d8;
+}
+
+.member-avatar {
+  width: 100px;
+  height: 100px;
+  border: 1.5px solid #c8c3b5;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0dbd0;
+  color: #8a8278;
+  margin: 0 auto 1.5rem;
+}
+
+.member-avatar svg {
+  width: 50px;
+  height: 50px;
+}
+
+.member-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1814;
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.04em;
+}
+
+.member-role {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #8a8278;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.member-bio {
+  font-family: 'Arial', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin: 0;
+}
+
+/* Add these styles to your existing aboutus.css */
+
+/* Member photo styles */
+.member-avatar {
+  width: 120px; /* Slightly larger for photos */
+  height: 120px;
+  border: 1.5px solid #c8c3b5;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0dbd0;
+  color: #8a8278;
+  margin: 0 auto 1.5rem;
+  overflow: hidden; /* Ensures image stays within bounds */
+}
+
+.member-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Covers the area without distortion */
+  object-position: center;
+  display: block;
+}
+
+/* Optional: Add a subtle hover effect for photos */
+.member-card:hover .member-photo {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Upload note for admins */
+.upload-note {
+  margin-top: 3rem;
+  padding: 1rem;
+  background: #f0ece2;
+  border: 1px dashed #c8c3b5;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  color: #8a8278;
+}
+
+.upload-note code {
+  background: #e0dbd0;
+  padding: 0.2rem 0.4rem;
+  border-radius: 2px;
+  color: #1a1814;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .team-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .about-container {
+    padding: 2rem 1.5rem;
+  }
+  
+  .about-title {
+    font-size: 2rem;
+  }
+}
