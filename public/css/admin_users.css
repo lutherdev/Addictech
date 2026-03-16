@@ -2,44 +2,48 @@
    ADMIN USERS PAGE — admin_users.css
    ============================= */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-
-/* ---- ADMIN NAV OVERRIDE ---- */
-.admin-nav {
-  display: flex !important;
-  justify-content: flex-start !important;
-  gap: 2rem !important;
-  padding: 0.6rem 1.5rem !important;
-  background: #f0ece3 !important;
-  border-bottom: 1.5px solid #c8c2b4 !important;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.admin-nav a {
+body {
+  background-color: #e8e4da;
+  font-family: 'Arial', sans-serif;
+  color: #1a1a1a;
+}
+
+/* Page wrapper: main content + right sidebar */
+.products-page {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 64px);
+  padding: 2rem 2rem 2rem 2rem;
+  gap: 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ── Main Content ── */
+.products-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Title row: heading left */
+.products-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
   font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
-  color: #6b6558 !important;
-  text-decoration: underline !important;
-  text-underline-offset: 3px !important;
-}
-
-.admin-nav a:hover,
-.admin-nav a.active {
-  color: #1a1814 !important;
-}
-
-/* ---- PAGE WRAPPER ---- */
-.admin-page-wrapper {
-  max-width: 960px !important;
-  margin: 0 auto !important;
-  padding: 2rem 1.5rem 4rem !important;
-}
-
-/* ---- PAGE TITLE ---- */
-.admin-page-title {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 2rem !important;
+  font-size: 3rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.04em !important;
   color: #1a1814 !important;
@@ -47,111 +51,131 @@
   text-transform: uppercase !important;
 }
 
-/* ---- ALERTS ---- */
-.admin-alert {
-  padding: 0.65rem 1rem !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  border: 1px solid !important;
-  margin-bottom: 1rem !important;
-  border-radius: 2px !important;
-}
-.admin-alert-success {
-  background: #eafaf1 !important;
-  border-color: #27ae60 !important;
-  color: #27ae60 !important;
-}
-.admin-alert-error {
-  background: #fdedec !important;
-  border-color: #c0392b !important;
-  color: #c0392b !important;
+/* ── Flash Messages ── */
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
-/* ---- TABLE WRAPPER ---- */
-.admin-table-wrapper {
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  overflow: hidden !important;
-  background: #f7f4ee !important;
-  width: 100% !important;
+.flash-success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
 }
 
-/* ---- TABLE ---- */
-.admin-users-table {
-  width: 100% !important;
-  border-collapse: collapse !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  table-layout: auto !important;
+.flash-error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
 }
 
-.admin-users-table thead tr {
-  border-bottom: 1.5px solid #c8c2b4 !important;
-  background: #f0ece3 !important;
+/* ── Table ── */
+.products-table-wrapper {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  overflow-x: auto;
 }
 
-.admin-users-table th {
-  padding: 0.7rem 0.9rem !important;
-  text-align: left !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
-  color: #6b6558 !important;
-  font-size: 0.7rem !important;
-  text-transform: uppercase !important;
-  white-space: nowrap !important;
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
 }
 
-.admin-users-table tbody tr {
-  border-bottom: 1px solid #c8c2b4 !important;
-  transition: background 0.12s !important;
+.products-table thead tr {
+  border-bottom: 1.5px solid #c8c3b5;
 }
 
-.admin-users-table tbody tr:last-child {
-  border-bottom: none !important;
+.products-table th {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  background: transparent;
 }
 
-.admin-users-table tbody tr:hover {
-  background: rgba(0,0,0,0.025) !important;
+.products-table th.col-img {
+  width: 60px;
 }
 
-.admin-users-table td {
-  padding: 0.65rem 0.9rem !important;
-  vertical-align: middle !important;
-  color: #1a1814 !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
+.products-table th.col-id     { width: 100px; }
+.products-table th.col-product{ width: 160px; }
+.products-table th.col-type   { width: 130px; }
+.products-table th.col-qty    { width: 90px;  text-align: center; }
+.products-table th.col-action { width: 200px; text-align: center; }
+
+.products-table tbody tr {
+  border-bottom: 1px solid #c8c3b5;
+  transition: background 0.1s;
 }
 
-/* ---- AVATAR ---- */
-.admin-avatar-cell {
-  width: 48px !important;
-  padding: 0.4rem 0.5rem 0.4rem 0.9rem !important;
+.products-table tbody tr:last-child {
+  border-bottom: none;
 }
 
-.admin-avatar {
-  width: 38px !important;
-  height: 38px !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: #ebe7de !important;
-  color: #8a8278 !important;
+.products-table tbody tr:hover {
+  background: #e8e3d8;
 }
 
-.admin-avatar svg {
-  width: 20px !important;
-  height: 20px !important;
+.products-table td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
 }
 
-/* ---- ID ---- */
-.admin-id-cell {
-  color: #8a8278 !important;
-  white-space: nowrap !important;
+/* Image column */
+.col-img {
+  width: 60px;
 }
 
-/* ---- STATUS BADGE ---- */
+.product-thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border: 1px solid #c8c3b5;
+}
+
+.product-thumb-placeholder {
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid #b0aa9a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  background: #e0dbd0;
+}
+
+.product-thumb-placeholder svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* Cell styles */
+.product-id {
+  font-family: monospace;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.product-name {
+  font-weight: 500;
+}
+
+.product-type {
+  color: #555;
+}
+
+.product-quantity {
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Status badge */
 .admin-status {
   display: inline-block !important;
   padding: 0.18rem 0.45rem !important;
@@ -168,52 +192,84 @@
 .admin-status-inactive { border-color: #8a8278 !important; color: #8a8278 !important; background: transparent !important; }
 .admin-status-banned   { border-color: #c0392b !important; color: #c0392b !important; background: #fdedec !important; }
 
-/* ---- ACTION BUTTONS ---- */
-.admin-action-cell {
-  white-space: nowrap !important;
+/* Action buttons */
+.product-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
 }
 
-.admin-btn {
-  display: inline-block !important;
-  padding: 0.28rem 0.6rem !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.68rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.07em !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  background: transparent !important;
-  color: #1a1814 !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
-  margin-right: 0.2rem !important;
-  transition: background 0.12s, color 0.12s, border-color 0.12s !important;
-  line-height: 1 !important;
+.btn-action {
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  border: 1.5px solid #1a1a1a;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  font-family: inherit;
 }
 
-.admin-btn:last-child { margin-right: 0 !important; }
-
-.admin-btn-view:hover  { background: #1a1814 !important; color: #f0ece3 !important; border-color: #1a1814 !important; }
-.admin-btn-edit:hover  { background: #2c5282 !important; color: #fff !important; border-color: #2c5282 !important; }
-
-.admin-btn-delete {
-  border-color: #c0392b !important;
-  color: #c0392b !important;
-}
-.admin-btn-delete:hover {
-  background: #c0392b !important;
-  color: #fff !important;
+.btn-action:hover {
+  background: #1a1a1a;
+  color: #e8e4da;
 }
 
-/* ---- EMPTY ROW ---- */
-.admin-empty-row {
-  text-align: center !important;
-  color: #8a8278 !important;
-  padding: 3rem !important;
-  font-size: 0.82rem !important;
+.btn-action.btn-delete:hover {
+  background: #8b0000;
+  border-color: #8b0000;
+  color: #fff;
 }
 
-/* ---- DELETE MODAL ---- */
+/* Empty state */
+.empty-row {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* ── Right Sidebar Navigation ── */
+.sidebar-nav {
+  width: 120px;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+
+.sidebar-nav nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.sidebar-nav nav ul li a {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #1a1a1a;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.sidebar-nav nav ul li a:hover,
+.sidebar-nav nav ul li a.active {
+  color: #555;
+}
+
+/* ── Delete Modal ── */
 .admin-modal-overlay {
   display: none;
   position: fixed !important;
@@ -269,233 +325,54 @@
   justify-content: flex-end !important;
 }
 
-
-/* =========================================================
-   DETAIL / VIEW / EDIT PAGES
-   ========================================================= */
-
-/* ---- Page Header with back link ---- */
-.admin-page-header {
-  margin-bottom: 1.5rem !important;
-}
-
-.admin-back-link {
+.admin-btn {
   display: inline-block !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.72rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.08em !important;
-  color: #8a8278 !important;
-  text-decoration: none !important;
-  margin-bottom: 0.5rem !important;
-  transition: color 0.12s !important;
-}
-.admin-back-link:hover { color: #1a1814 !important; }
-
-/* ---- Detail Card ---- */
-.admin-detail-card {
-  background: #f7f4ee !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  overflow: hidden !important;
-}
-
-/* ---- Card Header ---- */
-.admin-detail-header {
-  display: flex !important;
-  align-items: center !important;
-  gap: 1.2rem !important;
-  padding: 1.5rem 1.8rem !important;
-}
-
-.admin-detail-avatar {
-  width: 64px !important;
-  height: 64px !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: #ebe7de !important;
-  color: #8a8278 !important;
-  flex-shrink: 0 !important;
-}
-
-.admin-detail-avatar svg {
-  width: 32px !important;
-  height: 32px !important;
-}
-
-.admin-detail-header-info {
-  flex: 1 !important;
-}
-
-.admin-detail-uid {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.72rem !important;
-  color: #8a8278 !important;
-  margin-bottom: 0.2rem !important;
-}
-
-.admin-detail-name {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 1.2rem !important;
-  font-weight: 600 !important;
-  color: #1a1814 !important;
-  letter-spacing: 0.04em !important;
-  margin-bottom: 0.4rem !important;
-  text-transform: uppercase !important;
-}
-
-.admin-detail-header-actions {
-  display: flex !important;
-  gap: 0.5rem !important;
-  flex-shrink: 0 !important;
-}
-
-/* ---- Divider ---- */
-.admin-detail-divider {
-  height: 1px !important;
-  background: #c8c2b4 !important;
-  margin: 0 !important;
-}
-
-/* ---- Detail Grid (view page) ---- */
-.admin-detail-grid {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 0 !important;
-}
-
-.admin-detail-section {
-  padding: 1.4rem 1.8rem !important;
-  border-right: 1px solid #c8c2b4 !important;
-}
-
-.admin-detail-section:last-child,
-.admin-detail-section-full {
-  border-right: none !important;
-}
-
-.admin-detail-section-full {
-  grid-column: 1 / -1 !important;
-  border-top: 1px solid #c8c2b4 !important;
-}
-
-.admin-detail-section-label {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.65rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.12em !important;
-  color: #8a8278 !important;
-  text-transform: uppercase !important;
-  margin-bottom: 0.9rem !important;
-}
-
-.admin-detail-row {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  padding: 0.4rem 0 !important;
-  border-bottom: 1px dashed #ddd8ce !important;
-  gap: 1rem !important;
-}
-
-.admin-detail-row:last-child {
-  border-bottom: none !important;
-}
-
-.admin-detail-key {
+  padding: 0.28rem 0.6rem !important;
   font-family: 'IBM Plex Mono', monospace !important;
   font-size: 0.68rem !important;
   font-weight: 500 !important;
   letter-spacing: 0.07em !important;
-  color: #8a8278 !important;
-  white-space: nowrap !important;
-  flex-shrink: 0 !important;
-}
-
-.admin-detail-val {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  color: #1a1814 !important;
-  text-align: right !important;
-}
-
-/* ---- Form Grid (edit page) ---- */
-.admin-form-grid {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 0 !important;
-}
-
-.admin-form-section {
-  padding: 1.4rem 1.8rem !important;
-  border-right: 1px solid #c8c2b4 !important;
-}
-
-.admin-form-section:last-child {
-  border-right: none !important;
-}
-
-/* ---- Form Fields ---- */
-.admin-field-group {
-  margin-bottom: 1rem !important;
-}
-
-.admin-field-label {
-  display: block !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.65rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
-  color: #8a8278 !important;
-  margin-bottom: 0.3rem !important;
-}
-
-.admin-field-input {
-  width: 100% !important;
-  padding: 0.45rem 0.7rem !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  color: #1a1814 !important;
-  background: #f0ece3 !important;
   border: 1.5px solid #c8c2b4 !important;
   border-radius: 2px !important;
-  outline: none !important;
-  transition: border-color 0.15s !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-}
-
-.admin-field-input:focus {
-  border-color: #1a1814 !important;
-  background: #fff !important;
-}
-
-select.admin-field-input {
+  background: transparent !important;
+  color: #1a1814 !important;
+  text-decoration: none !important;
   cursor: pointer !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8278'/%3E%3C/svg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 0.7rem center !important;
-  padding-right: 2rem !important;
+  transition: background 0.12s, color 0.12s, border-color 0.12s !important;
+  line-height: 1 !important;
 }
 
-/* ---- Form Actions ---- */
-.admin-form-actions {
-  display: flex !important;
-  justify-content: flex-end !important;
-  gap: 0.6rem !important;
-  padding: 1.2rem 1.8rem !important;
+.admin-btn-view:hover  { background: #1a1814 !important; color: #f0ece3 !important; border-color: #1a1814 !important; }
+
+.admin-btn-delete {
+  border-color: #c0392b !important;
+  color: #c0392b !important;
+}
+.admin-btn-delete:hover {
+  background: #c0392b !important;
+  color: #fff !important;
 }
 
-.admin-btn-save {
-  border-color: #1a1814 !important;
-  background: #1a1814 !important;
-  color: #f0ece3 !important;
-}
-.admin-btn-save:hover {
-  background: #333 !important;
-  border-color: #333 !important;
-  color: #f0ece3 !important;
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .products-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .sidebar-nav {
+    width: 100%;
+  }
+
+  .sidebar-nav nav ul {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+  }
 }
