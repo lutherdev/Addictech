@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════
    wishlist.js — addictech
-   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH,
-            WISHLIST_REMOVE, handleWishRemove, toggleWishlist
+   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH
 ═══════════════════════════════════════ */
 
 function updateCartBadge(count) {
@@ -29,13 +28,46 @@ function showToast(msg) {
 /* ── state ── */
 let currentProduct = null;
 let qty            = 1;
+let activeFilter   = 'all';
+
+/* ══════════════════════════════════
+   FILTER + SEARCH
+══════════════════════════════════ */
+function applyFilters() {
+  const term = (document.getElementById('searchInput')?.value ?? '').toLowerCase();
+
+  document.querySelectorAll('.product-card').forEach(function(card) {
+    const name     = (card.dataset.name     ?? '').toLowerCase();
+    const category = (card.dataset.category ?? '').toLowerCase();
+
+    const matchCat    = activeFilter === 'all'
+                     || category === activeFilter.toLowerCase();
+    const matchSearch = name.includes(term);
+
+    card.style.display = (matchCat && matchSearch) ? '' : 'none';
+  });
+}
+
+/* filter buttons */
+document.querySelectorAll('.filter-tags .tag[data-filter]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-tags .tag[data-filter]').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    this.classList.add('active');
+    activeFilter = this.dataset.filter;
+    applyFilters();
+  });
+});
+
+/* search input */
+document.getElementById('searchInput')?.addEventListener('input', applyFilters);
 
 /* ══════════════════════════════════
    CARD CLICKS — open modal
 ══════════════════════════════════ */
 document.querySelectorAll('.product-card').forEach(function(card) {
   card.addEventListener('click', function(e) {
-    // don't open modal if clicking the wish button
     if (e.target.closest('.card-wish-btn') || e.target.closest('.card-wish-form')) return;
     const id = parseInt(this.dataset.id);
     const p  = products.find(function(x) { return x.id === id; });
