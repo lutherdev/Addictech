@@ -147,7 +147,7 @@ $products_json = json_encode(array_map(function($p) {
           ADD TO CART
         </button>
 
-        <button id="modalBuyNowBtn" class="modal-buynow-btn" type="submit"
+        <button id="modalBuyNowBtn" class="modal-atc-btn" type="submit"
                 formaction="<?= base_url('orders/buynow') ?>">
           BUY NOW
         </button>
