@@ -19,7 +19,7 @@ class Home extends BaseController
         if (!empty($products)) {
             shuffle($products); // randomize order
 
-            $count = 4; // 1 to 3, but not more than total
+            $count = 3; // 1 to 3, but not more than total
             $featured_products = array_slice($products, 0, $count);
         }
         $data = array(
