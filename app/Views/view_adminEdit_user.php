@@ -84,7 +84,7 @@
           <div class="admin-field-group">
             <label class="admin-field-label">ROLE</label>
             <select name="role" class="admin-field-input">
-              <option value="user"  <?= ($user['role'] ?? '') === 'user'  ? 'selected' : '' ?>>User</option>
+              <option value="customer"  <?= ($user['role'] ?? '') === 'customer'  ? 'selected' : '' ?>>Customer</option>
               <option value="admin" <?= ($user['role'] ?? '') === 'admin' ? 'selected' : '' ?>>Admin</option>
             </select>
           </div>
