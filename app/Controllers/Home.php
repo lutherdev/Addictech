@@ -11,9 +11,21 @@ class Home extends BaseController
         // $reservationmodel = model('Reservation_model');
         // $borrowmodel = model('Borrow_model');
         $userId = session()->get('user_id');
+        $productModel = model("Products_Model");
+        $products     = $productModel->where('status', 'active')->findAll();
+
+        $featured_products = [];
+
+        if (!empty($products)) {
+            shuffle($products); // randomize order
+
+            $count = 4; // 1 to 3, but not more than total
+            $featured_products = array_slice($products, 0, $count);
+        }
         $data = array(
             'title' => 'TW32 App - View User Record',
             'user' => $usermodel->find($userId),
+            'featured_products'=>$featured_products,
         );
 
         // $data2 = array(
@@ -47,7 +59,7 @@ class Home extends BaseController
         //     else : return redirect()->to('login');
         //     endif;            
         // }
-        return view('view_homepage');
+        return view('view_homepage', $data);
     }
 
     public function viewcatalog()
@@ -55,6 +67,15 @@ class Home extends BaseController
         $session      = session();
         $productModel = model("Products_Model");
         $products     = $productModel->where('status', 'active')->findAll();
+
+        $featured_products = [];
+
+        if (!empty($products)) {
+            shuffle($products); // randomize order
+
+            $count = min(rand(1, 3), count($products)); // 1 to 3, but not more than total
+            $featured_products = array_slice($products, 0, $count);
+        }
 
         $wishlisted_ids = [];
         if ($session->get('isLoggedIn')) {
