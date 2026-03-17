@@ -82,7 +82,7 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
     <button class="tab-btn" id="tabSettings" onclick="switchTab('settings')">ACCOUNT SETTINGS</button>
   </div>
 
-  <!-- ORDER HISTORY TAB -->
+<!-- ORDER HISTORY TAB -->
   <div class="tab-panel" id="panelHistory">
     <div class="orders-toolbar">
       <div class="order-filters" id="orderFilters">
@@ -109,7 +109,7 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
 
     <div class="orders-table">
       <div class="orders-thead">
-        <span>PRODUCT NAME</span>
+        <span>ORDER</span>
         <span>PAYMENT</span>
         <span>STATUS</span>
         <span>TOTAL</span>
@@ -123,46 +123,96 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
             </a>
           </div>
         <?php else : ?>
-          <?php foreach ($orders as $order) : ?>
-            <?php if (!empty($order['items'])) : ?>
-              <?php foreach ($order['items'] as $item) : ?>
-                <div class="orders-row"
-                     data-status="<?= esc($order['status']) ?>"
-                     data-name="<?= strtolower(esc($item['product_name'])) ?>"
-                     data-payment="<?= strtolower(esc($order['payment_method'])) ?>">
-                  <span class="order-name">
-                    <?= esc($item['product_name']) ?>
-                    <?php if (!empty($item['variant'])) : ?>
-                      <small style="color:var(--text-muted)"> — <?= esc($item['variant']) ?></small>
-                    <?php endif; ?>
-                    <br>
-                    <small style="font-weight:300;color:var(--text-muted);font-size:0.68rem">
-                      <?= date('M d, Y', strtotime($order['created_at'])) ?>
-                    </small>
-                  </span>
-                  <span class="order-payment"><?= strtoupper(esc($order['payment_method'])) ?></span>
-                  <span class="order-status status-<?= esc($order['status']) ?>">
-                    <?= strtoupper(esc($order['status'])) ?>
-                  </span>
-                  <span class="order-total">₱<?= number_format($order['total'], 2) ?></span>
+          <?php foreach ($orders as $i => $order) : ?>
+            <?php
+              $firstItem   = !empty($order['items']) ? $order['items'][0] : null;
+              $displayName = $firstItem ? esc($firstItem['product_name']) : 'Order #' . esc($order['id']);
+              $itemCount   = count($order['items'] ?? []);
+              $extraCount  = $itemCount - 1;
+            ?>
+
+            <!-- Summary Row (clickable) -->
+            <div class="orders-row order-row"
+                 data-status="<?= esc($order['status']) ?>"
+                 data-name="<?= strtolower($displayName) ?>"
+                 data-payment="<?= strtolower(esc($order['payment_method'] ?? '')) ?>"
+                 onclick="toggleDrop(<?= $i ?>)">
+
+              <span class="order-name">
+                <?= $displayName ?>
+                <?php if ($firstItem && !empty($firstItem['variant'])) : ?>
+                  <small style="color:var(--text-muted)"> — <?= esc($firstItem['variant']) ?></small>
+                <?php endif; ?>
+                <?php if ($extraCount > 0) : ?>
+                  <small class="order-extra-count">+<?= $extraCount ?> more item<?= $extraCount > 1 ? 's' : '' ?></small>
+                <?php endif; ?>
+                <br>
+                <small style="font-weight:300;color:var(--text-muted);font-size:0.68rem">
+                  <?= date('M d, Y', strtotime($order['created_at'])) ?>
+                </small>
+              </span>
+
+              <span class="order-payment"><?= strtoupper(esc($order['payment_method'] ?? '—')) ?></span>
+
+              <span class="order-status status-<?= esc($order['status']) ?>">
+                <?= strtoupper(esc($order['status'])) ?>
+              </span>
+
+              <span class="order-total" style="display:flex;align-items:center;justify-content:space-between;">
+                ₱<?= number_format($order['total_price'] ?? $order['total'] ?? 0, 2) ?>
+                <svg class="drop-chevron" id="chevron-<?= $i ?>"
+                     width="12" height="12" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5"
+                     style="transition:transform 0.25s;flex-shrink:0;margin-left:0.5rem">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </span>
+            </div>
+
+            <!-- Expanded Detail Panel -->
+            <div class="order-drop" id="accordion-<?= $i ?>">
+              <div class="drop-inner">
+
+                <div class="drop-head">
+                  <span>PRODUCT</span>
+                  <span>VARIANT</span>
+                  <span>QTY</span>
+                  <span>UNIT PRICE</span>
+                  <span>SUBTOTAL</span>
                 </div>
-              <?php endforeach; ?>
-            <?php else : ?>
-              <div class="orders-row" data-status="<?= esc($order['status']) ?>">
-                <span class="order-name">
-                  Order #<?= esc($order['order_number']) ?>
-                  <br>
-                  <small style="font-weight:300;color:var(--text-muted);font-size:0.68rem">
-                    <?= date('M d, Y', strtotime($order['created_at'])) ?>
-                  </small>
-                </span>
-                <span class="order-payment"><?= strtoupper(esc($order['payment_method'])) ?></span>
-                <span class="order-status status-<?= esc($order['status']) ?>">
-                  <?= strtoupper(esc($order['status'])) ?>
-                </span>
-                <span class="order-total">₱<?= number_format($order['total'], 2) ?></span>
+
+                <?php if (!empty($order['items'])) : ?>
+                  <?php foreach ($order['items'] as $item) : ?>
+                    <div class="drop-row">
+                      <span class="drop-name"><?= esc($item['product_name'] ?? '—') ?></span>
+                      <span class="drop-variant"><?= esc($item['variant'] ?? '—') ?></span>
+                      <span class="drop-qty"><?= esc($item['quantity']) ?></span>
+                      <span class="drop-price">₱<?= number_format($item['price'], 2) ?></span>
+                      <span class="drop-subtotal">₱<?= number_format($item['subtotal'], 2) ?></span>
+                    </div>
+                  <?php endforeach; ?>
+                <?php else : ?>
+                  <div class="drop-row">
+                    <span style="color:var(--text-muted);font-size:0.75rem">No items found.</span>
+                  </div>
+                <?php endif; ?>
+
+                <div class="drop-totals">
+                  <?php if (!empty($order['shipping_fee'])) : ?>
+                    <div class="drop-total">
+                      <span>SHIPPING</span>
+                      <span>₱<?= number_format($order['shipping_fee'], 2) ?></span>
+                    </div>
+                  <?php endif; ?>
+                  <div class="drop-total drop-grand">
+                    <span>TOTAL</span>
+                    <span>₱<?= number_format($order['total_price'] ?? $order['total'] ?? 0, 2) ?></span>
+                  </div>
+                </div>
+
               </div>
-            <?php endif; ?>
+            </div>
+
           <?php endforeach; ?>
         <?php endif; ?>
       </div>

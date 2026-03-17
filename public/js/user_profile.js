@@ -98,5 +98,27 @@
       setTimeout(() => t.classList.remove('show'), 2200);
     }
 
+    /* ──────────────────────────────────────
+       Toggle order drop
+      ────────────────────────────────────── */
+  function toggleDrop(index) {
+    const panel   = document.getElementById('accordion-' + index);
+    const chevron = document.getElementById('chevron-' + index);
+  
+    if (!panel) return;
+  
+    const isOpen = panel.classList.contains('open');
+  
+    // Close all open panels first
+    document.querySelectorAll('.order-drop.open').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.drop-chevron.open').forEach(c => c.classList.remove('open'));
+  
+    // If it wasn't open, open it
+    if (!isOpen) {
+      panel.classList.add('open');
+      chevron.classList.add('open');
+    }
+  }
+
     /* ── INIT ── */
     renderOrders();
