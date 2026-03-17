@@ -318,9 +318,28 @@ public function placeOrder()
         // if ($session->get('role') !== 'admin') {
         //     return redirect()->to('login');
         // }
-
+        $orderItemsModel = model('OrderItemModel');
         $ordersModel = model('Orders_model');
+        $productModel = model('Products_model');
         $status      = $this->request->getPost('status');
+
+        if ($status === 'cancelled') {
+            $order = $ordersModel->find($order_id);
+
+            if ($order && $order['status'] !== 'cancelled') {
+                $items = $orderItemsModel->getItemsByOrder($order_id);
+                foreach ($items as $item) {
+                    if ($item['product_id']) {
+                        $product = $productModel->find($item['product_id']);
+                        if ($product) {
+                            $productModel->update($item['product_id'], [
+                                'stock' => $product['stock'] + $item['quantity'],
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
 
         $allowed = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
         if (!in_array($status, $allowed)) {

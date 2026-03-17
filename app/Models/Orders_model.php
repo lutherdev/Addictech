@@ -90,6 +90,24 @@ public function getAllWithUser()
         return $this->update($order_id, ['payment_status' => $payment_status]);
     }
 
+    // Restore stock for all items in an order (called when order is cancelled)
+    public function restoreStock($order_id)
+    {
+        $productModel = new \App\Models\Products_Model();
+        $items        = $this->getItemsByOrder($order_id);
+
+        foreach ($items as $item) {
+            if (!$item['product_id']) continue;
+
+            $product = $productModel->find($item['product_id']);
+            if ($product) {
+                $productModel->update($item['product_id'], [
+                    'stock' => $product['stock'] + $item['quantity'],
+                ]);
+            }
+        }
+    }
+
     public function getOrdersByUserWithItems($user_id)
         {
             $orders = $this->where('user_id', $user_id)
