@@ -498,6 +498,90 @@
   background: url('../images/3.png') center center / cover no-repeat;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Adjust based on your navbar height */
+}
+
+/* Optional: Active state for contact link when scrolled to contact section */
+.contact-split:target {
+  animation: highlight 1.5s ease;
+}
+
+.bs-price {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 0.2rem;
+  letter-spacing: 0.02em;
+}
+
+/* Image styling */
+.bs-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.bs-card:hover .bs-img img {
+  transform: scale(1.05);
+}
+
+/* Ensure consistent card height */
+.bs-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.bs-name {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+/* Responsive grid adjustments */
+@media (min-width: 1024px) {
+  .bs-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+}
+
+/* Optional: 4-column layout for larger screens */
+@media (min-width: 1400px) {
+  .bs-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1300px;
+  }
+}
+
+/* Smooth scroll padding for fixed navbar */
+html {
+  scroll-padding-top: 80px;
+}
+
+/* Contact section highlight when targeted */
+.contact-split:target {
+  animation: highlight 1.5s ease;
+}
+
+@keyframes highlight {
+  0% { background-color: rgba(200, 196, 188, 0.2); }
+  100% { background-color: transparent; }
+}
+
+@keyframes highlight {
+  0% { background-color: rgba(200, 196, 188, 0.3); }
+  100% { background-color: transparent; }
+}
+
 @media (max-width: 768px) {
   .banner-4 { height: 280px; }
 }

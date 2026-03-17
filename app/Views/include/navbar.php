@@ -3,15 +3,19 @@
  * NAVBAR PARTIAL
  *
  * Variables (all optional — pass from controller or view):
- *   $nav_active  string   Which link is active: 'home'|'about'|'catalog'|'contact'
+ *   $nav_active  string   Which link is active: 'home'|'about'|'catalog'|'contact'|'users'|'products'|'orders'
  *   $cart_count  int      Number of items in cart (for badge)
  *   $wish_count  int      Number of wishlisted items (for badge)
- *   $current_user array  Logged-in user (checks for null to decide account link)
  */
 
 $nav_active  = $nav_active  ?? '';
 $cart_count  = $cart_count  ?? 0;
 $wish_count  = $wish_count  ?? 0;
+
+// Get session to check user role
+$session = session();
+$userRole = $session->get('role');
+$isLoggedIn = $session->get('isLoggedIn');
 
 // Helper: apply 'active' class
 function nav_class(string $page, string $active): string {
@@ -28,13 +32,17 @@ function nav_class(string $page, string $active): string {
 
   <!-- CENTER: links -->
   <div class="nav-links">
-    <a href="<?= base_url('home') ?>"        class="<?= nav_class('home',    $nav_active) ?>">HOME</a>
-    <a href="<?= base_url('about') ?>"    class="<?= nav_class('about',   $nav_active) ?>">ABOUT</a>
-    <a href="<?= base_url('catalog') ?>"  class="<?= nav_class('catalog', $nav_active) ?>">CATALOG</a>
-    <a href="<?= base_url('contact') ?>"  class="<?= nav_class('contact', $nav_active) ?>">CONTACT</a>
-    <a href="<?= base_url('admin/users') ?>"  class="<?= nav_class('contact', $nav_active) ?>">admin - users</a>
-    <a href="<?= base_url('admin/products') ?>"  class="<?= nav_class('contact', $nav_active) ?>">admin - products</a>
-    <a href="<?= base_url('admin/orders') ?>"  class="<?= nav_class('contact', $nav_active) ?>">admin - orders</a>
+    <a href="<?= base_url('home') ?>" class="<?= nav_class('home', $nav_active) ?>">HOME</a>
+    <a href="<?= base_url('about') ?>" class="<?= nav_class('about', $nav_active) ?>">ABOUT</a>
+    <a href="<?= base_url('catalog') ?>" class="<?= nav_class('catalog', $nav_active) ?>">CATALOG</a>
+    <a href="<?= base_url('home#contact-section') ?>" class="<?= nav_class('contact', $nav_active) ?>" id="contact-link">CONTACT</a>
+    
+    <!-- Admin-only links - only shown if user is logged in AND has role 'admin' -->
+    <?php if ($isLoggedIn && $userRole === 'admin'): ?>
+      <a href="<?= base_url('admin/users') ?>" class="<?= nav_class('users', $nav_active) ?>">VIEW USERS</a>
+      <a href="<?= base_url('admin/products') ?>" class="<?= nav_class('products', $nav_active) ?>">VIEW PRODUCTS</a>
+      <a href="<?= base_url('admin/orders') ?>" class="<?= nav_class('orders', $nav_active) ?>">VIEW ORDERS</a>
+    <?php endif; ?>
   </div>
 
   <!-- RIGHT: icons -->
@@ -70,7 +78,7 @@ function nav_class(string $page, string $active): string {
     </a>
 
     <!-- Logout (only shown when logged in) -->
-    <?php if (!empty($current_user)): ?>
+    <?php if ($isLoggedIn): ?>
     <a href="<?= base_url('auth/logout') ?>" class="icon-btn" aria-label="Logout" title="Logout">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>

@@ -86,33 +86,60 @@
 <div class="banner-4"></div>
  
 <!-- ═══════════════════════════════════════
-     BESTSELLERS
+     FEATURED PRODUCTS
 ═══════════════════════════════════════ -->
 <section class="bestsellers">
-  <h2 class="section-heading">BESTSELLERS</h2>
+  <h2 class="section-heading">FEATURED PRODUCTS</h2>
  
   <div class="bs-grid">
     <?php
-    // Pass $bestsellers from controller, fallback to first 3 products
-    $bs = $bestsellers ?? array_slice($products ?? [], 0, 3);
-    foreach ($bs as $p):
+    // Use featured_products passed from controller, fallback to empty array
+    $featured = $featured_products ?? [];
+    
+    if (!empty($featured)):
+        foreach ($featured as $product):
+    ?>
+    <a href="<?= base_url('catalog/product/' . $product['id']) ?>" class="bs-card">
+      <div class="bs-img">
+        <?php if (!empty($product['image']) && file_exists(FCPATH . 'public/uploads/' . $product['image'])): ?>
+          <img src="<?= base_url('public/uploads/' . $product['image']) ?>" alt="<?= esc($product['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+        <?php else: ?>
+          <!-- placeholder X box when no image exists -->
+          <svg width="100%" height="100%" viewBox="0 0 300 280" preserveAspectRatio="none" fill="none">
+            <rect x="1" y="1" width="298" height="278" stroke="#c8c4bc" stroke-width="1.5"/>
+            <line x1="1" y1="1" x2="299" y2="279" stroke="#c8c4bc" stroke-width="1.5"/>
+            <line x1="299" y1="1" x2="1" y2="279" stroke="#c8c4bc" stroke-width="1.5"/>
+          </svg>
+        <?php endif; ?>
+      </div>
+      <p class="bs-name"><?= strtoupper(esc($product['name'] ?? 'PRODUCT')) ?></p>
+      <p class="bs-price">₱<?= number_format($product['price'] ?? 0, 0) ?></p>
+    </a>
+    <?php 
+        endforeach;
+    else:
+        // Fallback placeholder products if no featured products exist
+        for ($i = 1; $i <= 3; $i++):
     ?>
     <a href="<?= base_url('catalog') ?>" class="bs-card">
       <div class="bs-img">
-        <!-- placeholder X box — swap with <img> when images exist -->
         <svg width="100%" height="100%" viewBox="0 0 300 280" preserveAspectRatio="none" fill="none">
           <rect x="1" y="1" width="298" height="278" stroke="#c8c4bc" stroke-width="1.5"/>
           <line x1="1" y1="1" x2="299" y2="279" stroke="#c8c4bc" stroke-width="1.5"/>
           <line x1="299" y1="1" x2="1" y2="279" stroke="#c8c4bc" stroke-width="1.5"/>
         </svg>
       </div>
-      <p class="bs-name"><?= strtoupper(htmlspecialchars($p['name'] ?? 'PRODUCT')) ?></p>
+      <p class="bs-name">FEATURED PRODUCT <?= $i ?></p>
+      <p class="bs-price">₱0</p>
     </a>
-    <?php endforeach; ?>
+    <?php 
+        endfor;
+    endif; 
+    ?>
   </div>
  
   <div class="bs-cta">
-    <a href="<?= base_url('catalog') ?>" class="btn-viewall">VIEW ALL</a>
+    <a href="<?= base_url('catalog') ?>" class="btn-viewall">VIEW ALL PRODUCTS</a>
   </div>
 </section>
  
@@ -139,7 +166,7 @@
 <!-- ═══════════════════════════════════════
      CONTACT + IMAGE SPLIT
 ═══════════════════════════════════════ -->
-<div class="contact-split">
+<div class="contact-split" id="contact-section">
  
   <!-- LEFT: image placeholder -->
   <div class="contact-img-placeholder"></div>
@@ -195,5 +222,49 @@
   </div>
  
 </div>
- 
+
+<!-- Smooth Scroll JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth scroll behavior to all anchor links
+    const allLinks = document.querySelectorAll('a[href^="#"]');
+    allLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Check if URL has hash on page load and scroll to it
+    if (window.location.hash) {
+      const targetElement = document.querySelector(window.location.hash);
+      if (targetElement) {
+        setTimeout(() => {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 100);
+      }
+    }
+  });
+</script>
+
+<!-- Optional: Add CSS smooth scroll as fallback -->
+<style>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Adjust based on your navbar height */
+  }
+</style>
+
+</body>
 <?= $this->endSection() ?>
