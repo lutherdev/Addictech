@@ -55,42 +55,6 @@
   to   { transform: translateX(-50%); }
 }
 
-/* search bar overlaid on hero */
-.hero-search {
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-  display: flex;
-  align-items: center;
-  border: 1px solid rgba(255,255,255,.6);
-  background: rgba(255,255,255,.15);
-  backdrop-filter: blur(6px);
-}
-
-.hero-search input {
-  background: transparent;
-  border: none;
-  outline: none;
-  padding: .45rem .8rem;
-  font-family: var(--font-body);
-  font-size: .72rem;
-  letter-spacing: .12em;
-  color: #fff;
-  width: 160px;
-}
-
-.hero-search input::placeholder { color: rgba(255,255,255,.7); letter-spacing: .12em; }
-
-.hero-search button {
-  background: none;
-  border: none;
-  padding: .45rem .7rem;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
 /* ── BOTTOM SECTION (two columns) ── */
 .home-bottom {
   display: grid;

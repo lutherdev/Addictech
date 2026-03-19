@@ -50,27 +50,6 @@ body {
   gap: 1rem;
 }
 
-.hamburger {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 4px;
-}
-
-.hamburger span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background-color: var(--text);
-  border-radius: 2px;
-  transition: background-color 0.2s;
-}
-
-.hamburger:hover span { background-color: #555; }
-
 .brand {
   font-family: var(--font-body);
   font-weight: 500;
@@ -106,6 +85,11 @@ body {
 .nav-icons {
   display: flex;
   align-items: center;
+  gap: 0.6rem;
+}
+
+.desktop-icons {
+  display: flex;
   gap: 0.6rem;
 }
 
@@ -204,20 +188,20 @@ body {
   gap: 1.2rem;
 }
 
+
 .btn-signin {
-  width: 100%;
-  max-width: 520px;
-  padding: 1.1rem 2rem;
-  background-color: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 0;
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  cursor: pointer;
-  transition: background-color 0.25s, box-shadow 0.25s;
+    width: 100%;
+    background: none;
+    border: 1.5px solid var(--text);
+    color: var(--text);
+    padding: 0.8rem 3rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 1.5rem;
 }
 
 .btn-signin:hover {
@@ -260,11 +244,115 @@ body {
 
 .link-register:hover { opacity: 0.55; }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .navbar { padding: 0 1.2rem; }
   .nav-links { gap: 1.2rem; }
   .nav-link { font-size: 0.68rem; }
   .page-title { font-size: 1.6rem; letter-spacing: 0.22em; }
   .form-section,
   .cta-section { padding-left: 1.2rem; padding-right: 1.2rem; }
+
+
+  /* hide desktop icons */
+  .desktop-icons {
+    display: none;
+  }
+
+  /* hamburger visible */
+  .hamburger {
+    display: hidden;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--text);
+    border-radius: 2px;
+    transition: background-color 0.2s;
+    }
+
+  .hamburger:hover span {
+    background-color: #555;
+  }
+
+  /* dropdown menu */
+  .nav-links {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem 2rem;
+    gap: 1rem;
+
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: 0.25s ease;
+  }
+
+  .nav-links.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* MOBILE ACTION LINKS */
+  .mobile-actions {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .mobile-actions .nav-link {
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
+    border: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .mobile-actions {
+    display: none;
+  }
+    .btn-signin {
+    width: 28%;
+    background: none;
+    border: 1.5px solid var(--text);
+    color: var(--text);
+    padding: 0.8rem 3rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 1.5rem;
+}
+
+.btn-signin:hover {
+  background-color: #333330;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+
+.btn-signin:active {
+  background-color: #000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
 }

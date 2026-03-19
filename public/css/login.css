@@ -32,45 +32,6 @@ body {
   min-height: 100vh;
 }
 
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2.5rem;
-  height: 72px;
-  background-color: var(--bg);
-  box-shadow: var(--shadow-nav);
-  position: relative;
-  z-index: 10;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.hamburger {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 4px;
-}
-
-.hamburger span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background-color: var(--text);
-  border-radius: 2px;
-  transition: background-color 0.2s;
-}
-
-.hamburger:hover span { background-color: #555; }
-
 .brand {
   font-family: var(--font-body);
   font-weight: 500;
@@ -80,48 +41,6 @@ body {
   text-decoration: none;
   text-transform: lowercase;
 }
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 2.4rem;
-}
-
-.nav-link {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.nav-icons {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  transition: opacity 0.2s;
-}
-
-.icon-btn:hover { opacity: 0.6; }
 
 .page-title-bar {
   padding: 2.8rem 2rem 2.2rem;
