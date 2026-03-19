@@ -2,8 +2,8 @@
 <?= $this->section('content') ?>
 <head>
   <title>addictech – Login</title>
-  <link rel="stylesheet" href="<?= base_url('/public/css/login.css') ?>" />
 </head>
+
 <body>
  
   <?php

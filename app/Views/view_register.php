@@ -1,5 +1,8 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
+<head>
+  <title>addictech – Register </title>
+</head>
 
   <?php
   $error = '';

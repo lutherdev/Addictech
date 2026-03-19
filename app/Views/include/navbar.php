@@ -44,13 +44,28 @@ function nav_class(string $page, string $active): string {
       <a href="<?= base_url('admin/orders') ?>" class="<?= nav_class('orders', $nav_active) ?>">VIEW ORDERS</a>
       <a href="<?= base_url('admin/contacts') ?>" class="<?= nav_class('orders', $nav_active) ?>">VIEW CONCERNS</a>
     <?php endif; ?>
+
+    <!-- MOBILE ONLY ACTION LINKS -->
+<div class="mobile-actions">
+
+  <a href="<?= base_url('wishlist') ?>" class="nav-link">WISHLIST</a>
+  <a href="<?= base_url('cart') ?>" class="nav-link">CART</a>
+  <a href="<?= base_url('user/profile') ?>" class="nav-link">ACCOUNT</a>
+
+  <?php if ($isLoggedIn): ?>
+    <a href="<?= base_url('auth/logout') ?>" class="nav-link">LOGOUT</a>
+  <?php endif; ?>
+
+</div>
+
   </div>
 
   <!-- RIGHT: icons -->
   <div class="nav-icons">
 
+    <div class="desktop-icons">
     <!-- Wishlist -->
-    <a href="<?= base_url('wishlist') ?>" class="icon-btn wish-icon-wrap" aria-label="Wishlist">
+    <a href="<?= base_url('wishlist') ?>" class="icon-btn" aria-label="Wishlist">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
       </svg>
@@ -60,7 +75,7 @@ function nav_class(string $page, string $active): string {
     </a>
 
     <!-- Cart -->
-    <a href="<?= base_url('cart') ?>" class="icon-btn cart-icon-wrap" aria-label="Cart">
+    <a href="<?= base_url('cart') ?>" class="icon-btn" aria-label="Cart">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
@@ -87,7 +102,28 @@ function nav_class(string $page, string $active): string {
         <line x1="21" y1="12" x2="9" y2="12"/>
       </svg>
     </a>
-    <?php endif; ?>
-
+  <?php endif; ?>
+    </div>
+    <button class="hamburger" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
   </div>
 </nav>
+<script>
+const hamburger = document.getElementById('hamburger-btn');
+const navLinks = document.querySelector('.nav-links');
+
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+    });
+  });
+}
+</script>
