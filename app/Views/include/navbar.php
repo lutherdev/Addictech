@@ -42,6 +42,7 @@ function nav_class(string $page, string $active): string {
       <a href="<?= base_url('admin/users') ?>" class="<?= nav_class('users', $nav_active) ?>">VIEW USERS</a>
       <a href="<?= base_url('admin/products') ?>" class="<?= nav_class('products', $nav_active) ?>">VIEW PRODUCTS</a>
       <a href="<?= base_url('admin/orders') ?>" class="<?= nav_class('orders', $nav_active) ?>">VIEW ORDERS</a>
+      <a href="<?= base_url('admin/contacts') ?>" class="<?= nav_class('orders', $nav_active) ?>">VIEW CONCERNS</a>
     <?php endif; ?>
   </div>
 

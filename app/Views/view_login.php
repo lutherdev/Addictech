@@ -59,7 +59,6 @@
 
       <div class="cta-section">
         <button type="submit" class="btn-signin" id="loginBtn">SIGN IN</button>
-        <a href="forgot-password.php" class="link-forgot">Forgot password?</a>
         <p class="register-prompt">Don't have an account? <a href="<?= base_url('register')?>" class="link-register">Register</a></p>
       </div>
     </form>

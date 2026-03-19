@@ -179,12 +179,13 @@ $products_json = json_encode(array_map(function($p) {
 <div class="atc-toast" id="atcToast"></div>
  
 <script>
-  const products  = <?= $products_json ?>;
-  const CSRF_NAME = '<?= csrf_token() ?>';
-  const CSRF_HASH = '<?= csrf_hash() ?>';
- 
+  const products        = <?= $products_json ?>;
+  const CSRF_NAME       = '<?= csrf_token() ?>';
+  const CSRF_HASH       = '<?= csrf_hash() ?>';
+  const WISHLIST_REMOVE = '<?= base_url('wishlist/remove') ?>';
+
   const wishlistIds = new Set(products.map(function(p) { return p.id; }));
- 
+
   function isWishlisted(id) { return wishlistIds.has(id); }
   function toggleWishlist(product) {
     wishlistIds.delete(product.id);

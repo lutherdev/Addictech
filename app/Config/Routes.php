@@ -68,15 +68,7 @@ $routes->get('products/status', 'Products::statuschangeview');
 $routes->post('products/statuschange', 'Products::statuschange');
 
 // ========================PASSWORD==================================
-
-$routes->get('password/forget', 'Password::forgetview'); // view
-$routes->post('forget', 'Password::forget'); //not view
-
-$routes->get('password/reset/(:any)', 'Password::resetview/$1'); // view
-$routes->post('reset/(:any)', 'Password::reset/$1'); //not view
-
-$routes->get('password/change', 'Password::changeview'); //view
-$routes->post('passwordchange', 'Password::change'); //not view
+$routes->post('password/change', 'Password::change'); //view
 
 // ======================== WISHLIST ==========================
 $routes->post('wishlist/toggle', 'Wishlist::toggle');
@@ -112,4 +104,11 @@ $routes->post('admin/orders/update/(:num)',          'Orders::adminUpdateStatus/
 $routes->post('admin/orders/payment/(:num)',         'Orders::adminUpdatePayment/$1');
 $routes->get('admin/orders/delete/(:num)',          'Orders::adminDelete/$1');
 
+
+// CONTACTS
+
+$routes->post('contact/send',              'Contact::send');
+$routes->get('admin/contacts',             'Contact::adminIndex');
+$routes->get('admin/contacts/read/(:num)', 'Contact::markRead/$1');
+$routes->get('admin/contacts/delete/(:num)', 'Contact::delete/$1');
 

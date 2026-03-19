@@ -65,7 +65,7 @@
  
       <!-- TOP LEFT: SHOP link + WE THE BEST -->
       <div class="promo-topleft">
-        <a href="<?= base_url('view_catalog') ?>" class="promo-shop-link">SHOP›</a>
+        <a href="<?= base_url('catalog') ?>" class="promo-shop-link">SHOP›</a>
         <p class="promo-panel-text">WE<br>THE<br>BEST</p>
       </div>
  

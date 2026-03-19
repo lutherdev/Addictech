@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════
    wishlist.js — addictech
-   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH
+   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH, WISHLIST_REMOVE
 ═══════════════════════════════════════ */
 
 function updateCartBadge(count) {
@@ -25,6 +25,17 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2200);
 }
 
+function removeCardFromGrid(productId) {
+  const card = document.querySelector('.product-card[data-id="' + productId + '"]');
+  if (card) card.remove();
+
+  if (document.querySelectorAll('.product-card').length === 0) {
+    document.querySelector('.product-grid').innerHTML =
+      '<div class="wishlist-empty">Your wishlist is empty. ' +
+      '<a href="/catalog">Browse the catalog →</a></div>';
+  }
+}
+
 /* ── state ── */
 let currentProduct = null;
 let qty            = 1;
@@ -39,16 +50,12 @@ function applyFilters() {
   document.querySelectorAll('.product-card').forEach(function(card) {
     const name     = (card.dataset.name     ?? '').toLowerCase();
     const category = (card.dataset.category ?? '').toLowerCase();
-
-    const matchCat    = activeFilter === 'all'
-                     || category === activeFilter.toLowerCase();
+    const matchCat    = activeFilter === 'all' || category === activeFilter.toLowerCase();
     const matchSearch = name.includes(term);
-
     card.style.display = (matchCat && matchSearch) ? '' : 'none';
   });
 }
 
-/* filter buttons */
 document.querySelectorAll('.filter-tags .tag[data-filter]').forEach(function(btn) {
   btn.addEventListener('click', function() {
     document.querySelectorAll('.filter-tags .tag[data-filter]').forEach(function(b) {
@@ -60,15 +67,46 @@ document.querySelectorAll('.filter-tags .tag[data-filter]').forEach(function(btn
   });
 });
 
-/* search input */
 document.getElementById('searchInput')?.addEventListener('input', applyFilters);
+
+/* ══════════════════════════════════
+   CARD HEART BUTTONS — remove from wishlist
+══════════════════════════════════ */
+document.querySelectorAll('.card-wish-btn').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+
+    const productId = parseInt(this.dataset.id);
+
+    fetch(WISHLIST_REMOVE, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: new URLSearchParams({
+        product_id:  productId,
+        [CSRF_NAME]: CSRF_HASH
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.success) {
+        wishlistIds.delete(productId);
+        updateWishBadge(data.count);
+        removeCardFromGrid(productId);
+      }
+    })
+    .catch(function() { showToast('Could not remove item.'); });
+  });
+});
 
 /* ══════════════════════════════════
    CARD CLICKS — open modal
 ══════════════════════════════════ */
 document.querySelectorAll('.product-card').forEach(function(card) {
   card.addEventListener('click', function(e) {
-    if (e.target.closest('.card-wish-btn') || e.target.closest('.card-wish-form')) return;
+    if (e.target.closest('.card-wish-btn')) return;
     const id = parseInt(this.dataset.id);
     const p  = products.find(function(x) { return x.id === id; });
     if (p) openModal(p);
@@ -138,11 +176,31 @@ document.getElementById('qtyMinus').addEventListener('click', function() {
   document.getElementById('formQty').value      = qty;
 });
 
+/* modal wish button — remove from wishlist and close */
 document.getElementById('modalWishBtn').addEventListener('click', function() {
   if (!currentProduct) return;
-  toggleWishlist(currentProduct).then(function() {
-    closeModal();
-  });
+
+  fetch(WISHLIST_REMOVE, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: new URLSearchParams({
+      product_id:  currentProduct.id,
+      [CSRF_NAME]: CSRF_HASH
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      wishlistIds.delete(currentProduct.id);
+      updateWishBadge(data.count);
+      removeCardFromGrid(currentProduct.id);
+      closeModal();
+    }
+  })
+  .catch(function() { showToast('Could not remove item.'); });
 });
 
 document.getElementById('modalShareBtn').addEventListener('click', function() {

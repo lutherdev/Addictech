@@ -126,7 +126,7 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
           <?php foreach ($orders as $i => $order) : ?>
             <?php
               $firstItem   = !empty($order['items']) ? $order['items'][0] : null;
-              $displayName = $firstItem ? esc($firstItem['product_name']) : 'Order #' . esc($order['id']);
+              $displayName = esc($order['order_number']);
               $itemCount   = count($order['items'] ?? []);
               $extraCount  = $itemCount - 1;
             ?>
@@ -141,7 +141,7 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
               <span class="order-name">
                 <?= $displayName ?>
                 <?php if ($firstItem && !empty($firstItem['variant'])) : ?>
-                  <small style="color:var(--text-muted)"> — <?= esc($firstItem['variant']) ?></small>
+                  <small style="color:var(--text-muted)"> — <?= esc($firstItem['product_name']) ?></small>
                 <?php endif; ?>
                 <?php if ($extraCount > 0) : ?>
                   <small class="order-extra-count">+<?= $extraCount ?> more item<?= $extraCount > 1 ? 's' : '' ?></small>
@@ -335,9 +335,13 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
       <div class="settings-card-head">
         <span class="settings-card-title">CHANGE PASSWORD</span>
       </div>
-      <form method="POST" action="<?= base_url('passwordchange') ?>">
+      <form method="POST" action="<?= base_url('password/change') ?>">
         <?= csrf_field() ?>
         <div class="profile-grid" style="grid-template-columns:1fr 1fr">
+          <div class="profile-field">
+            <p class="profile-field-label">CURRENT PASSWORD</p>
+            <input class="settings-input" name="current_password" type="password" required/>
+          </div>
           <div class="profile-field">
             <p class="profile-field-label">NEW PASSWORD</p>
             <input class="settings-input" name="new_password" type="password" required/>
