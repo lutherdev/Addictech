@@ -58,12 +58,12 @@ $products_json = json_encode(array_map(function($p) {
              data-price="<?= $p['price'] ?>"
              data-name="<?= esc(strtolower($p['name'])) ?>">
           <div class="product-img">
-            <svg width="100%" height="100%" viewBox="0 0 300 340" preserveAspectRatio="none" fill="none">
-              <rect x="1" y="1" width="298" height="338" stroke="#b8b4aa" stroke-width="1.5"/>
-              <line x1="1" y1="1" x2="299" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
-              <line x1="299" y1="1" x2="1" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
-            </svg>
-          </div>
+            <img src="<?= base_url('public/images/keyboard1.png')?>" 
+                width="300" 
+                height="340" 
+                style="width:100%; height:100%; object-fit:cover; display:block;"
+                alt="<?= $p['name'] ?>">
+        </div>
           <div class="product-meta">
             <span class="product-name"><?= esc(strtoupper($p['name'])) ?></span>
             <span class="product-price">₱<?= number_format($p['price']) ?></span>

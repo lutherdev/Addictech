@@ -68,24 +68,38 @@ function toggleWishlistAjax(productId) {
       'X-Requested-With': 'XMLHttpRequest'
     },
     body: new URLSearchParams({
-      product_id:  productId,
+      product_id: productId,
       [CSRF_NAME]: CSRF_HASH
     })
   })
-  .then(function(r) { return r.json(); })
+  .then(function(res) { return res.json(); })
   .then(function(data) {
-    if (data.success) {
-      if (data.wished) {
-        wishlistIds.add(productId);
-      } else {
-        wishlistIds.delete(productId);
-      }
-      updateWishBadge(data.count);
-      showToast(data.wished ? 'Added to wishlist.' : 'Removed from wishlist.');
-      updateModalWishBtn(data.wished);
+
+    // ✅ CLEAN redirect handling
+    if (data.redirect) {
+      window.location.href = data.redirect;
+      return;
     }
+
+    if (!data.success) {
+      showToast('Something went wrong.');
+      return;
+    }
+
+    // ✅ Normal wishlist logic
+    if (data.wished) {
+      wishlistIds.add(productId);
+    } else {
+      wishlistIds.delete(productId);
+    }
+
+    updateWishBadge(data.count);
+    showToast(data.wished ? 'Added to wishlist.' : 'Removed from wishlist.');
+    updateModalWishBtn(data.wished);
   })
-  .catch(function() { showToast('Could not update wishlist.'); });
+  .catch(function() {
+    showToast('Could not update wishlist.');
+  });
 }
 
 function updateModalWishBtn(wished) {

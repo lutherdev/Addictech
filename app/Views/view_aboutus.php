@@ -20,20 +20,13 @@
     <!-- Member 1 -->
 <div class="member-card">
   <div class="member-avatar">
-    <?php 
-    $imagePath = FCPATH . 'public/images/';
-    $imageFile = 'lutherpic.jpg';
-    
-    if (file_exists($imagePath . $imageFile)): 
-    ?>
       <img src="<?= base_url('public/images/lutherpic.jpg') ?>" alt="Luther Dean M. Sambeli" class="member-photo">
-    <?php else: ?>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <rect x="3" y="3" width="18" height="18" rx="2"/>
         <circle cx="12" cy="10" r="3"/>
         <path d="M6 21v-1a6 6 0 0 1 12 0v1"/>
       </svg>
-    <?php endif; ?>
+    
   </div>
   <h2 class="member-name">Luther Dean M. Sambeli</h2>
   <p class="member-role">Lead Developer</p>
