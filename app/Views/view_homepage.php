@@ -215,47 +215,6 @@
 </div>
 
 <!-- Smooth Scroll JavaScript -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth scroll behavior to all anchor links
-    const allLinks = document.querySelectorAll('a[href^="#"]');
-    allLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-
-    // Check if URL has hash on page load and scroll to it
-    if (window.location.hash) {
-      const targetElement = document.querySelector(window.location.hash);
-      if (targetElement) {
-        setTimeout(() => {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }, 100);
-      }
-    }
-  });
-</script>
-
-<!-- Optional: Add CSS smooth scroll as fallback -->
-<style>
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px; /* Adjust based on your navbar height */
-  }
-</style>
-
+<script src="<?= base_url('/public/js/homepage.js') ?>"></script>
 </body>
 <?= $this->endSection() ?>
