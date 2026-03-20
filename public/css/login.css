@@ -1,3 +1,4 @@
+/* ── Reset ── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -17,6 +18,9 @@
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'Jost', sans-serif;
+  --font-title:   'Outfit', sans-serif;      /* Agrandir substitute */
+  --font-input:   'DM Sans', sans-serif;     /* Garet substitute */
+  --font-links:   'Montserrat', sans-serif;  /* Montserrat */
 }
 
 html, body {
@@ -32,36 +36,51 @@ body {
   min-height: 100vh;
 }
 
-.brand {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1.15rem;
-  letter-spacing: 0.04em;
-  color: var(--text);
-  text-decoration: none;
-  text-transform: lowercase;
-}
-
+/* ── Page Title Bar ── */
 .page-title-bar {
   padding: 2.8rem 2rem 2.2rem;
   text-align: center;
   background-color: var(--bg);
-  box-shadow: var(--shadow-divider);
+  border-bottom: 1px solid var(--border);
   position: relative;
   z-index: 5;
 }
 
 .page-title {
-  font-family: var(--font-display);
-  font-weight: 300;
+  font-family: var(--font-title);
+  font-weight: 500;
   font-size: 2.2rem;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.1em;
   color: var(--text);
 }
 
+/* ── Flash Messages ── */
+.flash {
+  max-width: 520px;
+  margin: 1.5rem auto 0;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  border-radius: 2px;
+}
+
+.flash-error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.flash-success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+/* ── Form Section ── */
 .form-section {
   background-color: var(--bg-form);
-  padding: 3rem 2rem;
+  padding: 3rem 2rem 0;
   position: relative;
   z-index: 4;
 }
@@ -94,7 +113,7 @@ body {
   background-color: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-input);
   font-size: 0.78rem;
   font-weight: 300;
   letter-spacing: 0.1em;
@@ -104,6 +123,7 @@ body {
 }
 
 .field-input::placeholder {
+  font-family: var(--font-input);
   color: #aaa9a0;
   font-size: 0.72rem;
   letter-spacing: 0.1em;
@@ -114,29 +134,40 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
+/* ── Auth Error ── */
+.auth-error {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: #c0392b;
+  letter-spacing: 0.04em;
+  min-height: 1.2em;
+}
+
+/* ── CTA Section ── */
 .cta-section {
   background-color: var(--bg-form);
-  padding: 3rem 2rem 4rem;
+  padding: 2.5rem 2rem 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
+/* ── Sign In Button — filled black matching wireframe ── */
 .btn-signin {
   width: 100%;
   max-width: 520px;
-  padding: 1.1rem 2rem;
+  padding: 1rem 2rem;
   background-color: var(--accent);
   color: #fff;
   border: none;
   border-radius: 0;
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 500;
+  font-family: var(--font-title);
+  font-size: 0.82rem;
+  font-weight: 600;
   letter-spacing: 0.2em;
   cursor: pointer;
-  transition: background-color 0.25s, box-shadow 0.25s;
+  transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .btn-signin:hover {
@@ -146,9 +177,9 @@ body {
 
 .btn-signin:active {
   background-color: #000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 
+/* ── Forgot Password ── */
 .link-forgot {
   font-family: var(--font-body);
   font-size: 0.82rem;
@@ -162,6 +193,7 @@ body {
 
 .link-forgot:hover { opacity: 0.55; }
 
+/* ── Register Prompt ── */
 .register-prompt {
   font-family: var(--font-body);
   font-size: 0.82rem;
@@ -179,64 +211,23 @@ body {
 
 .link-register:hover { opacity: 0.55; }
 
-    .auth-error {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      color: #c0392b;
-      letter-spacing: 0.04em;
-      margin-top: 0.5rem;
-      min-height: 1.2em;
-    }
-    .btn-signin {
-      background: none;
-      border: 1.5px solid var(--text);
-      color: var(--text);
-      padding: 0.8rem 3rem;
-      font-family: var(--font-body);
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-bottom: 1.5rem;
-    }
-    .btn-signin:hover {
-      background: var(--text);
-      color: var(--bg);
-    }
-    .link-forgot {
-      display: block;
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      text-decoration: none;
-      margin-bottom: 2rem;
-    }
-    .link-forgot:hover {
-      color: var(--text);
-    }
-    .register-prompt {
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-    }
-    .link-register {
-      color: var(--text);
-      text-decoration: none;
-      border-bottom: 1px solid var(--text);
-      padding-bottom: 1px;
-    }
-    .link-register:hover {
-      opacity: 0.7;
-    }
+.link-forgot,
+.register-prompt,
+.link-register {
+  font-family: var(--font-links);
+  font-weight: 400;
+}
 
+/* ── Responsive ── */
 @media (max-width: 640px) {
-  .navbar { padding: 0 1.2rem; }
-  .nav-links { gap: 1.2rem; }
-  .nav-link { font-size: 0.68rem; }
   .page-title { font-size: 1.6rem; letter-spacing: 0.22em; }
   .form-section,
   .cta-section { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .btn-signin  { max-width: 100%; }
+}
+
+@media (min-width: 769px) {
+  .btn-signin {
+    max-width: 520px;
+  }
 }

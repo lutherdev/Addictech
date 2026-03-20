@@ -29,7 +29,7 @@ function nav_class(string $page, string $active): string {
   <div class="nav-left">
     <a href="<?= base_url('home') ?>" class="brand">addictech</a>
   </div>
-
+  <div class="nav-right">
   <!-- CENTER: links -->
   <div class="nav-links">
     <a href="<?= base_url('home') ?>" class="<?= nav_class('home', $nav_active) ?>">HOME</a>
@@ -107,5 +107,6 @@ function nav_class(string $page, string $active): string {
         <span></span>
       </button>
   </div>
+ </div>
 </nav>
 <script src="<?= base_url('/public/js/navbar.js') ?>"></script>
