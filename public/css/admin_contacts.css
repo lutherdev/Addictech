@@ -1,0 +1,373 @@
+/* =========================================
+   Admin Contacts Page — Matches Products Page Exactly
+   Beige bg, right sidebar nav, bold title
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #e8e4da;
+  font-family: 'Arial', sans-serif;
+  color: #1a1a1a;
+}
+
+/* Page wrapper: main content + right sidebar */
+.contacts-page {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 64px);
+  padding: 2rem 2rem 2rem 2rem;
+  gap: 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ── Main Content ── */
+.contacts-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Title row: heading left */
+.contacts-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  color: #1a1814 !important;
+  margin-bottom: 1.2rem !important;
+  text-transform: uppercase !important;
+}
+
+/* ── Flash Messages ── */
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.flash-success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.flash-error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* ── Table ── */
+.contacts-table-wrapper {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  overflow-x: auto;
+}
+
+.contacts-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.contacts-table thead tr {
+  border-bottom: 1.5px solid #c8c3b5;
+}
+
+.contacts-table th {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  background: transparent;
+}
+
+.contacts-table th.col-id { 
+  width: 60px; 
+}
+
+.contacts-table th.col-name { 
+  width: 150px; 
+}
+
+.contacts-table th.col-email { 
+  width: 200px; 
+}
+
+.contacts-table th.col-message { 
+  width: 300px; 
+}
+
+.contacts-table th.col-date { 
+  width: 120px; 
+}
+
+.contacts-table th.col-status { 
+  width: 90px; 
+}
+
+.contacts-table th.col-action { 
+  width: 130px;
+  text-align: center;
+}
+
+.contacts-table tbody tr {
+  border-bottom: 1px solid #c8c3b5;
+  transition: background 0.1s;
+}
+
+.contacts-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.contacts-table tbody tr:hover {
+  background: #e8e3d8;
+}
+
+/* Unread row styling */
+.contacts-table tbody tr.unread-row td {
+  font-weight: 600;
+}
+
+.contacts-table td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+}
+
+/* ID column */
+.col-id .contact-id {
+  font-family: monospace;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+/* Name column */
+.contact-name {
+  font-weight: 500;
+}
+
+/* Email column */
+.contact-email a {
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s;
+}
+
+.contact-email a:hover {
+  color: #555;
+}
+
+/* Message column with expand/collapse */
+.message-cell {
+  max-width: 320px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.message-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.message-short {
+  display: block;
+}
+
+.message-full {
+  display: none;
+  line-height: 1.5;
+}
+
+/* Expand button */
+.btn-expand {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 6px;
+  display: inline-block;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+
+.btn-expand:hover {
+  color: #1a1a1a;
+}
+
+/* Date column */
+.contact-date {
+  white-space: nowrap;
+  font-size: 0.82rem;
+}
+
+.contact-date small {
+  color: #888;
+  font-size: 0.7rem;
+}
+
+/* Status badges */
+.contact-status {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.contact-status.read {
+  border: 1.5px solid #2c6e2c;
+  color: #2c6e2c;
+  background: transparent;
+}
+
+.contact-status.unread {
+  border: 1.5px solid #b85c1a;
+  color: #b85c1a;
+  background: transparent;
+}
+
+/* Action buttons - FIXED ALIGNMENT */
+.contact-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.btn-action {
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  border: 1.5px solid #1a1a1a;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  text-align: center;
+  min-width: 75px;
+}
+
+.btn-action:hover {
+  background: #1a1a1a;
+  color: #e8e4da;
+}
+
+.btn-action.btn-delete {
+  border-color: #8b0000;
+  color: #8b0000;
+}
+
+.btn-action.btn-delete:hover {
+  background: #8b0000;
+  border-color: #8b0000;
+  color: #fff;
+}
+
+/* Empty state */
+.empty-row {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* ── Right Sidebar Navigation ── */
+.sidebar-nav {
+  width: 120px;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+
+.sidebar-nav nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.sidebar-nav nav ul li a {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #1a1a1a;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.sidebar-nav nav ul li a:hover,
+.sidebar-nav nav ul li a.active {
+  color: #555;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .contacts-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .sidebar-nav {
+    width: 100%;
+  }
+
+  .sidebar-nav nav ul {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+  }
+
+  .contacts-table {
+    min-width: 800px;
+  }
+  
+  .contact-actions {
+    flex-wrap: wrap;
+  }
+  
+  .btn-action {
+    min-width: 70px;
+  }
+}
