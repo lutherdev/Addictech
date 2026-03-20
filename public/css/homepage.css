@@ -2,7 +2,23 @@
    homepage.css — addictech
 ═══════════════════════════════════════ */
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+/* CSS Variables */
+:root {
+  --bg: #e8e4da;
+  --bg-form: #f0ece2;
+  --text: #1a1a1a;
+  --text-muted: #6b6a64;
+  --border: #c8c3b5;
+  --accent: #1a1a1a;
+  --font-body: 'Arial', 'Helvetica', sans-serif;
+  --font-display: 'IBM Plex Mono', monospace;
+}
 
 /* ── HERO ── */
 .hero {
@@ -186,21 +202,18 @@
   text-transform: uppercase;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .home-bottom { grid-template-columns: 1fr; }
-  .promo-panel { min-height: 320px; }
-  .hero        { height: 50vh; }
-}
-
-
 /* ═══════════════════════════════════════
-   BESTSELLERS
+   BESTSELLERS / FEATURED PRODUCTS - CENTERED
 ═══════════════════════════════════════ */
 .bestsellers {
   padding: 3.5rem 3rem 2.5rem;
   background: var(--bg);
   border-top: 1px solid var(--border);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .section-heading {
@@ -217,8 +230,11 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  max-width: 860px;
+  max-width: 1100px;
+  width: 100%;
   margin: 0 auto;
+  justify-content: center;
+  align-items: center;
 }
 
 .bs-card {
@@ -227,6 +243,9 @@
   gap: .6rem;
   text-decoration: none;
   cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
 .bs-img {
@@ -242,7 +261,11 @@
   box-shadow: 0 6px 22px rgba(0,0,0,.12);
 }
 
-.bs-img svg { display: block; width: 100%; height: 100%; }
+.bs-img svg { 
+  display: block; 
+  width: 100%; 
+  height: 100%; 
+}
 
 .bs-name {
   font-family: var(--font-body);
@@ -250,6 +273,17 @@
   font-weight: 600;
   letter-spacing: .12em;
   color: var(--text);
+  text-align: center;
+}
+
+.bs-price {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 0.2rem;
+  letter-spacing: 0.02em;
+  text-align: center;
 }
 
 .bs-cta {
@@ -270,8 +304,22 @@
   transition: background .2s;
 }
 
-.btn-viewall:hover { background: #333; }
+.btn-viewall:hover { 
+  background: #333; 
+}
 
+/* Image styling */
+.bs-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.bs-card:hover .bs-img img {
+  transform: scale(1.05);
+}
 
 /* ═══════════════════════════════════════
    LOCATION SPLIT
@@ -323,7 +371,6 @@
   inset: 0;
   background: url('../images/6.png') center center / cover no-repeat;
 }
-
 
 /* ═══════════════════════════════════════
    CONTACT SPLIT
@@ -389,7 +436,9 @@
   width: 100%;
 }
 
-.contact-input:focus { border-bottom-color: var(--text); }
+.contact-input:focus { 
+  border-bottom-color: var(--text); 
+}
 
 .contact-textarea {
   resize: none;
@@ -413,7 +462,9 @@
   transition: background .2s;
 }
 
-.btn-submit:hover { background: #333; }
+.btn-submit:hover { 
+  background: #333; 
+}
 
 .contact-need {
   font-family: var(--font-body);
@@ -432,7 +483,9 @@
   text-decoration: none;
 }
 
-.contact-email:hover { color: var(--text); }
+.contact-email:hover { 
+  color: var(--text); 
+}
 
 .contact-socials {
   display: flex;
@@ -446,7 +499,9 @@
   transition: opacity .2s;
 }
 
-.contact-social:hover { opacity: .5; }
+.contact-social:hover { 
+  opacity: .5; 
+}
 
 .contact-handle {
   font-family: var(--font-body);
@@ -456,78 +511,16 @@
   color: var(--text-muted);
 }
 
+/* Banner */
 .banner-4 {
   width: 100%;
   height: 480px;
   background: url('../images/3.png') center center / cover no-repeat;
 }
 
+/* Smooth Scroll */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Adjust based on your navbar height */
-}
-
-/* Optional: Active state for contact link when scrolled to contact section */
-.contact-split:target {
-  animation: highlight 1.5s ease;
-}
-
-.bs-price {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-top: 0.2rem;
-  letter-spacing: 0.02em;
-}
-
-/* Image styling */
-.bs-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.bs-card:hover .bs-img img {
-  transform: scale(1.05);
-}
-
-/* Ensure consistent card height */
-.bs-card {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: inherit;
-}
-
-.bs-name {
-  margin-top: 0.5rem;
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-}
-
-/* Responsive grid adjustments */
-@media (min-width: 1024px) {
-  .bs-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-}
-
-/* Optional: 4-column layout for larger screens */
-@media (min-width: 1400px) {
-  .bs-grid {
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 1300px;
-  }
-}
-
-/* Smooth scroll padding for fixed navbar */
-html {
   scroll-padding-top: 80px;
 }
 
@@ -537,30 +530,111 @@ html {
 }
 
 @keyframes highlight {
-  0% { background-color: rgba(200, 196, 188, 0.2); }
-  100% { background-color: transparent; }
-}
-
-@keyframes highlight {
   0% { background-color: rgba(200, 196, 188, 0.3); }
   100% { background-color: transparent; }
 }
 
-@media (max-width: 768px) {
-  .banner-4 { height: 280px; }
-}
+/* ── RESPONSIVE BREAKPOINTS ── */
 
-/* ── RESPONSIVE ── */
+/* Tablet and smaller */
 @media (max-width: 768px) {
-  .bs-grid          { grid-template-columns: repeat(3, 1fr); gap: .8rem; }
-  .bestsellers      { padding: 2.5rem 1.4rem 2rem; }
+  .home-bottom { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .promo-panel { 
+    min-height: 320px; 
+  }
+  
+  .hero { 
+    height: 50vh; 
+  }
+  
+  .bs-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1rem;
+    max-width: 600px;
+  }
+  
+  .bestsellers { 
+    padding: 2.5rem 1.4rem 2rem; 
+  }
+  
+  .bs-card {
+    max-width: 100%;
+  }
+  
+  .bs-name {
+    font-size: .6rem;
+  }
+  
+  .bs-price {
+    font-size: 0.75rem;
+  }
+  
+  .banner-4 { 
+    height: 280px; 
+  }
+  
   .location-split,
-  .contact-split    { grid-template-columns: 1fr; }
+  .contact-split { 
+    grid-template-columns: 1fr; 
+  }
+  
   .location-right,
-  .contact-img-placeholder { min-height: 220px; }
-  .contact-right    { padding: 2rem 1.4rem; }
+  .contact-img-placeholder { 
+    min-height: 220px; 
+  }
+  
+  .contact-right { 
+    padding: 2rem 1.4rem; 
+  }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
-  .bs-grid { grid-template-columns: repeat(2, 1fr); }
+  .bs-grid { 
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+  
+  .bs-name {
+    font-size: 0.55rem;
+  }
+  
+  .bs-price {
+    font-size: 0.7rem;
+  }
+  
+  .shop-by {
+    padding: 2rem 1.5rem;
+  }
+  
+  .promo-panel-text {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+}
+
+/* Large screens - 4 column layout */
+@media (min-width: 1400px) {
+  .bs-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1300px;
+  }
+  
+  .bs-card {
+    max-width: 280px;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 1024px) and (max-width: 1399px) {
+  .bs-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1100px;
+  }
+  
+  .bs-card {
+    max-width: 320px;
+  }
 }
