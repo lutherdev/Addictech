@@ -47,7 +47,6 @@ function nav_class(string $page, string $active): string {
 
     <!-- MOBILE ONLY ACTION LINKS -->
 <div class="mobile-actions">
-
   <a href="<?= base_url('wishlist') ?>" class="nav-link">WISHLIST</a>
   <a href="<?= base_url('cart') ?>" class="nav-link">CART</a>
   <a href="<?= base_url('user/profile') ?>" class="nav-link">ACCOUNT</a>
@@ -55,9 +54,7 @@ function nav_class(string $page, string $active): string {
   <?php if ($isLoggedIn): ?>
     <a href="<?= base_url('auth/logout') ?>" class="nav-link">LOGOUT</a>
   <?php endif; ?>
-
 </div>
-
   </div>
 
   <!-- RIGHT: icons -->
@@ -111,19 +108,4 @@ function nav_class(string $page, string $active): string {
       </button>
   </div>
 </nav>
-<script>
-const hamburger = document.getElementById('hamburger-btn');
-const navLinks = document.querySelector('.nav-links');
-
-if (hamburger && navLinks) {
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-  });
-
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-    });
-  });
-}
-</script>
+<script src="<?= base_url('/public/js/navbar.js') ?>"></script>
