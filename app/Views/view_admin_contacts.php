@@ -1,155 +1,146 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <head>
-  <title>addictech – Admin: Messages</title>
-  <link rel="stylesheet" href="<?= base_url('/public/css/admin_users.css') ?>" />
+  <title>addictech – Messages</title>
+  <link rel="stylesheet" href="<?= base_url('/public/css/admin_contacts.css') ?>" />
 </head>
+<body>
 
-<nav class="admin-nav">
-  <a href="<?= base_url('admin/products') ?>">PRODUCTS</a>
-  <a href="<?= base_url('admin/orders') ?>">ORDERS</a>
-  <a href="<?= base_url('admin/users') ?>">USERS</a>
-  <a href="<?= base_url('admin/contacts') ?>" class="active">MESSAGES</a>
-  <a href="<?= base_url('auth/logout') ?>">LOGOUT</a>
-</nav>
+  <div class="contacts-page">
 
-<div class="admin-page-wrapper">
+    <!-- Main Content Area -->
+    <div class="contacts-main">
 
-  <h1 class="admin-page-title">MESSAGES</h1>
+      <!-- Title Row -->
+      <div class="contacts-title-row">
+        <h1 class="page-title">MESSAGES</h1>
+      </div>
 
-  <?php if (session()->getFlashdata('success')) : ?>
-    <div class="admin-alert admin-alert-success">
-      <?= session()->getFlashdata('success') ?>
-    </div>
-  <?php endif; ?>
+      <!-- Flash Messages -->
+      <?php if (session()->getFlashdata('success')) : ?>
+        <div class="flash flash-success">
+          <?= session()->getFlashdata('success') ?>
+        </div>
+      <?php endif; ?>
+      <?php if (session()->getFlashdata('error')) : ?>
+        <div class="flash flash-error">
+          <?= session()->getFlashdata('error') ?>
+        </div>
+      <?php endif; ?>
 
-  <div class="admin-table-wrapper">
-    <table class="admin-users-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>NAME</th>
-          <th>EMAIL</th>
-          <th>MESSAGE</th>
-          <th>DATE</th>
-          <th>STATUS</th>
-          <th>ACTION</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php if (!empty($contacts)) : ?>
-          <?php foreach ($contacts as $contact) : ?>
-            <tr class="<?= $contact['is_read'] ? '' : 'unread-row' ?>">
-              <td class="admin-id-cell">#<?= esc($contact['id']) ?></td>
-              <td><?= esc($contact['full_name']) ?></td>
-              <td>
-                <a href="mailto:<?= esc($contact['email']) ?>" style="color:var(--text);text-decoration:underline">
-                  <?= esc($contact['email']) ?>
-                </a>
-              </td>
-              <td class="message-cell">
-                <div class="message-preview" id="msg-<?= $contact['id'] ?>">
-                  <span class="message-short">
-                    <?= esc(mb_strimwidth($contact['concern'], 0, 80, '...')) ?>
-                  </span>
-                  <?php if (mb_strlen($contact['concern']) > 80) : ?>
-                    <span class="message-full" style="display:none">
-                      <?= nl2br(esc($contact['concern'])) ?>
-                    </span>
-                    <button type="button" class="btn-expand"
-                            onclick="toggleMessage(<?= $contact['id'] ?>, this)">
-                      READ MORE
-                    </button>
-                  <?php else : ?>
-                    <span class="message-full" style="display:none">
-                      <?= nl2br(esc($contact['concern'])) ?>
-                    </span>
-                  <?php endif; ?>
-                </div>
-              </td>
-              <td style="white-space:nowrap">
-                <?= date('M d, Y', strtotime($contact['created_at'])) ?>
-                <br>
-                <small style="color:var(--text-muted);font-size:0.7rem">
-                  <?= date('h:i A', strtotime($contact['created_at'])) ?>
-                </small>
-              </td>
-              <td>
-                <?php if ($contact['is_read']) : ?>
-                  <span class="admin-status admin-status-active">READ</span>
-                <?php else : ?>
-                  <span class="admin-status admin-status-inactive">UNREAD</span>
-                <?php endif; ?>
-              </td>
-              <td class="admin-action-cell">
-                <?php if (!$contact['is_read']) : ?>
-                  <a href="<?= base_url('admin/contacts/read/' . $contact['id']) ?>"
-                     class="admin-btn admin-btn-view">
-                    MARK READ
-                  </a>
-                <?php endif; ?>
-                <a href="<?= base_url('admin/contacts/delete/' . $contact['id']) ?>"
-                   class="admin-btn admin-btn-delete"
-                   onclick="return confirm('Delete this message?')">
-                  DELETE
-                </a>
-              </td>
+      <!-- Messages Table -->
+      <div class="contacts-table-wrapper">
+        <table class="contacts-table">
+          <thead>
+            <tr>
+              <th class="col-id">#</th>
+              <th class="col-name">NAME</th>
+              <th class="col-email">EMAIL</th>
+              <th class="col-message">MESSAGE</th>
+              <th class="col-date">DATE</th>
+              <th class="col-status">STATUS</th>
+              <th class="col-action">ACTION</th>
             </tr>
-          <?php endforeach; ?>
-        <?php else : ?>
-          <tr>
-            <td colspan="7" class="admin-empty-row">No messages yet.</td>
-          </tr>
-        <?php endif; ?>
-      </tbody>
-    </table>
+          </thead>
+          <tbody>
+            <?php if (!empty($contacts) && is_array($contacts)): ?>
+              <?php foreach ($contacts as $contact): ?>
+                <tr class="<?= $contact['is_read'] ? '' : 'unread-row' ?>">
+                  <td class="col-id contact-id">#<?= esc($contact['id']) ?></td>
+                  <td class="col-name contact-name"><?= esc($contact['full_name']) ?></td>
+                  <td class="col-email contact-email">
+                    <a href="mailto:<?= esc($contact['email']) ?>">
+                      <?= esc($contact['email']) ?>
+                    </a>
+                  </td>
+                  <td class="col-message message-cell">
+                    <div class="message-preview" id="msg-<?= $contact['id'] ?>">
+                      <span class="message-short">
+                        <?= esc(mb_strimwidth($contact['concern'], 0, 80, '...')) ?>
+                      </span>
+                      <?php if (mb_strlen($contact['concern']) > 80) : ?>
+                        <span class="message-full" style="display:none">
+                          <?= nl2br(esc($contact['concern'])) ?>
+                        </span>
+                        <button type="button" class="btn-expand"
+                                onclick="toggleMessage(<?= $contact['id'] ?>, this)">
+                          READ MORE
+                        </button>
+                      <?php else : ?>
+                        <span class="message-full" style="display:none">
+                          <?= nl2br(esc($contact['concern'])) ?>
+                        </span>
+                      <?php endif; ?>
+                    </div>
+                  </td>
+                  <td class="col-date contact-date">
+                    <?= date('M d, Y', strtotime($contact['created_at'])) ?>
+                    <br>
+                    <small><?= date('h:i A', strtotime($contact['created_at'])) ?></small>
+                  </td>
+                  <td class="col-status">
+                    <?php if ($contact['is_read']) : ?>
+                      <span class="contact-status read">READ</span>
+                    <?php else : ?>
+                      <span class="contact-status unread">UNREAD</span>
+                    <?php endif; ?>
+                  </td>
+                  <td class="col-action">
+                    <div class="contact-actions">
+                      <?php if (!$contact['is_read']) : ?>
+                        <a href="<?= base_url('admin/contacts/read/' . $contact['id']) ?>" 
+                           class="btn-action">MARK READ</a>
+                      <?php endif; ?>
+                      <a href="<?= base_url('admin/contacts/delete/' . $contact['id']) ?>" 
+                         class="btn-action btn-delete"
+                         onclick="return confirm('Delete this message?')">DELETE</a>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="7" class="empty-row">No messages found</td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right Sidebar Navigation -->
+    <aside class="sidebar-nav">
+      <nav>
+        <ul>
+          <li><a href="<?= base_url('admin/products') ?>">PRODUCTS</a></li>
+          <li><a href="<?= base_url('admin/orders') ?>">ORDERS</a></li>
+          <li><a href="<?= base_url('admin/users') ?>">USERS</a></li>
+          <li><a href="<?= base_url('admin/contacts') ?>" class="active">MESSAGES</a></li>
+          <li><a href="<?= base_url('logout') ?>">LOGOUT</a></li>
+        </ul>
+      </nav>
+    </aside>
+
   </div>
 
-</div>
+  <script>
+    function toggleMessage(id, btn) {
+      const container = document.getElementById('msg-' + id);
+      const shortEl   = container.querySelector('.message-short');
+      const fullEl    = container.querySelector('.message-full');
+      const isExpanded = fullEl.style.display !== 'none';
 
-<style>
-  .unread-row td {
-    font-weight: 500;
-  }
-  .message-cell {
-    max-width: 300px;
-    font-size: 0.82rem;
-    line-height: 1.5;
-  }
-  .btn-expand {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    padding: 0;
-    margin-top: 4px;
-    display: block;
-    text-decoration: underline;
-  }
-  .btn-expand:hover {
-    color: var(--text);
-  }
-</style>
-
-<script>
-  function toggleMessage(id, btn) {
-    const container = document.getElementById('msg-' + id);
-    const shortEl   = container.querySelector('.message-short');
-    const fullEl    = container.querySelector('.message-full');
-    const isExpanded = fullEl.style.display !== 'none';
-
-    if (isExpanded) {
-      fullEl.style.display  = 'none';
-      shortEl.style.display = '';
-      btn.textContent = 'READ MORE';
-    } else {
-      fullEl.style.display  = '';
-      shortEl.style.display = 'none';
-      btn.textContent = 'SHOW LESS';
+      if (isExpanded) {
+        fullEl.style.display  = 'none';
+        shortEl.style.display = '';
+        btn.textContent = 'READ MORE';
+      } else {
+        fullEl.style.display  = '';
+        shortEl.style.display = 'none';
+        btn.textContent = 'SHOW LESS';
+      }
     }
-  }
-</script>
+  </script>
 
+</body>
 <?= $this->endSection() ?>
