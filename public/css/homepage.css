@@ -232,8 +232,7 @@
 }
 
 .bs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 1.5rem;
   width: 100%;
   max-width: 1100px;
