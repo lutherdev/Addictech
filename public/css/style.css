@@ -15,8 +15,8 @@
   --shadow-nav:  0 4px 18px rgba(0,0,0,0.13);
   --shadow-divider: 0 3px 12px rgba(0,0,0,0.11);
 
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'Jost', sans-serif;
+  --font-title:  'Outfit', sans-serif;
+  --font-input:  'DM Sans', sans-serif;
 }
 
 html, body {
@@ -26,12 +26,13 @@ html, body {
 
 body {
   color: var(--text);
-  font-family: var(--font-body);
+  font-family: var(--font-input);
   font-weight: 300;
   letter-spacing: 0.03em;
   min-height: 100vh;
 }
 
+/* ── NAVBAR ── */
 .navbar {
   display: flex;
   align-items: center;
@@ -58,7 +59,7 @@ body {
 }
 
 .brand {
-  font-family: var(--font-body);
+  font-family: var(--font-title);
   font-weight: 500;
   font-size: 1.15rem;
   letter-spacing: 0.04em;
@@ -75,7 +76,7 @@ body {
 }
 
 .nav-link {
-  font-family: var(--font-body);
+  font-family: var(--font-title);
   font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.12em;
@@ -118,6 +119,7 @@ body {
 
 .icon-btn:hover { opacity: 0.6; }
 
+/* ── PAGE TITLE BAR ── */
 .page-title-bar {
   padding: 2.8rem 2rem 2.2rem;
   text-align: center;
@@ -128,13 +130,14 @@ body {
 }
 
 .page-title {
-  font-family: var(--font-display);
-  font-weight: 300;
+  font-family: var(--font-title);
+  font-weight: 700;
   font-size: 2.2rem;
   letter-spacing: 0.3em;
   color: var(--text);
 }
 
+/* ── FORM ELEMENTS ── */
 .form-section {
   background-color: var(--bg-form);
   padding: 3rem 2rem;
@@ -157,7 +160,7 @@ body {
 }
 
 .field-label {
-  font-family: var(--font-body);
+  font-family: var(--font-title);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.14em;
@@ -170,7 +173,7 @@ body {
   background-color: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-input);
   font-size: 0.78rem;
   font-weight: 300;
   letter-spacing: 0.1em;
@@ -180,6 +183,7 @@ body {
 }
 
 .field-input::placeholder {
+  font-family: var(--font-input);
   color: #aaa9a0;
   font-size: 0.72rem;
   letter-spacing: 0.1em;
@@ -199,24 +203,24 @@ body {
   gap: 1.2rem;
 }
 
-
 .btn-signin {
-    width: 100%;
-    background: none;
-    border: 1.5px solid var(--text);
-    color: var(--text);
-    padding: 0.8rem 3rem;
-    font-family: var(--font-body);
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-bottom: 1.5rem;
+  width: 100%;
+  background: none;
+  border: 1.5px solid var(--text);
+  color: var(--text);
+  padding: 0.8rem 3rem;
+  font-family: var(--font-title);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 1.5rem;
 }
 
 .btn-signin:hover {
   background-color: #333330;
+  color: #fff;
   box-shadow: 0 6px 20px rgba(0,0,0,0.18);
 }
 
@@ -226,7 +230,7 @@ body {
 }
 
 .link-forgot {
-  font-family: var(--font-body);
+  font-family: var(--font-input);
   font-size: 0.82rem;
   font-weight: 300;
   letter-spacing: 0.04em;
@@ -239,7 +243,7 @@ body {
 .link-forgot:hover { opacity: 0.55; }
 
 .register-prompt {
-  font-family: var(--font-body);
+  font-family: var(--font-input);
   font-size: 0.82rem;
   font-weight: 300;
   color: var(--text-muted);
@@ -247,6 +251,7 @@ body {
 }
 
 .link-register {
+  font-family: var(--font-input);
   color: var(--text);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -255,6 +260,7 @@ body {
 
 .link-register:hover { opacity: 0.55; }
 
+/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .navbar { padding: 0 1.2rem; }
   .nav-links { gap: 1.2rem; }
@@ -263,16 +269,9 @@ body {
   .form-section,
   .cta-section { padding-left: 1.2rem; padding-right: 1.2rem; }
 
+  .desktop-icons { display: none; }
 
-  /* hide desktop icons */
-  .desktop-icons {
-    display: none;
-  }
-
-  /* hamburger visible */
-  .hamburger {
-    display: hidden;
-  }
+  .hamburger { display: hidden; }
 
   .hamburger span {
     display: block;
@@ -281,13 +280,10 @@ body {
     background-color: var(--text);
     border-radius: 2px;
     transition: background-color 0.2s;
-    }
-
-  .hamburger:hover span {
-    background-color: #555;
   }
 
-  /* dropdown menu */
+  .hamburger:hover span { background-color: #555; }
+
   .nav-links {
     position: absolute;
     top: 72px;
@@ -298,7 +294,6 @@ body {
     align-items: flex-start;
     padding: 1.5rem 2rem;
     gap: 1rem;
-
     opacity: 0;
     pointer-events: none;
     transform: translateY(-10px);
@@ -311,7 +306,6 @@ body {
     transform: translateY(0);
   }
 
-  /* MOBILE ACTION LINKS */
   .mobile-actions {
     margin-top: 1rem;
     padding-top: 1rem;
@@ -328,7 +322,7 @@ body {
   }
 }
 
-/* DESKTOP */
+/* ── DESKTOP ── */
 @media (min-width: 769px) {
   .hamburger {
     display: none;
@@ -339,31 +333,31 @@ body {
     padding: 4px;
   }
 
-  .mobile-actions {
-    display: none;
-  }
-    .btn-signin {
+  .mobile-actions { display: none; }
+
+  .btn-signin {
     width: 28%;
     background: none;
     border: 1.5px solid var(--text);
     color: var(--text);
     padding: 0.8rem 3rem;
-    font-family: var(--font-body);
+    font-family: var(--font-title);
     font-weight: 500;
     letter-spacing: 0.15em;
     font-size: 0.85rem;
     cursor: pointer;
     transition: all 0.2s;
     margin-bottom: 1.5rem;
-}
+  }
 
-.btn-signin:hover {
-  background-color: #333330;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-}
+  .btn-signin:hover {
+    background-color: #333330;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  }
 
-.btn-signin:active {
-  background-color: #000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-}
+  .btn-signin:active {
+    background-color: #000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
 }

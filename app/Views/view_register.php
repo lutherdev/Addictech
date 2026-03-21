@@ -2,6 +2,7 @@
 <?= $this->section('content') ?>
 <head>
   <title>addictech – Register </title>
+  <link rel="stylesheet" href="<?= base_url('/public/css/register.css') ?>" />
 </head>
 
   <?php
@@ -68,7 +69,7 @@
       </div>
 
       <div class="cta-section">
-        <button type="submit" class="btn-signin" id="signupBtn">CREATE ACCOUNT</button>
+        <button type="submit" class="btn-signup" id="signupBtn">CREATE ACCOUNT</button>
         <p class="register-prompt">
           Already have an account? <a href="<?= base_url('login')?>" class="link-register">Login</a>
         </p>
