@@ -32,6 +32,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0; /* Allows flex child to shrink below content size */
 }
 
 /* Title row */
@@ -40,6 +41,7 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  flex-shrink: 0; /* Prevents title row from shrinking */
 }
 
 .page-title {
@@ -58,6 +60,7 @@ body {
   border-radius: 2px;
   font-size: 0.875rem;
   font-weight: 500;
+  flex-shrink: 0; /* Prevents flash messages from shrinking */
 }
 
 .flash-success {
@@ -72,24 +75,64 @@ body {
   color: #721c24;
 }
 
-/* ── Table ── */
+/* ── Table Container with Fixed Dimensions and Scroll ── */
 .orders-table-wrapper {
   background: #f0ece2;
   border: 1.5px solid #c8c3b5;
-  overflow-x: auto;
+  overflow: auto; /* Enables scrolling */
+  height: 500px; /* Fixed height - adjust as needed */
+  width: 100%; /* Full width of parent */
+  position: relative;
 }
 
+/* Custom Scrollbar Styling - Webkit browsers (Chrome, Safari, Edge) */
+.orders-table-wrapper::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.orders-table-wrapper::-webkit-scrollbar-track {
+  background: #e0dbd0;
+  border-radius: 4px;
+}
+
+.orders-table-wrapper::-webkit-scrollbar-thumb {
+  background: #b0aa9a;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.orders-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #8f8979;
+}
+
+.orders-table-wrapper::-webkit-scrollbar-corner {
+  background: #e0dbd0;
+}
+
+/* Custom Scrollbar Styling - Firefox */
+.orders-table-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #b0aa9a #e0dbd0;
+}
+
+/* Table styles */
 .orders-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 700px; /* Minimum width, table will expand if needed */
 }
 
 .orders-table thead tr {
   border-bottom: 1.5px solid #c8c3b5;
 }
 
-.orders-table th {
+/* Sticky header - keeps header visible when scrolling vertically */
+.orders-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f0ece2; /* Match wrapper background */
+  z-index: 10;
   padding: 0.85rem 1rem;
   text-align: left;
   font-size: 0.78rem;
@@ -97,17 +140,46 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #1a1a1a;
-  background: transparent;
+  border-bottom: 1.5px solid #c8c3b5;
 }
 
-/* Column widths */
-.orders-table th.col-img     { width: 60px; }
-.orders-table th.col-id      { width: 100px; }
-.orders-table th.col-product { width: 160px; }
-.orders-table th.col-user    { width: 120px; }
-.orders-table th.col-price   { width: 110px; }
-.orders-table th.col-qty     { width: 90px; text-align: center; }
-.orders-table th.col-action  { width: 210px; text-align: center; }
+/* Column widths with min-width */
+.orders-table th.col-img { 
+  width: 60px;
+  min-width: 60px;
+}
+
+.orders-table th.col-id { 
+  width: 100px;
+  min-width: 100px;
+}
+
+.orders-table th.col-product { 
+  width: 160px;
+  min-width: 160px;
+}
+
+.orders-table th.col-user { 
+  width: 120px;
+  min-width: 120px;
+}
+
+.orders-table th.col-price { 
+  width: 110px;
+  min-width: 110px;
+}
+
+.orders-table th.col-qty { 
+  width: 90px;
+  min-width: 90px;
+  text-align: center;
+}
+
+.orders-table th.col-action { 
+  width: 210px;
+  min-width: 210px;
+  text-align: center;
+}
 
 .orders-table tbody tr {
   border-bottom: 1px solid #c8c3b5;
@@ -279,5 +351,10 @@ body {
 
   .page-title {
     font-size: 2.25rem;
+  }
+  
+  /* Adjust table container height for mobile */
+  .orders-table-wrapper {
+    height: 400px;
   }
 }

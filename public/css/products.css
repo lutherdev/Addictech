@@ -32,6 +32,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0; /* Allows flex child to shrink below content size */
 }
 
 /* Title row: heading left, button right */
@@ -40,6 +41,7 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  flex-shrink: 0; /* Prevents title row from shrinking */
 }
 
 .page-title {
@@ -78,6 +80,7 @@ body {
   border-radius: 4px;
   font-size: 0.875rem;
   font-weight: 500;
+  flex-shrink: 0; /* Prevents flash messages from shrinking */
 }
 
 .flash-success {
@@ -92,24 +95,64 @@ body {
   color: #721c24;
 }
 
-/* ── Table ── */
+/* ── Table Container with Fixed Dimensions and Scroll ── */
 .products-table-wrapper {
   background: #f0ece2;
   border: 1.5px solid #c8c3b5;
-  overflow-x: auto;
+  overflow: auto; /* Enables scrolling */
+  height: 500px; /* Fixed height - adjust as needed */
+  width: 100%; /* Full width of parent */
+  position: relative;
 }
 
+/* Custom Scrollbar Styling - Webkit browsers (Chrome, Safari, Edge) */
+.products-table-wrapper::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.products-table-wrapper::-webkit-scrollbar-track {
+  background: #e0dbd0;
+  border-radius: 3px;
+}
+
+.products-table-wrapper::-webkit-scrollbar-thumb {
+  background: #b0aa9a;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.products-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #8f8979;
+}
+
+.products-table-wrapper::-webkit-scrollbar-corner {
+  background: #e0dbd0;
+}
+
+/* Custom Scrollbar Styling - Firefox */
+.products-table-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #b0aa9a #e0dbd0;
+}
+
+/* For sticky header (optional - keeps header visible while scrolling) */
 .products-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 700px; /* Minimum width, table will expand if needed */
 }
 
 .products-table thead tr {
   border-bottom: 1.5px solid #c8c3b5;
 }
 
-.products-table th {
+/* Sticky header - keeps header visible when scrolling vertically */
+.products-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f0ece2; /* Match wrapper background */
+  z-index: 10;
   padding: 0.85rem 1rem;
   text-align: left;
   font-size: 0.78rem;
@@ -117,19 +160,45 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #1a1a1a;
-  background: transparent;
+  border-bottom: 1.5px solid #c8c3b5;
 }
 
 .products-table th.col-img {
   width: 60px;
+  min-width: 60px;
 }
 
-.products-table th.col-id     { width: 100px; }
-.products-table th.col-product{ width: 160px; }
-.products-table th.col-type   { width: 130px; }
-.products-table th.col-price  { width: 110px; }
-.products-table th.col-qty    { width: 90px;  text-align: center; }
-.products-table th.col-action { width: 200px; text-align: center; }
+.products-table th.col-id { 
+  width: 100px;
+  min-width: 100px;
+}
+
+.products-table th.col-product {
+  width: 160px;
+  min-width: 160px;
+}
+
+.products-table th.col-type { 
+  width: 130px;
+  min-width: 130px;
+}
+
+.products-table th.col-price { 
+  width: 110px;
+  min-width: 110px;
+}
+
+.products-table th.col-qty { 
+  width: 90px;
+  min-width: 90px;
+  text-align: center;
+}
+
+.products-table th.col-action { 
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}
 
 .products-table tbody tr {
   border-bottom: 1px solid #c8c3b5;
@@ -298,5 +367,10 @@ body {
 
   .page-title {
     font-size: 2.25rem;
+  }
+  
+  /* Adjust table container height for mobile */
+  .products-table-wrapper {
+    height: 400px;
   }
 }
