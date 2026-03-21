@@ -100,7 +100,6 @@ class Products extends BaseController
             'description' => $this->request->getPost('description'),
             'price'       => $this->request->getPost('price'),
             'stock'       => $this->request->getPost('stock'),
-            'image'       => $this->request->getPost('image'),
             'status'      => $this->request->getPost('status'),
             'updated_at'  => date('Y-m-d H:i:s')
         ];
