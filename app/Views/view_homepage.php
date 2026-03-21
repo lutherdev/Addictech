@@ -90,7 +90,7 @@
     if (!empty($featured)):
         foreach ($featured as $product):
     ?>
-    <a href="<?= base_url('catalog/product/' . $product['id']) ?>" class="bs-card">
+    <a href="<?= base_url('catalog') ?>" class="bs-card">
       <div class="bs-img">
         <?php if (!empty($product['image'])): ?>
           <img src="<?= base_url('public/images/products/' . esc($product['image'])) ?>" alt="<?= esc($product['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
