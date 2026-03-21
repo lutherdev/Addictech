@@ -21,6 +21,23 @@ $products_json = json_encode(array_map(function($p) {
 
 <main class="catalog-main">
 
+  <?php if (session()->getFlashdata('success')): ?>
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-card">
+      <div class="success-icon">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+      </div>
+      <h2 class="success-title">ORDER PLACED!</h2>
+      <p class="success-msg"><?= session()->getFlashdata('success') ?></p>
+      <a href="<?= base_url('catalog') ?>" class="success-btn">CONTINUE SHOPPING</a>
+      <button class="success-close" onclick="document.getElementById('successOverlay').style.display='none'">✕</button>
+    </div>
+  </div>
+  <?php endif; ?>
+
   <?php if (session()->getFlashdata('error')) : ?>
     <div class="flash flash-error"><?= session()->getFlashdata('error') ?></div>
   <?php endif; ?>
@@ -75,6 +92,7 @@ $products_json = json_encode(array_map(function($p) {
     <?php endif; ?>
   </div>
 
+  
 </main>
 
 <!-- MODAL -->
