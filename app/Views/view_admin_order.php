@@ -35,7 +35,7 @@
             <tr>
               
               <th class="col-id">ID</th>
-              <th class="col-product">ORDER ID</th>
+              <th class="col-product">ORDER NUMBER</th>
               <th class="col-user">USER</th>
               <th class="col-price">PRICE</th>
               <th class="col-qty">QUANTITY</th>
