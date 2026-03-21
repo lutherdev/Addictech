@@ -136,7 +136,7 @@ public function placeOrder()
         $cartModel->clearCart($user_id);
     }
 
-    $session->setFlashData('success', 'Order placed successfully! ORDER ID:' . $order_id);
+    $session->setFlashData('confirmed', 'Order placed successfully! ORDER ID:' . $order_id);
     return redirect()->to('catalog');
 }
 

@@ -38,11 +38,17 @@ $total      = $total ?? 0;
       <?php foreach ($cart_items as $item) : ?>
         <div class="cart-item" data-id="<?= $item['id'] ?>">
           <div class="item-img">
-            <svg width="100%" height="100%" viewBox="0 0 200 200" preserveAspectRatio="none" fill="none">
-              <rect x="1" y="1" width="198" height="198" stroke="#b8b4aa" stroke-width="1.5"/>
-              <circle cx="145" cy="65" r="22" stroke="#b8b4aa" stroke-width="1.5"/>
-              <polyline points="10,170 70,90 115,140 150,100 198,170" stroke="#b8b4aa" stroke-width="1.5" fill="none"/>
-            </svg>
+            <?php if (!empty($item['image'])): ?>
+              <img src="<?= base_url('public/images/products/' . esc($item['image'])) ?>"
+                  style="width:100%; height:100%; object-fit:cover; display:block;"
+                  alt="<?= esc($item['name']) ?>">
+            <?php else: ?>
+              <svg width="100%" height="100%" viewBox="0 0 200 200" preserveAspectRatio="none" fill="none">
+                <rect x="1" y="1" width="198" height="198" stroke="#b8b4aa" stroke-width="1.5"/>
+                <circle cx="145" cy="65" r="22" stroke="#b8b4aa" stroke-width="1.5"/>
+                <polyline points="10,170 70,90 115,140 150,100 198,170" stroke="#b8b4aa" stroke-width="1.5" fill="none"/>
+              </svg>
+            <?php endif; ?>
           </div>
           <div class="item-details">
             <div class="item-top-row">

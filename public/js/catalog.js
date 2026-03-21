@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════
    catalog.js — addictech
-   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH, WISHLIST_TOGGLE
+   globals: products, wishlistIds, CSRF_NAME, CSRF_HASH, WISHLIST_TOGGLE, BASE_URL
 ═══════════════════════════════════════ */
 
 function showToast(msg) {
@@ -75,7 +75,6 @@ function toggleWishlistAjax(productId) {
   .then(function(res) { return res.json(); })
   .then(function(data) {
 
-    // ✅ CLEAN redirect handling
     if (data.redirect) {
       window.location.href = data.redirect;
       return;
@@ -86,7 +85,6 @@ function toggleWishlistAjax(productId) {
       return;
     }
 
-    // ✅ Normal wishlist logic
     if (data.wished) {
       wishlistIds.add(productId);
     } else {
@@ -113,14 +111,14 @@ function updateModalWishBtn(wished) {
 }
 
 /* ══════════════════════════════════
-   CARD CLICKS
+   CARD CLICKS — event delegation
 ══════════════════════════════════ */
-document.querySelectorAll('.product-card').forEach(function(card) {
-  card.addEventListener('click', function() {
-    const id = parseInt(this.dataset.id);
-    const p  = products.find(function(x) { return x.id === id; });
-    if (p) openModal(p);
-  });
+document.getElementById('productGrid').addEventListener('click', function(e) {
+  const card = e.target.closest('.product-card');
+  if (!card) return;
+  const id = parseInt(card.dataset.id);
+  const p  = products.find(function(x) { return x.id === id; });
+  if (p) openModal(p);
 });
 
 /* ══════════════════════════════════
@@ -136,6 +134,15 @@ function openModal(p) {
   document.getElementById('modalName').textContent  = p.name.toUpperCase();
   document.getElementById('modalDesc').textContent  = p.desc || '—';
   document.getElementById('modalPrice').textContent = '₱' + Number(p.price).toLocaleString();
+
+  const modalImg = document.getElementById('modalImage');
+  if (p.image) {
+    modalImg.src = BASE_URL + 'public/images/products/' + p.image;
+    modalImg.alt = p.name;
+  } else {
+    modalImg.src = '';
+    modalImg.alt = '';
+  }
 
   const inStock = p.stock > 0;
   const stockEl = document.getElementById('modalStock');
@@ -219,3 +226,20 @@ document.getElementById('searchInput').addEventListener('input', function() {
   searchTerm = this.value;
   applyFilters();
 });
+
+/* ══════════════════════════════════
+   URL FILTER ON PAGE LOAD
+══════════════════════════════════ */
+const urlParams = new URLSearchParams(window.location.search);
+const urlFilter = urlParams.get('filter');
+
+if (urlFilter) {
+  activeFilter = urlFilter.toUpperCase();
+  document.querySelectorAll('.tag[data-filter]').forEach(function(btn) {
+    btn.classList.remove('active');
+    if (btn.dataset.filter.toUpperCase() === activeFilter) {
+      btn.classList.add('active');
+    }
+  });
+  applyFilters();
+}
