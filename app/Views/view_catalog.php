@@ -58,7 +58,7 @@ $products_json = json_encode(array_map(function($p) {
              data-price="<?= $p['price'] ?>"
              data-name="<?= esc(strtolower($p['name'])) ?>">
           <div class="product-img">
-            <img src="<?= base_url('public/images/keyboard1.png')?>" 
+            <img src="<?= base_url('public/images/products/' . esc($p['image'])) ?>" 
                 width="300" 
                 height="340" 
                 style="width:100%; height:100%; object-fit:cover; display:block;"

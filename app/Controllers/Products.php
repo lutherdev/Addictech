@@ -33,6 +33,14 @@ class Products extends BaseController
         $session = session();
         $validation = service('validation');
 
+        $imageName = null;
+        $image = $this->request->getFile('image');
+
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $imageName = $image->getRandomName();
+            $image->move(FCPATH . 'public/images/products/', $imageName);
+        }
+
         $data = [
             'category'    => $this->request->getPost('category'),
             'name'        => $this->request->getPost('name'),
@@ -40,7 +48,7 @@ class Products extends BaseController
             'description' => $this->request->getPost('description'),
             'price'       => $this->request->getPost('price'),
             'stock'       => $this->request->getPost('stock'),
-            'image'       => $this->request->getPost('image'),
+            'image'       => $imageName,
             'status'      => $this->request->getPost('status') ?? 'active',
             'created_at'  => date('Y-m-d H:i:s'),
             'updated_at'  => date('Y-m-d H:i:s'),

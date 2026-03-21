@@ -92,8 +92,8 @@
     ?>
     <a href="<?= base_url('catalog/product/' . $product['id']) ?>" class="bs-card">
       <div class="bs-img">
-        <?php if (!empty($product['image']) && file_exists(FCPATH . 'public/uploads/' . $product['image'])): ?>
-          <img src="<?= base_url('public/uploads/' . $product['image']) ?>" alt="<?= esc($product['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+        <?php if (!empty($product['image'])): ?>
+          <img src="<?= base_url('public/images/products/' . esc($product['image'])) ?>" alt="<?= esc($product['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
         <?php else: ?>
           <!-- placeholder X box when no image exists -->
           <svg width="100%" height="100%" viewBox="0 0 300 280" preserveAspectRatio="none" fill="none">

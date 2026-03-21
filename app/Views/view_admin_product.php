@@ -49,7 +49,7 @@
                 <tr>
                   <td class="col-img">
                     <?php if (!empty($product['image'])): ?>
-                      <img src="<?= base_url('uploads/' . esc($product['image'])) ?>" alt="<?= esc($product['name']) ?>" class="product-thumb" />
+                      <img src="<?= base_url('public/images/products/' . esc($product['image'])) ?>" alt="<?= esc($product['name']) ?>" class="product-thumb" />
                     <?php else: ?>
                       <div class="product-thumb-placeholder">
                         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

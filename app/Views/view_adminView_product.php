@@ -33,7 +33,7 @@
         <!-- Left: Image -->
         <div class="product-image-col">
           <?php if (!empty($product['image'])): ?>
-            <img src="<?= base_url('uploads/' . esc($product['image'])) ?>"
+            <img src="<?= base_url('public/images/products/' . esc($product['image'])) ?>"
                  alt="<?= esc($product['name']) ?>" class="product-image" />
           <?php else: ?>
             <div class="product-image-placeholder">

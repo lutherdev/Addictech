@@ -70,7 +70,7 @@
       <div class="cta-section">
         <button type="submit" class="btn-signin" id="signupBtn">CREATE ACCOUNT</button>
         <p class="register-prompt">
-          Already have an account? <a href="<?= base_url()?>" class="link-register">Login</a>
+          Already have an account? <a href="<?= base_url('login')?>" class="link-register">Login</a>
         </p>
       </div>
     </form>
