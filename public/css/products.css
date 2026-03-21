@@ -346,6 +346,91 @@ body {
   color: #555;
 }
 
+/* ── Delete Modal ── */
+.delete-modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-modal-backdrop.open {
+  display: flex;
+}
+
+.delete-modal {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.delete-modal-title {
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #1a1a1a;
+  font-family: 'Outfit', sans-serif;
+}
+
+.delete-modal-msg {
+  font-size: 0.82rem;
+  color: #555;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+  border-top: 1px solid #c8c3b5;
+}
+
+.btn-modal-cancel {
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #b0aa9a;
+  background: transparent;
+  color: #666;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-modal-cancel:hover {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+}
+
+.btn-modal-confirm {
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #8b0000;
+  background: #8b0000;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+
+.btn-modal-confirm:hover {
+  background: #6b0000;
+  border-color: #6b0000;
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .products-page {

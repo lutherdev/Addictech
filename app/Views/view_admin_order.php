@@ -68,9 +68,8 @@
                   <td class="col-action order-actions">
                     <a href="<?= base_url('admin/orders/view/' . $order['id']) ?>" class="btn-action">VIEW</a>
                     <a href="<?= base_url('admin/orders/update/' . $order['id']) ?>" class="btn-action">UPDATE</a>
-                    <a href="<?= base_url('admin/orders/delete/' . $order['id']) ?>"
-                       class="btn-action btn-delete"
-                       onclick="return confirm('Delete this order?')">DELETE</a>
+                    <a href="#" class="btn-action btn-delete"
+                       onclick="openDeleteModal('<?= base_url('admin/orders/delete/' . $order['id']) ?>'); return false;">DELETE</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
@@ -95,8 +94,18 @@
         </ul>
       </nav>
     </aside>
-
+      <!-- Delete Confirmation Modal -->
+      <div class="delete-modal-backdrop" id="deleteModalBackdrop">
+        <div class="delete-modal">
+          <h2 class="delete-modal-title">DELETE ORDER</h2>
+          <p class="delete-modal-msg">Are you sure you want to delete this order? This action cannot be undone.</p>
+          <div class="delete-modal-actions">
+            <button class="btn-modal-cancel" id="deleteModalCancel">CANCEL</button>
+            <a href="#" class="btn-modal-confirm" id="deleteModalConfirm">DELETE</a>
+          </div>
+        </div>
+    </div>
   </div>
-
+  <script src="<?= base_url('/public/js/delete_modal.js') ?>"></script>
 </body>
 <?= $this->endSection() ?>

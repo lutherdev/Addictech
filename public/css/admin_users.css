@@ -334,88 +334,89 @@ body {
   color: #555;
 }
 
-/* ── Delete Modal ── */
+/* ── Delete Modal — matches products & orders ── */
 .admin-modal-overlay {
   display: none;
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(26,24,20,0.5) !important;
-  z-index: 9999 !important;
-  align-items: center !important;
-  justify-content: center !important;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin-modal-overlay.active {
-  display: flex !important;
+  display: flex;
 }
 
 .admin-modal-box {
-  background: #f7f4ee !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  padding: 2rem 2.2rem !important;
-  max-width: 400px !important;
-  width: 90% !important;
-  animation: adminModalIn 0.18s ease !important;
-}
-
-@keyframes adminModalIn {
-  from { transform: translateY(-10px); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .admin-modal-title {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.06em !important;
-  text-transform: uppercase !important;
-  margin-bottom: 0.75rem !important;
-  color: #1a1814 !important;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #1a1a1a;
 }
 
 .admin-modal-text {
-  font-family: 'IBM Plex Sans', sans-serif !important;
-  font-size: 0.86rem !important;
-  color: #6b6558 !important;
-  margin-bottom: 1.5rem !important;
-  line-height: 1.55 !important;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.6;
 }
-
-.admin-modal-text strong { color: #1a1814 !important; }
 
 .admin-modal-actions {
-  display: flex !important;
-  gap: 0.6rem !important;
-  justify-content: flex-end !important;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+  border-top: 1px solid #c8c3b5;
 }
 
-.admin-btn {
-  display: inline-block !important;
-  padding: 0.28rem 0.6rem !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.68rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.07em !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  background: transparent !important;
-  color: #1a1814 !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
-  transition: background 0.12s, color 0.12s, border-color 0.12s !important;
-  line-height: 1 !important;
+.admin-btn-view {
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #b0aa9a;
+  background: transparent;
+  color: #666;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
 }
 
-.admin-btn-view:hover  { background: #1a1814 !important; color: #f0ece3 !important; border-color: #1a1814 !important; }
+.admin-btn-view:hover {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+}
 
 .admin-btn-delete {
-  border-color: #c0392b !important;
-  color: #c0392b !important;
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #8b0000;
+  background: #8b0000;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: background 0.15s;
 }
+
 .admin-btn-delete:hover {
-  background: #c0392b !important;
-  color: #fff !important;
+  background: #6b0000;
+  border-color: #6b0000;
 }
 
 /* ── Responsive ── */

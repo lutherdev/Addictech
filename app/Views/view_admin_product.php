@@ -68,8 +68,7 @@
                   <td class="col-action product-actions">
                     <a href="<?= base_url('products/view/' . $product['id']) ?>" class="btn-action">VIEW</a>
                     <a href="<?= base_url('products/edit/' . $product['id']) ?>" class="btn-action">EDIT</a>
-                    <a href="<?= base_url('products/delete/' . $product['id']) ?>" class="btn-action btn-delete"
-                       onclick="return confirm('Delete this product?')">DELETE</a>
+                    <a href="#" class="btn-action btn-delete" onclick="openDeleteModal('<?= base_url('products/delete/' . $product['id']) ?>'); return false;">DELETE</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
@@ -94,8 +93,18 @@
         </ul>
       </nav>
     </aside>
-
+  <!-- Delete Confirmation Modal -->
+  <div class="delete-modal-backdrop" id="deleteModalBackdrop">
+    <div class="delete-modal">
+      <h2 class="delete-modal-title">DELETE PRODUCT</h2>
+      <p class="delete-modal-msg">Are you sure you want to delete this product? This action cannot be undone.</p>
+      <div class="delete-modal-actions">
+        <button class="btn-modal-cancel" id="deleteModalCancel">CANCEL</button>
+        <a href="#" class="btn-modal-confirm" id="deleteModalConfirm">DELETE</a>
+      </div>
+    </div>
   </div>
-  
+  </div>
+  <script src="<?= base_url('/public/js/delete_modal.js') ?>"></script>
 </body>
 <?= $this->endSection() ?>
