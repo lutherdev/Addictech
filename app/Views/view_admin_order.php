@@ -35,7 +35,7 @@
             <tr>
               
               <th class="col-id">ID</th>
-              <th class="col-product">PRODUCT</th>
+              <th class="col-product">ORDER ID</th>
               <th class="col-user">USER</th>
               <th class="col-price">PRICE</th>
               <th class="col-qty">QUANTITY</th>
@@ -47,7 +47,7 @@
               <?php foreach ($orders as $order): ?>
                 <tr>
                   <td class="col-id order-id">#<?= esc($order['id']) ?></td>
-                  <td class="col-product order-product"><?= esc($order['product_name'] ?? 'N/A') ?></td>
+                  <td class="col-product order-product"><?= esc($order['order_number'] ?? 'N/A') ?></td>
                   <td class="col-user order-user"><?= esc($order['username'] ?? 'N/A') ?></td>
                   <td class="col-price order-price">₱<?= number_format($order['total'], 0) ?></td>
                   <td class="col-qty order-qty"><?= esc($order['total_quantity'] ?? 1) ?></td>

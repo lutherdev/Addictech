@@ -61,6 +61,7 @@ public function getAllWithUser()
     return $this->select('
             orders.id,
             orders.total,
+            orders.order_number,
             orders.status,
             orders.created_at,
             CONCAT(users.first_name, " ", users.last_name) AS username,
