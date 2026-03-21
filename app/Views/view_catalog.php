@@ -25,9 +25,9 @@ $products_json = json_encode(array_map(function($p) {
   <div class="success-overlay" id="successOverlay">
     <div class="success-card">
       <div class="success-icon">
-        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="9 12 11 14 15 10"/>
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="#1a1a18" stroke="none">
+          <path d="M12 1l2.5 3.5L18 3l.5 4L22 8.5l-2 3.5 2 3.5-3.5 1.5L18 21l-3.5-1.5L12 23l-2.5-1.5L6 23l-.5-4.5L2 17l2-3.5-2-3.5 3.5-1.5L6 4l3.5 1.5z"/>
+          <polyline points="8 12 11 15 16 9" stroke="#e8e6df" stroke-width="1.8" stroke-linecap="round" fill="none"/>
         </svg>
       </div>
       <h2 class="success-title">ORDER PLACED!</h2>

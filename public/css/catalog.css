@@ -261,7 +261,7 @@
 }
 
 .modal-product-name {
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -283,7 +283,7 @@
 }
 
 .modal-desc-title {
-  font-family: var(--font-display);
+  font-family: 'Outfit', sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
   color: #e8e6df;
@@ -291,7 +291,7 @@
 }
 
 .modal-desc-text {
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.78rem;
   font-weight: 300;
   line-height: 1.7;
@@ -330,7 +330,7 @@
 .modal-share-btn:hover { background: #2d6abf; }
 
 .modal-price {
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: 1.55rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -395,7 +395,7 @@
   background: transparent;
   color: #e8e6df;
   border: 1px solid #e8e6df;
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -566,14 +566,14 @@
   position: relative;
   max-width: 440px;
   width: 90%;
-  padding: 3rem 2.5rem;
+  padding: 3rem 2.5rem 2.5rem;
   background: var(--bg);
   border: 1px solid var(--border);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
   animation: fadeUp 0.3s ease;
 }
 
@@ -588,37 +588,46 @@
   justify-content: center;
 }
 
+.success-icon svg {
+  width: 72px;
+  height: 72px;
+}
+
 .success-title {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 300;
-  letter-spacing: 0.3em;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   color: var(--text);
 }
 
 .success-msg {
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
   color: var(--text-muted);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   line-height: 1.6;
+  max-width: 280px;
 }
 
 .success-btn {
-  margin-top: 0.5rem;
-  padding: 0.8rem 2.5rem;
-  border: 1.5px solid var(--text);
-  font-family: var(--font-body);
+  margin-top: 0.8rem;
+  padding: 1rem 2.5rem;
+  width: 100%;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-decoration: none;
-  transition: all 0.2s;
+  display: block;
+  transition: background 0.2s;
 }
 
 .success-btn:hover {
-  background: var(--text);
+  background: #333330;
   color: var(--bg);
 }
 
