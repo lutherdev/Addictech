@@ -33,7 +33,7 @@
         <table class="orders-table">
           <thead>
             <tr>
-              <th class="col-img"></th>
+              
               <th class="col-id">ID</th>
               <th class="col-product">PRODUCT</th>
               <th class="col-user">USER</th>
@@ -46,20 +46,6 @@
             <?php if (!empty($orders) && is_array($orders)): ?>
               <?php foreach ($orders as $order): ?>
                 <tr>
-                  <td class="col-img">
-                    <?php if (!empty($order['product_image'])): ?>
-                      <img src="<?= base_url('uploads/' . esc($order['product_image'])) ?>"
-                           alt="<?= esc($order['product_name'] ?? '') ?>" class="order-thumb" />
-                    <?php else: ?>
-                      <div class="order-thumb-placeholder">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="4" y="8" width="40" height="32" rx="2" stroke="currentColor" stroke-width="2"/>
-                          <circle cx="16" cy="20" r="4" stroke="currentColor" stroke-width="2"/>
-                          <path d="M4 36l10-10 8 8 6-6 16 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                        </svg>
-                      </div>
-                    <?php endif; ?>
-                  </td>
                   <td class="col-id order-id">#<?= esc($order['id']) ?></td>
                   <td class="col-product order-product"><?= esc($order['product_name'] ?? 'N/A') ?></td>
                   <td class="col-user order-user"><?= esc($order['username'] ?? 'N/A') ?></td>
