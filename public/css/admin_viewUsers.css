@@ -1,501 +1,444 @@
-/* =============================
-   ADMIN USERS PAGE — admin_users.css
-   ============================= */
+/* =========================================
+   user_view.css — matches orders_view.css
+   Same design, unique class names
+   ========================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-
-/* ---- ADMIN NAV OVERRIDE ---- */
-.admin-nav {
-  display: flex !important;
-  justify-content: flex-start !important;
-  gap: 2rem !important;
-  padding: 0.6rem 1.5rem !important;
-  background: #f0ece3 !important;
-  border-bottom: 1.5px solid #c8c2b4 !important;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.admin-nav a {
+body {
+  background-color: #e8e4da;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a1a;
+}
+
+/* Page wrapper */
+.view-user-page {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 64px);
+  padding: 2rem;
+  gap: 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ── Main Content ── */
+.view-user-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Title row */
+.view-user-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+/* Page title — Outfit */
+.user-page-title {
   font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
-  color: #6b6558 !important;
-  text-decoration: underline !important;
-  text-underline-offset: 3px !important;
-}
-
-.admin-nav a:hover,
-.admin-nav a.active {
-  color: #1a1814 !important;
-}
-
-/* ---- PAGE WRAPPER ---- */
-.admin-page-wrapper {
-  max-width: 960px !important;
-  margin: 0 auto !important;
-  padding: 2rem 1.5rem 4rem !important;
-}
-
-/* ---- PAGE TITLE ---- */
-.admin-page-title {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 2rem !important;
+  font-size: 3rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.04em !important;
   color: #1a1814 !important;
-  margin-bottom: 1.2rem !important;
-  text-transform: uppercase !important;
-}
-
-/* ---- ALERTS ---- */
-.admin-alert {
-  padding: 0.65rem 1rem !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  border: 1px solid !important;
-  margin-bottom: 1rem !important;
-  border-radius: 2px !important;
-}
-.admin-alert-success {
-  background: #eafaf1 !important;
-  border-color: #27ae60 !important;
-  color: #27ae60 !important;
-}
-.admin-alert-error {
-  background: #fdedec !important;
-  border-color: #c0392b !important;
-  color: #c0392b !important;
-}
-
-/* ---- TABLE WRAPPER ---- */
-.admin-table-wrapper {
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  overflow: hidden !important;
-  background: #f7f4ee !important;
-  width: 100% !important;
-}
-
-/* ---- TABLE ---- */
-.admin-users-table {
-  width: 100% !important;
-  border-collapse: collapse !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  table-layout: auto !important;
-}
-
-.admin-users-table thead tr {
-  border-bottom: 1.5px solid #c8c2b4 !important;
-  background: #f0ece3 !important;
-}
-
-.admin-users-table th {
-  padding: 0.7rem 0.9rem !important;
-  text-align: left !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
-  color: #6b6558 !important;
-  font-size: 0.7rem !important;
-  text-transform: uppercase !important;
-  white-space: nowrap !important;
-}
-
-.admin-users-table tbody tr {
-  border-bottom: 1px solid #c8c2b4 !important;
-  transition: background 0.12s !important;
-}
-
-.admin-users-table tbody tr:last-child {
-  border-bottom: none !important;
-}
-
-.admin-users-table tbody tr:hover {
-  background: rgba(0,0,0,0.025) !important;
-}
-
-.admin-users-table td {
-  padding: 0.65rem 0.9rem !important;
-  vertical-align: middle !important;
-  color: #1a1814 !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-}
-
-/* ---- AVATAR ---- */
-.admin-avatar-cell {
-  width: 48px !important;
-  padding: 0.4rem 0.5rem 0.4rem 0.9rem !important;
-}
-
-.admin-avatar {
-  width: 38px !important;
-  height: 38px !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: #ebe7de !important;
-  color: #8a8278 !important;
-}
-
-.admin-avatar svg {
-  width: 20px !important;
-  height: 20px !important;
-}
-
-/* ---- ID ---- */
-.admin-id-cell {
-  color: #8a8278 !important;
-  white-space: nowrap !important;
-}
-
-/* ---- STATUS BADGE ---- */
-.admin-status {
-  display: inline-block !important;
-  padding: 0.18rem 0.45rem !important;
-  font-size: 0.65rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.07em !important;
-  border: 1px solid !important;
-  border-radius: 2px !important;
-  text-transform: uppercase !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-}
-
-.admin-status-active   { border-color: #27ae60 !important; color: #27ae60 !important; background: #eafaf1 !important; }
-.admin-status-inactive { border-color: #8a8278 !important; color: #8a8278 !important; background: transparent !important; }
-.admin-status-banned   { border-color: #c0392b !important; color: #c0392b !important; background: #fdedec !important; }
-
-/* ---- ACTION BUTTONS ---- */
-.admin-action-cell {
-  white-space: nowrap !important;
-}
-
-.admin-btn {
-  display: inline-block !important;
-  padding: 0.28rem 0.6rem !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.68rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.07em !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  background: transparent !important;
-  color: #1a1814 !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
-  margin-right: 0.2rem !important;
-  transition: background 0.12s, color 0.12s, border-color 0.12s !important;
-  line-height: 1 !important;
-}
-
-.admin-btn:last-child { margin-right: 0 !important; }
-
-.admin-btn-view:hover  { background: #1a1814 !important; color: #f0ece3 !important; border-color: #1a1814 !important; }
-.admin-btn-edit:hover  { background: #2c5282 !important; color: #fff !important; border-color: #2c5282 !important; }
-
-.admin-btn-delete {
-  border-color: #c0392b !important;
-  color: #c0392b !important;
-}
-.admin-btn-delete:hover {
-  background: #c0392b !important;
-  color: #fff !important;
-}
-
-/* ---- EMPTY ROW ---- */
-.admin-empty-row {
-  text-align: center !important;
-  color: #8a8278 !important;
-  padding: 3rem !important;
-  font-size: 0.82rem !important;
-}
-
-/* ---- DELETE MODAL ---- */
-.admin-modal-overlay {
-  display: none;
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(26,24,20,0.5) !important;
-  z-index: 9999 !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.admin-modal-overlay.active {
-  display: flex !important;
-}
-
-.admin-modal-box {
-  background: #f7f4ee !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  padding: 2rem 2.2rem !important;
-  max-width: 400px !important;
-  width: 90% !important;
-  animation: adminModalIn 0.18s ease !important;
-}
-
-@keyframes adminModalIn {
-  from { transform: translateY(-10px); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
-}
-
-.admin-modal-title {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.06em !important;
-  text-transform: uppercase !important;
-  margin-bottom: 0.75rem !important;
-  color: #1a1814 !important;
-}
-
-.admin-modal-text {
-  font-family: 'IBM Plex Sans', sans-serif !important;
-  font-size: 0.86rem !important;
-  color: #6b6558 !important;
-  margin-bottom: 1.5rem !important;
-  line-height: 1.55 !important;
-}
-
-.admin-modal-text strong { color: #1a1814 !important; }
-
-.admin-modal-actions {
-  display: flex !important;
-  gap: 0.6rem !important;
-  justify-content: flex-end !important;
-}
-
-
-/* =========================================================
-   DETAIL / VIEW / EDIT PAGES
-   ========================================================= */
-
-/* ---- Page Header with back link ---- */
-.admin-page-header {
-  margin-bottom: 1.5rem !important;
-}
-
-.admin-back-link {
-  display: inline-block !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.72rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.08em !important;
-  color: #8a8278 !important;
-  text-decoration: none !important;
   margin-bottom: 0.5rem !important;
-  transition: color 0.12s !important;
-}
-.admin-back-link:hover { color: #1a1814 !important; }
-
-/* ---- Detail Card ---- */
-.admin-detail-card {
-  background: #f7f4ee !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  overflow: hidden !important;
-}
-
-/* ---- Card Header ---- */
-.admin-detail-header {
-  display: flex !important;
-  align-items: center !important;
-  gap: 1.2rem !important;
-  padding: 1.5rem 1.8rem !important;
-}
-
-.admin-detail-avatar {
-  width: 64px !important;
-  height: 64px !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: #ebe7de !important;
-  color: #8a8278 !important;
-  flex-shrink: 0 !important;
-}
-
-.admin-detail-avatar svg {
-  width: 32px !important;
-  height: 32px !important;
-}
-
-.admin-detail-header-info {
-  flex: 1 !important;
-}
-
-.admin-detail-uid {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.72rem !important;
-  color: #8a8278 !important;
-  margin-bottom: 0.2rem !important;
-}
-
-.admin-detail-name {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 1.2rem !important;
-  font-weight: 600 !important;
-  color: #1a1814 !important;
-  letter-spacing: 0.04em !important;
-  margin-bottom: 0.4rem !important;
   text-transform: uppercase !important;
 }
 
-.admin-detail-header-actions {
-  display: flex !important;
-  gap: 0.5rem !important;
-  flex-shrink: 0 !important;
+.user-title-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
 }
 
-/* ---- Divider ---- */
-.admin-detail-divider {
-  height: 1px !important;
-  background: #c8c2b4 !important;
-  margin: 0 !important;
+.user-btn-outline {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #1a1a1a;
+  background: transparent;
+  color: #1a1a1a;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
 }
 
-/* ---- Detail Grid (view page) ---- */
-.admin-detail-grid {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 0 !important;
+.user-btn-outline:hover {
+  background: #1a1a1a;
+  color: #e8e4da;
 }
 
-.admin-detail-section {
-  padding: 1.4rem 1.8rem !important;
-  border-right: 1px solid #c8c2b4 !important;
+/* ── Flash Messages ── */
+.user-flash {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
 }
 
-.admin-detail-section:last-child,
-.admin-detail-section-full {
-  border-right: none !important;
+.user-flash-success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
 }
 
-.admin-detail-section-full {
-  grid-column: 1 / -1 !important;
-  border-top: 1px solid #c8c2b4 !important;
+.user-flash-error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
 }
 
-.admin-detail-section-label {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.65rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.12em !important;
-  color: #8a8278 !important;
-  text-transform: uppercase !important;
-  margin-bottom: 0.9rem !important;
+/* ── User Summary Card ── */
+.user-summary-card {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
+  gap: 2rem;
 }
 
-.admin-detail-row {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  padding: 0.4rem 0 !important;
-  border-bottom: 1px dashed #ddd8ce !important;
-  gap: 1rem !important;
+.user-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.admin-detail-row:last-child {
-  border-bottom: none !important;
+.user-action-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-top: 0.25rem;
 }
 
-.admin-detail-key {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.68rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.07em !important;
-  color: #8a8278 !important;
-  white-space: nowrap !important;
-  flex-shrink: 0 !important;
+/* Detail groups */
+.user-detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
-.admin-detail-val {
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  color: #1a1814 !important;
-  text-align: right !important;
+.user-detail-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
 }
 
-/* ---- Form Grid (edit page) ---- */
-.admin-form-grid {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 0 !important;
+.user-detail-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
 }
 
-.admin-form-section {
-  padding: 1.4rem 1.8rem !important;
-  border-right: 1px solid #c8c2b4 !important;
+.user-detail-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: #1a1a1a;
 }
 
-.admin-form-section:last-child {
-  border-right: none !important;
+.user-id-val {
+  font-family: monospace;
+  font-size: 1rem;
+  color: #555;
+  font-weight: 600;
 }
 
-/* ---- Form Fields ---- */
-.admin-field-group {
-  margin-bottom: 1rem !important;
+.user-detail-date {
+  font-size: 0.85rem;
+  color: #666;
 }
 
-.admin-field-label {
-  display: block !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.65rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
-  color: #8a8278 !important;
-  margin-bottom: 0.3rem !important;
+/* Dividers between detail groups */
+.user-info-col .user-detail-group + .user-detail-group,
+.user-info-col .user-detail-row + .user-detail-group,
+.user-info-col .user-detail-group + .user-detail-row,
+.user-info-col .user-detail-row + .user-detail-row {
+  padding-top: 1rem;
+  border-top: 1px solid #d8d3c8;
 }
 
-.admin-field-input {
-  width: 100% !important;
-  padding: 0.45rem 0.7rem !important;
-  font-family: 'IBM Plex Mono', monospace !important;
-  font-size: 0.78rem !important;
-  color: #1a1814 !important;
-  background: #f0ece3 !important;
-  border: 1.5px solid #c8c2b4 !important;
-  border-radius: 2px !important;
-  outline: none !important;
-  transition: border-color 0.15s !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
+/* Status badges */
+.user-status-badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1.5px solid currentColor;
+  width: fit-content;
 }
 
-.admin-field-input:focus {
-  border-color: #1a1814 !important;
-  background: #fff !important;
+.user-status-active   { color: #155724; background: #d4edda; }
+.user-status-inactive { color: #7d3c00; background: #fdebd0; }
+.user-status-banned   { color: #8b0000; background: #f8d7da; }
+
+/* Action buttons */
+.user-btn-action {
+  display: inline-block;
+  padding: 0.6rem 1.6rem;
+  border: 1.5px solid #1a1a1a;
+  background: transparent;
+  color: #1a1a1a;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
 }
 
-select.admin-field-input {
-  cursor: pointer !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8278'/%3E%3C/svg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 0.7rem center !important;
-  padding-right: 2rem !important;
+.user-btn-action:hover {
+  background: #1a1a1a;
+  color: #e8e4da;
 }
 
-/* ---- Form Actions ---- */
-.admin-form-actions {
-  display: flex !important;
-  justify-content: flex-end !important;
-  gap: 0.6rem !important;
-  padding: 1.2rem 1.8rem !important;
+.user-btn-delete {
+  border-color: #8b0000;
+  color: #8b0000;
 }
 
-.admin-btn-save {
-  border-color: #1a1814 !important;
-  background: #1a1814 !important;
-  color: #f0ece3 !important;
+.user-btn-delete:hover {
+  background: #8b0000;
+  color: #fff;
 }
-.admin-btn-save:hover {
-  background: #333 !important;
-  border-color: #333 !important;
-  color: #f0ece3 !important;
+
+/* ── Section Label ── */
+.user-section-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+/* ── Address Table ── */
+.user-items-wrapper {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  overflow-x: auto;
+}
+
+.user-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.user-items-table thead tr {
+  border-bottom: 1.5px solid #c8c3b5;
+}
+
+.user-items-table th {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+.ucol-address { width: 35%; }
+.ucol-city    { width: 25%; }
+.ucol-postal  { width: 20%; }
+.ucol-country { width: 20%; }
+
+.user-items-table tbody tr {
+  border-bottom: 1px solid #c8c3b5;
+  transition: background 0.1s;
+}
+
+.user-items-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.user-items-table tbody tr:hover {
+  background: #e8e3d8;
+}
+
+.user-items-table td {
+  padding: 0.85rem 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  color: #333;
+  vertical-align: middle;
+}
+
+.uitem-address { font-weight: 500; }
+
+/* ── Right Sidebar Navigation ── */
+.user-sidebar-nav {
+  width: 120px;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+
+.user-sidebar-nav nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.user-sidebar-nav nav ul li a {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #1a1a1a;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.user-sidebar-nav nav ul li a:hover,
+.user-sidebar-nav nav ul li a.active {
+  color: #555;
+}
+
+/* ── Delete Modal ── */
+.user-delete-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-delete-backdrop.open {
+  display: flex;
+}
+
+.user-delete-modal {
+  background: #f0ece2;
+  border: 1.5px solid #c8c3b5;
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.user-delete-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #1a1a1a;
+}
+
+.user-delete-msg {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.user-delete-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+  border-top: 1px solid #c8c3b5;
+}
+
+.user-btn-cancel {
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #b0aa9a;
+  background: transparent;
+  color: #666;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.user-btn-cancel:hover {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+}
+
+.user-btn-confirm {
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #8b0000;
+  background: #8b0000;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.user-btn-confirm:hover {
+  background: #6b0000;
+  border-color: #6b0000;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .view-user-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .user-summary-card {
+    flex-direction: column;
+  }
+
+  .user-action-col {
+    align-items: flex-start;
+  }
+
+  .user-detail-row {
+    grid-template-columns: 1fr;
+  }
+
+  .user-sidebar-nav {
+    width: 100%;
+  }
+
+  .user-sidebar-nav nav ul {
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
 }

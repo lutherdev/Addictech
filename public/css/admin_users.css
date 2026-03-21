@@ -318,6 +318,7 @@ body {
 
 .sidebar-nav nav ul li a {
   display: block;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
