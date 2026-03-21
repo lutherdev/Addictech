@@ -32,6 +32,7 @@ function nav_class(string $page, string $active): string {
   <div class="nav-right">
   <!-- CENTER: links -->
   <div class="nav-links">
+   
     <a href="<?= base_url('home') ?>" class="<?= nav_class('home', $nav_active) ?>">HOME</a>
     <a href="<?= base_url('about') ?>" class="<?= nav_class('about', $nav_active) ?>">ABOUT</a>
     <a href="<?= base_url('catalog') ?>" class="<?= nav_class('catalog', $nav_active) ?>">CATALOG</a>
@@ -39,10 +40,7 @@ function nav_class(string $page, string $active): string {
     
     <!-- Admin-only links - only shown if user is logged in AND has role 'admin' -->
     <?php if ($isLoggedIn && $userRole === 'admin'): ?>
-      <a href="<?= base_url('admin/users') ?>" class="<?= nav_class('users', $nav_active) ?>">VIEW USERS</a>
-      <a href="<?= base_url('admin/products') ?>" class="<?= nav_class('products', $nav_active) ?>">VIEW PRODUCTS</a>
-      <a href="<?= base_url('admin/orders') ?>" class="<?= nav_class('orders', $nav_active) ?>">VIEW ORDERS</a>
-      <a href="<?= base_url('admin/contacts') ?>" class="<?= nav_class('orders', $nav_active) ?>">VIEW CONCERNS</a>
+      <a href="<?= base_url('admin/users') ?>" class="<?= nav_class('users', $nav_active) ?>">ADMIN DASHBOARD</a>
     <?php endif; ?>
 
     <!-- MOBILE ONLY ACTION LINKS -->
