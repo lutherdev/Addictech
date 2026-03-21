@@ -32,6 +32,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0; /* Allows flex child to shrink below content size */
 }
 
 /* Title row: heading left */
@@ -40,6 +41,7 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  flex-shrink: 0; /* Prevents title row from shrinking */
 }
 
 .page-title {
@@ -58,6 +60,7 @@ body {
   border-radius: 4px;
   font-size: 0.875rem;
   font-weight: 500;
+  flex-shrink: 0; /* Prevents flash messages from shrinking */
 }
 
 .flash-success {
@@ -72,24 +75,64 @@ body {
   color: #721c24;
 }
 
-/* ── Table ── */
+/* ── Table Container with Fixed Dimensions and Scroll ── */
 .contacts-table-wrapper {
   background: #f0ece2;
   border: 1.5px solid #c8c3b5;
-  overflow-x: auto;
+  overflow: auto; /* Enables scrolling */
+  height: 500px; /* Fixed height - adjust as needed */
+  width: 100%; /* Full width of parent */
+  position: relative;
 }
 
+/* Custom Scrollbar Styling - Webkit browsers (Chrome, Safari, Edge) */
+.contacts-table-wrapper::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.contacts-table-wrapper::-webkit-scrollbar-track {
+  background: #e0dbd0;
+  border-radius: 4px;
+}
+
+.contacts-table-wrapper::-webkit-scrollbar-thumb {
+  background: #b0aa9a;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.contacts-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #8f8979;
+}
+
+.contacts-table-wrapper::-webkit-scrollbar-corner {
+  background: #e0dbd0;
+}
+
+/* Custom Scrollbar Styling - Firefox */
+.contacts-table-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #b0aa9a #e0dbd0;
+}
+
+/* Table styles */
 .contacts-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 900px;
+  min-width: 900px; /* Minimum width, table will expand if needed */
 }
 
 .contacts-table thead tr {
   border-bottom: 1.5px solid #c8c3b5;
 }
 
-.contacts-table th {
+/* Sticky header - keeps header visible when scrolling vertically */
+.contacts-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f0ece2; /* Match wrapper background */
+  z-index: 10;
   padding: 0.85rem 1rem;
   text-align: left;
   font-size: 0.78rem;
@@ -97,35 +140,43 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #1a1a1a;
-  background: transparent;
+  border-bottom: 1.5px solid #c8c3b5;
 }
 
+/* Column widths with min-width */
 .contacts-table th.col-id { 
-  width: 60px; 
+  width: 60px;
+  min-width: 60px;
 }
 
 .contacts-table th.col-name { 
-  width: 150px; 
+  width: 150px;
+  min-width: 150px;
 }
 
 .contacts-table th.col-email { 
-  width: 200px; 
+  width: 200px;
+  min-width: 200px;
 }
 
 .contacts-table th.col-message { 
-  width: 300px; 
+  width: 300px;
+  min-width: 300px;
 }
 
 .contacts-table th.col-date { 
-  width: 120px; 
+  width: 120px;
+  min-width: 120px;
 }
 
 .contacts-table th.col-status { 
-  width: 90px; 
+  width: 90px;
+  min-width: 90px;
 }
 
 .contacts-table th.col-action { 
   width: 130px;
+  min-width: 130px;
   text-align: center;
 }
 
@@ -357,6 +408,11 @@ body {
 
   .page-title {
     font-size: 2.25rem;
+  }
+  
+  /* Adjust table container height for mobile */
+  .contacts-table-wrapper {
+    height: 400px;
   }
 
   .contacts-table {
