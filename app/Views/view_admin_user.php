@@ -88,9 +88,10 @@
     <aside class="sidebar-nav">
       <nav>
         <ul>
+          <li><a href="<?= base_url('admin/contacts') ?>" class="active">CONCERNS</a></li>
           <li><a href="<?= base_url('products') ?>">PRODUCTS</a></li>
           <li><a href="<?= base_url('admin/orders') ?>">ORDERS</a></li>
-          <li><a href="<?= base_url('admin/users') ?>" class="active">USERS</a></li>
+          <li><a href="<?= base_url('admin/users') ?>" class="active">USERS</a></li>  
           <li><a href="<?= base_url('logout') ?>">LOGOUT</a></li>
         </ul>
       </nav>

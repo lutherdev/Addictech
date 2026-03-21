@@ -86,6 +86,7 @@
     <aside class="sidebar-nav">
       <nav>
         <ul>
+          <li><a href="<?= base_url('admin/contacts') ?>" class="active">CONCERNS</a></li>
           <li><a href="<?= base_url('products') ?>" class="active">PRODUCTS</a></li>
           <li><a href="<?= base_url('admin/orders') ?>">ORDERS</a></li>
           <li><a href="<?= base_url('admin/users') ?>">USERS</a></li>
