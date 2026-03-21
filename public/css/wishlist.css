@@ -28,7 +28,7 @@
 }
 
 .wishlist-title {
-  font-family: var(--font-body);
+  font-family: 'Outfit', sans-serif;
   font-size: 2.4rem;
   font-weight: 800;
   letter-spacing: .04em;
@@ -153,14 +153,14 @@
 }
 
 .product-name {
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: .68rem;
   font-weight: 500;
   letter-spacing: .12em;
 }
 
 .product-price {
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: .68rem;
   font-weight: 600;
   letter-spacing: .08em;
@@ -280,7 +280,7 @@
 }
 
 .modal-product-name {
-  font-family: var(--font-body);
+  font-family: 'Outfit', sans-serif;
   font-size: .72rem;
   font-weight: 500;
   letter-spacing: .15em;
@@ -302,7 +302,7 @@
 }
 
 .modal-desc-title {
-  font-family: var(--font-display);
+  font-family: 'Outfit', sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
   color: #e8e6df;
@@ -310,7 +310,7 @@
 }
 
 .modal-desc-text {
-  font-family: var(--font-body);
+  font-family: 'DM Sans', sans-serif;
   font-size: .78rem;
   font-weight: 300;
   line-height: 1.7;
