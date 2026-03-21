@@ -32,7 +32,7 @@
                 <li><a href="<?= base_url('catalog') ?>" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">Catalog</a></li>
                 <li><a href="<?= base_url('wishlist') ?>" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">Wishlist</a></li>
                 <li><a href="<?= base_url('cart') ?>" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">Cart</a></li>
-                <li><a href="<?= base_url('profile') ?>" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">User Profile</a></li>        
+                <li><a href="<?= base_url('user/profile') ?>" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">User Profile</a></li>        
             </ul>
         </div>
 
@@ -40,7 +40,7 @@
             <h4 style="color: #1a1a18; margin-bottom: 15px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Outfit', sans-serif;">Customer Care</h4>
             <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
                 <li><a href="<?= base_url('about') ?>" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">About Us</a></li>
-                <li><a href="<?= base_url('homepage') ?>" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">Contact Us</a></li>
+                <li><a href="<?= base_url('home#contact-section') ?>" id="contact-link" style="color: #3a3a3a; text-decoration: none; font-size: 14px;">Contact Us</a></li>
             </ul>
         </div>
     </div>
