@@ -33,7 +33,7 @@
         <table class="products-table">
           <thead>
             <tr>
-              <th class="col-img"></th>
+              <!-- <th class="col-img"></th> -->
               <th class="col-id">ID</th>
               <th class="col-product">NAME</th>
               <th class="col-type">ROLE</th>
@@ -46,7 +46,7 @@
             <?php if (!empty($users)) : ?>
               <?php foreach ($users as $user) : ?>
                 <tr>
-                  <td class="col-img">
+                  <!-- <td class="col-img">
                     <div class="product-thumb-placeholder">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -54,7 +54,7 @@
                         <path d="M6 21v-1a6 6 0 0 1 12 0v1"/>
                       </svg>
                     </div>
-                  </td>
+                  </td> -->
                   <td class="col-id product-id">#<?= esc($user['id']) ?></td>
                   <td class="col-product product-name"><?= esc($user['first_name'] . ' ' . $user['last_name']) ?></td>
                   <td class="col-type product-type"><?= esc($user['role'] ?? '—') ?></td>
