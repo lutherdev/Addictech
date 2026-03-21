@@ -45,7 +45,12 @@
           <tbody>
             <?php if (!empty($contacts) && is_array($contacts)): ?>
               <?php foreach ($contacts as $contact): ?>
-                <tr class="<?= $contact['is_read'] ? '' : 'unread-row' ?>">
+                <tr class="<?= $contact['is_read'] ? '' : 'unread-row' ?>" 
+                    data-contact-id="<?= $contact['id'] ?>"
+                    data-contact-name="<?= esc($contact['full_name']) ?>"
+                    data-contact-email="<?= esc($contact['email']) ?>"
+                    data-contact-message="<?= esc(str_replace(["\r\n", "\n", "\r"], ' ', $contact['concern'])) ?>"
+                    data-contact-date="<?= date('F d, Y h:i A', strtotime($contact['created_at'])) ?>">
                   <td class="col-id contact-id">#<?= esc($contact['id']) ?></td>
                   <td class="col-name contact-name"><?= esc($contact['full_name']) ?></td>
                   <td class="col-email contact-email">
@@ -54,24 +59,10 @@
                     </a>
                   </td>
                   <td class="col-message message-cell">
-                    <div class="message-preview" id="msg-<?= $contact['id'] ?>">
-                      <span class="message-short">
-                        <?= esc(mb_strimwidth($contact['concern'], 0, 80, '...')) ?>
-                      </span>
-                      <?php if (mb_strlen($contact['concern']) > 80) : ?>
-                        <span class="message-full" style="display:none">
-                          <?= nl2br(esc($contact['concern'])) ?>
-                        </span>
-                        <button type="button" class="btn-expand"
-                                onclick="toggleMessage(<?= $contact['id'] ?>, this)">
-                          READ MORE
-                        </button>
-                      <?php else : ?>
-                        <span class="message-full" style="display:none">
-                          <?= nl2br(esc($contact['concern'])) ?>
-                        </span>
-                      <?php endif; ?>
-                    </div>
+                    <button type="button" class="btn-view-message" 
+                            onclick="openMessageModal(this)">
+                      VIEW MESSAGE
+                    </button>
                   </td>
                   <td class="col-date contact-date">
                     <?= date('M d, Y', strtotime($contact['created_at'])) ?>
@@ -123,23 +114,95 @@
 
   </div>
 
-  <script>
-    function toggleMessage(id, btn) {
-      const container = document.getElementById('msg-' + id);
-      const shortEl   = container.querySelector('.message-short');
-      const fullEl    = container.querySelector('.message-full');
-      const isExpanded = fullEl.style.display !== 'none';
+  <!-- Modal Popup -->
+  <div id="messageModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Message Details</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="message-detail">
+          <div class="detail-row">
+            <strong>From:</strong>
+            <span id="modal-name"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Email:</strong>
+            <span id="modal-email"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Date:</strong>
+            <span id="modal-date"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Message:</strong>
+            <div id="modal-message" class="message-content"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="modal-btn modal-btn-close">Close</button>
+      </div>
+    </div>
+  </div>
 
-      if (isExpanded) {
-        fullEl.style.display  = 'none';
-        shortEl.style.display = '';
-        btn.textContent = 'READ MORE';
-      } else {
-        fullEl.style.display  = '';
-        shortEl.style.display = 'none';
-        btn.textContent = 'SHOW LESS';
-      }
+  <script>
+    // Modal functionality
+    const modal = document.getElementById('messageModal');
+    const modalName = document.getElementById('modal-name');
+    const modalEmail = document.getElementById('modal-email');
+    const modalDate = document.getElementById('modal-date');
+    const modalMessage = document.getElementById('modal-message');
+
+    // Function to open modal with message details
+    function openMessageModal(button) {
+      // Get the parent row
+      const row = button.closest('tr');
+      
+      // Get data from data attributes
+      const name = row.getAttribute('data-contact-name');
+      const email = row.getAttribute('data-contact-email');
+      const date = row.getAttribute('data-contact-date');
+      const message = row.getAttribute('data-contact-message');
+      
+      // Set modal content
+      modalName.textContent = name;
+      modalEmail.textContent = email;
+      modalDate.textContent = date;
+      // Preserve line breaks in message
+      modalMessage.innerHTML = message.replace(/\n/g, '<br>').replace(/\r/g, '');
+      
+      // Show modal
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
     }
+
+    // Function to close modal
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    // Close modal when clicking ×
+    document.querySelector('.modal-close').addEventListener('click', closeModal);
+    
+    // Close modal when clicking Close button
+    document.querySelector('.modal-btn-close').addEventListener('click', closeModal);
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.style.display === 'block') {
+        closeModal();
+      }
+    });
   </script>
 
 </body>
