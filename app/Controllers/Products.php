@@ -92,7 +92,7 @@ class Products extends BaseController
     {
         $productModel = new Products_Model();
         $session = session();
-
+        $image = $this->request->getFile('image');
         $data = [
             'category'    => $this->request->getPost('category'),
             'name'        => $this->request->getPost('name'),
@@ -104,6 +104,11 @@ class Products extends BaseController
             'status'      => $this->request->getPost('status'),
             'updated_at'  => date('Y-m-d H:i:s')
         ];
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $imageName = $image->getRandomName();
+            $image->move(FCPATH . 'public/images/products', $imageName);
+            $data['image'] = $imageName;
+        }
 
         $productModel->update($id, $data);
         $session->setFlashData('success', 'Product updated successfully.');
