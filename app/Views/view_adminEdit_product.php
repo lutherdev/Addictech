@@ -104,7 +104,7 @@
                 <div class="current-image-wrap">
                   <?php if (!empty($product['image'])): ?>
                     <div class="current-image-label">CURRENT IMAGE</div>
-                    <img src="<?= base_url('uploads/' . esc($product['image'])) ?>"
+                    <img src="<?= base_url('public/images/products/' . esc($product['image'])) ?>"
                          alt="Current product image" class="current-image" id="imagePreviewImg" />
                   <?php else: ?>
                     <div class="product-image-placeholder" id="imagePlaceholder">
