@@ -70,11 +70,18 @@ $products_json = json_encode(array_map(function($p) {
              data-name="<?= esc(strtolower($p['name'])) ?>"
              data-category="<?= esc($p['category']) ?>">
           <div class="product-img">
-            <svg width="100%" height="100%" viewBox="0 0 300 340" preserveAspectRatio="none" fill="none">
-              <rect x="1" y="1" width="298" height="338" stroke="#b8b4aa" stroke-width="1.5"/>
-              <line x1="1" y1="1" x2="299" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
-              <line x1="299" y1="1" x2="1" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
-            </svg>
+            <?php if (!empty($p['image'])): ?>
+              <img src="<?= base_url('public/images/products/' . $p['image']) ?>"
+                  style="width:100%; height:100%; object-fit:cover; display:block;"
+                  alt="<?= esc($p['name']) ?>">
+            <?php else: ?>
+              <svg width="100%" height="100%" viewBox="0 0 300 340" preserveAspectRatio="none" fill="none">
+                <rect x="1" y="1" width="298" height="338" stroke="#b8b4aa" stroke-width="1.5"/>
+                <line x1="1" y1="1" x2="299" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
+                <line x1="299" y1="1" x2="1" y2="339" stroke="#b8b4aa" stroke-width="1.5"/>
+              </svg>
+            <?php endif; ?>
+
             <button type="button" class="card-wish-btn" data-id="<?= $p['id'] ?>">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="#e05252" stroke="#e05252" stroke-width="1.8">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
