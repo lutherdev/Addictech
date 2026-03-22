@@ -46,6 +46,11 @@ $products_json = json_encode(array_map(function($p) {
     <div class="flash flash-success"><?= session()->getFlashdata('success') ?></div>
   <?php endif; ?>
 
+
+  <div class="wishlist-header-top">
+      <h1 class="wishlist-title">CATALOG</h1>
+    </div>
+
   <div class="catalog-toolbar">
     <div class="search-wrap">
       <input type="text" class="search-input" placeholder="SEARCH" id="searchInput" />
