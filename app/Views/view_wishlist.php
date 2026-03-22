@@ -16,6 +16,7 @@ $products_json = json_encode(array_map(function($p) {
         'variant' => $p['variant']   ?? '',
         'desc'    => $p['description'] ?? '',
         'stock'   => (int) $p['stock'],
+        'image'   => $p['image']        ?? '',
     ];
 }, $products));
 ?>
@@ -117,11 +118,8 @@ $products_json = json_encode(array_map(function($p) {
  
     <div class="modal-left">
       <div class="modal-img">
-        <svg width="100%" height="100%" viewBox="0 0 300 340" preserveAspectRatio="none" fill="none">
-          <rect x="1" y="1" width="298" height="338" stroke="#555" stroke-width="1.5"/>
-          <line x1="1" y1="1" x2="299" y2="339" stroke="#555" stroke-width="1.5"/>
-          <line x1="299" y1="1" x2="1" y2="339" stroke="#555" stroke-width="1.5"/>
-        </svg>
+        <img id="modalImage" src="" alt="" 
+            style="width:100%; height:100%; object-fit:cover; display:block;">
       </div>
       <p class="modal-product-name" id="modalName">PRODUCT NAME</p>
     </div>
@@ -190,7 +188,7 @@ $products_json = json_encode(array_map(function($p) {
   const CSRF_NAME       = '<?= csrf_token() ?>';
   const CSRF_HASH       = '<?= csrf_hash() ?>';
   const WISHLIST_REMOVE = '<?= base_url('wishlist/remove') ?>';
-
+  const BASE_URL        = '<?= base_url() ?>';
   const wishlistIds = new Set(products.map(function(p) { return p.id; }));
 
   function isWishlisted(id) { return wishlistIds.has(id); }

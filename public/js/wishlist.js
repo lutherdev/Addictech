@@ -127,6 +127,16 @@ function openModal(p) {
   document.getElementById('modalDesc').textContent  = p.desc || '—';
   document.getElementById('modalPrice').textContent = '₱' + Number(p.price).toLocaleString();
 
+  // add these lines
+  const modalImg = document.getElementById('modalImage');
+  if (p.image) {
+    modalImg.src = BASE_URL + 'public/images/products/' + p.image;
+    modalImg.alt = p.name;
+  } else {
+    modalImg.src = '';
+    modalImg.alt = '';
+  }
+
   const inStock = p.stock > 0;
   const stockEl = document.getElementById('modalStock');
   stockEl.textContent = inStock ? 'IN STOCK' : 'OUT OF STOCK';

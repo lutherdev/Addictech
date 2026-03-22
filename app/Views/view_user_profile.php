@@ -14,8 +14,7 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
 ?>
 
 <main class="account-main">
-
-  <?php if (session()->getFlashdata('error')) : ?>
+<?php if (session()->getFlashdata('error')) : ?>
     <div class="flash flash-error">
       <?= session()->getFlashdata('error') ?>
     </div>
@@ -25,7 +24,6 @@ $cancelled_count = count(array_filter($orders, fn($o) => $o['status'] === 'cance
       <?= session()->getFlashdata('success') ?>
     </div>
   <?php endif; ?>
-
   <div class="account-top">
     <aside class="account-sidebar">
       <div class="sidebar-member">
