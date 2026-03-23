@@ -94,7 +94,7 @@
             <div class="eu-form-group">
               <label for="role">ROLE</label>
               <select id="role" name="role">
-                <option value="user"  <?= old('role', $user['role']) === 'user'  ? 'selected' : '' ?>>USER</option>
+                <option value="customer"  <?= old('role', $user['role']) === 'customer'  ? 'selected' : '' ?>>CUSTOMER</option>
                 <option value="admin" <?= old('role', $user['role']) === 'admin' ? 'selected' : '' ?>>ADMIN</option>
               </select>
             </div>
@@ -104,7 +104,6 @@
               <select id="status" name="status">
                 <option value="active"   <?= old('status', $user['status']) === 'active'   ? 'selected' : '' ?>>ACTIVE</option>
                 <option value="inactive" <?= old('status', $user['status']) === 'inactive' ? 'selected' : '' ?>>INACTIVE</option>
-                <option value="banned"   <?= old('status', $user['status']) === 'banned'   ? 'selected' : '' ?>>BANNED</option>
               </select>
             </div>
 

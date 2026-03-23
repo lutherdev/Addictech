@@ -86,16 +86,16 @@ class Auth extends BaseController
     $last = $this->request->getPost('last_name');
 
     // Validation rules
-    // $rules = [
-    //     'email' => 'required|valid_email',
-    //     'password' => 'required|min_length[6]',
-    //     'confirm_password' => 'matches[password]'
-    // ];
+    $rules = [
+        'email' => 'required|valid_email',
+        'password' => 'required|min_length[6]',
+        'confirm_password' => 'matches[password]'
+    ];
 
-    // if (!$this->validate($rules)) {
-    //     $session->setFlashdata('error', implode('<br>', $validation->getErrors()));
-    //     return redirect()->back()->withInput();
-    // }
+    if (!$this->validate($rules)) {
+        $session->setFlashdata('error', implode('<br>', $validation->getErrors()));
+        return redirect()->back()->withInput();
+    }
 
     // Check if email exists
     $exist = $usermodel->where('email', strtoupper($email))->first();
