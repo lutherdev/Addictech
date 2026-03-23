@@ -86,17 +86,12 @@ class Users extends BaseController
         }
 
         $redirectTo = $this->request->getPost('redirect_to') ?? 'user/profile';
-        // $existuser = $usermodel->where('username', $data['username'])->first();
-        // if ($existuser && $existuser['id'] != $id){ //if the user exists and if that user isnt equal to the one u r editing
-        //     $session->setFlashData('error', 'username already exists');
-        //     return redirect()->to('dashboard');
-        // }
 
-        // $existemail = $usermodel->where('email', $data['email'])->first();
-        // if ($existemail && $existemail['id'] != $id){ //if the user exists and if that user isnt equal to the one u r editing
-        //     $session->setFlashData('error', 'email already used');
-        //     return redirect()->to('dashboard');
-        // }
+        $existemail = $usermodel->where('email', $data['email'])->first();
+        if ($existemail && $existemail['id'] != $id){ //if the user exists and if that user isnt equal to the one u r editing
+            $session->setFlashData('error', 'email already used');
+            return redirect()->to($redirectTo);
+        }
 
         $usermodel->update($id, $data);
         $session->setFlashData('success', 'User updated successfully.');
